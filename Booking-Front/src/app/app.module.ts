@@ -12,9 +12,8 @@ import { PerfilComponent } from './seccion/perfil/perfil.component';
 import { CrearReservaComponent } from './seccion/crear-reserva/crear-reserva.component';
 import { MostrarReservasComponent } from './seccion/mostrar-reservas/mostrar-reservas.component';
 import { HomeComponent } from './home/home.component';
-import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import {MatGridListModule} from '@angular/material/grid-list';
-
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async'
+import {MatPaginatorModule} from '@angular/material/paginator';
 
 
 @NgModule({
@@ -32,7 +31,7 @@ import {MatGridListModule} from '@angular/material/grid-list';
     MatButtonModule,
     MatDividerModule,
     MatIconModule,
-    MatGridListModule
+    MatPaginatorModule
   ],
   providers: [
     provideClientHydration(),
