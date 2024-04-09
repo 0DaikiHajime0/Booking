@@ -13,6 +13,7 @@ import { CrearReservaComponent } from './seccion/crear-reserva/crear-reserva.com
 import { MostrarReservasComponent } from './seccion/mostrar-reservas/mostrar-reservas.component';
 import { HomeComponent } from './home/home.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import {MatGridListModule} from '@angular/material/grid-list';
 
 
 
@@ -30,7 +31,8 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
     AppRoutingModule,
     MatButtonModule,
     MatDividerModule,
-    MatIconModule
+    MatIconModule,
+    MatGridListModule
   ],
   providers: [
     provideClientHydration(),
