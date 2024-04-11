@@ -3,10 +3,10 @@ const UsuarioService = require('../services/usuario.service');
 const router = express.Router();
 const usuarioservice = new UsuarioService();
 
-router.post('/',
+router.get('/verificar/:correo',
     async (req, res, next) => {
         try {
-            const { correo } = req.body; 
+            const { correo } = req.params; 
             const result = await usuarioservice.verificarUsuario(correo);
             res.json(result);
         } catch (error) {
