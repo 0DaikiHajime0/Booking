@@ -39,8 +39,6 @@ export class LoginComponent implements OnInit {
         });
       }
     });
-
-    // Verificar si el usuario ya está autenticado y redirigirlo a la página de inicio
     if (this.isLoggedin) {
       this.router.navigate(['/home']);
     }
@@ -56,7 +54,6 @@ export class LoginComponent implements OnInit {
   }
 
   private handleLoginSuccess(): void {
-    // Almacenar la información del usuario en el almacenamiento local o de sesión
     if (typeof localStorage !== 'undefined') {
       localStorage.setItem('isLoggedin', JSON.stringify(true));
       localStorage.setItem('user', JSON.stringify(this.socialUser));
@@ -65,14 +62,12 @@ export class LoginComponent implements OnInit {
       sessionStorage.setItem('user', JSON.stringify(this.socialUser));
     } else {
       console.log('Web Storage is not supported in this environment.');
-    }
-    // Redirigir al usuario a la página de inicio
-    this.router.navigate(['/home']);
+    }    this.router.navigate(['/home']);
   }
 
   private showSnackBar(message: string): void {
     this._snackBar.open(message, 'Cerrar', {
-      duration: 5000, // Duración del Snackbar en milisegundos
+      duration: 5000, 
     });
   }
 
