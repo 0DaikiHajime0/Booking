@@ -15,6 +15,7 @@ import { HomeComponent } from './home/home.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async'
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import {MatSidenavModule} from '@angular/material/sidenav';
 
 import {
   GoogleLoginProvider,
@@ -44,6 +45,7 @@ import { HttpClientModule } from '@angular/common/http';
     SocialLoginModule,
     GoogleSigninButtonModule,
     HttpClientModule,
+    MatSidenavModule
     
   ],
   providers: [

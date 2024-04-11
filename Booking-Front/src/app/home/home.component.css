@@ -1,0 +1,30 @@
+mat-drawer-container {
+    height: 100%;
+  }
+  
+  mat-drawer {
+    width: 15%;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  .usuario {
+    width: 100%;
+    text-align: center;
+  }
+  
+  .usuario-imagen {
+    width: 40%;
+    margin: 0 auto;
+    border-radius: 50%;
+  }
+  
+  p {
+    font-size: 10px;
+    margin: 0;
+  }
+  .menu-button{
+    width: 100%;
+  }

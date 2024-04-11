@@ -1,1 +1,40 @@
-<p>home works!</p>
+<mat-drawer-container class="container" autosize>
+    <mat-drawer #drawer class="sidenav" mode="side">
+        <div class="usuario">
+            <img [src]="usuarioRecuperado?.photoUrl" alt="" class="usuario-imagen">
+            <p>{{usuarioRecuperado?.firstName}}</p>
+            <p>{{usuarioRecuperado?.lastName}}</p>
+            <p>{{usuarioRecuperado?.email}}</p>
+        </div>
+        <button mat-button class="menu-button" aria-label="Inicio">
+            Inicio
+            <mat-icon>list</mat-icon>
+        </button>
+        <button mat-button class="menu-button" aria-label="Inicio">
+            Inicio
+            <mat-icon>list</mat-icon>
+        </button>
+        <button mat-button class="menu-button" aria-label="Inicio">
+            Inicio
+            <mat-icon>list</mat-icon>
+        </button>
+        <button mat-button class="menu-button" aria-label="Inicio">
+            Inicio
+            <mat-icon>list</mat-icon>
+        </button>
+        <button mat-button class="menu-button" aria-label="Inicio">
+            Inicio
+            <mat-icon>list</mat-icon>
+        </button>
+        <button mat-button class="menu-button" aria-label="Inicio">
+            Inicio
+            <mat-icon>list</mat-icon>
+        </button>
+    </mat-drawer>
+    <div class="sidenav-content">
+      <button type="button" mat-button (click)="drawer.toggle()">
+        <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="menu"></mat-icon>
+      </button>
+    </div>
+</mat-drawer-container>
+  
