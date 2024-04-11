@@ -14,6 +14,15 @@ import { MostrarReservasComponent } from './seccion/mostrar-reservas/mostrar-res
 import { HomeComponent } from './home/home.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async'
 import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatSnackBar} from '@angular/material/snack-bar';
+
+import {
+  GoogleLoginProvider,
+  SocialLoginModule,
+  SocialAuthServiceConfig
+} from '@abacritt/angularx-social-login';
+import { GoogleSigninButtonModule } from '@abacritt/angularx-social-login';
+import { HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
@@ -31,11 +40,32 @@ import {MatPaginatorModule} from '@angular/material/paginator';
     MatButtonModule,
     MatDividerModule,
     MatIconModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    SocialLoginModule,
+    GoogleSigninButtonModule,
+    HttpClientModule,
+    
   ],
   providers: [
     provideClientHydration(),
-    provideAnimationsAsync()
+    provideAnimationsAsync(),
+    {
+      provide: 'SocialAuthServiceConfig',
+      useValue: {
+        autoLogin: false,
+        providers: [
+          {
+            id: GoogleLoginProvider.PROVIDER_ID,
+            provider: new GoogleLoginProvider(
+              '876981543045-0ae1l8skl0nfd5mraj40haqhackbgng3.apps.googleusercontent.com'
+            )
+          },
+        ],
+        onError: (err) => {
+          console.error(err);
+        }
+      } as SocialAuthServiceConfig,
+    }
   ],
   bootstrap: [AppComponent]
 })

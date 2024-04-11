@@ -2,6 +2,13 @@
 # yarn lockfile v1
 
 
+"@abacritt/angularx-social-login@^2.2.0":
+  version "2.2.0"
+  resolved "https://registry.npmjs.org/@abacritt/angularx-social-login/-/angularx-social-login-2.2.0.tgz"
+  integrity sha512-hzzLiBVB/uIQTEZ4jJ6LvK15jJBd+Gp8LAMg5WR1nywAMaqDZXAJukg4kvfE8z9jBdCKuQ942nPAW60CvVKZqg==
+  dependencies:
+    tslib ">=2.6.2"
+
 "@ampproject/remapping@^2.2.0", "@ampproject/remapping@2.3.0":
   version "2.3.0"
   resolved "https://registry.npmjs.org/@ampproject/remapping/-/remapping-2.3.0.tgz"
@@ -160,7 +167,7 @@
     symbol-observable "4.0.0"
     yargs "17.7.2"
 
-"@angular/common@^17.0.0", "@angular/common@^17.0.0 || ^18.0.0", "@angular/common@^17.3.0", "@angular/common@17.3.3":
+"@angular/common@^17.0.0", "@angular/common@^17.0.0 || ^18.0.0", "@angular/common@^17.3.0", "@angular/common@>=17.0.0", "@angular/common@17.3.3":
   version "17.3.3"
   resolved "https://registry.npmjs.org/@angular/common/-/common-17.3.3.tgz"
   integrity sha512-GwlKetNpfWKiG2j4S6bYTi6PA2iT4+eln7o8owo44xZWdQnWQjfxnH39vQuCyhi6OOQL1dozmae+fVXgQsV6jQ==
@@ -188,7 +195,7 @@
   dependencies:
     tslib "^2.3.0"
 
-"@angular/core@^17.0.0", "@angular/core@^17.0.0 || ^18.0.0", "@angular/core@^17.3.0", "@angular/core@17.3.3":
+"@angular/core@^17.0.0", "@angular/core@^17.0.0 || ^18.0.0", "@angular/core@^17.3.0", "@angular/core@>=17.0.0", "@angular/core@17.3.3":
   version "17.3.3"
   resolved "https://registry.npmjs.org/@angular/core/-/core-17.3.3.tgz"
   integrity sha512-O/jr3aFJMCxF6Jmymjx4jIigRHJfqM/ALIi60y2LVznBVFkk9xyMTsAjgWQIEHX+2muEIzgfKuXzpL0y30y+wA==
@@ -6512,7 +6519,7 @@ tree-kill@1.2.2:
   resolved "https://registry.npmjs.org/tree-kill/-/tree-kill-1.2.2.tgz"
   integrity sha512-L0Orpi8qGpRG//Nd+H90vFB+3iHnue1zSSGmNOOCh1GLJ7rUKVwV2HvijphGQS2UmhUZewS9VgvxYIdgr+fG1A==
 
-tslib@^2.1.0, tslib@^2.3.0, tslib@2.6.2:
+tslib@^2.1.0, tslib@^2.3.0, tslib@>=2.6.2, tslib@2.6.2:
   version "2.6.2"
   resolved "https://registry.npmjs.org/tslib/-/tslib-2.6.2.tgz"
   integrity sha512-AEYxH93jGFPn/a2iVAwW87VuUIkR1FVUKB77NwMF7nBTDkDrrT/Hpt/IrCJ0QXhW27jTBDcf5ZY7w6RiqTMw2Q==

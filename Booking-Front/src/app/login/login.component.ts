@@ -1,10 +1,88 @@
-import { Component } from '@angular/core';
+import { GoogleLoginProvider, SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { UsuarioService } from '../services/login.service';
+import { Usuario } from '../models/Usuario';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  styleUrls: ['./login.component.css']
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
+  socialUser: SocialUser | null = null;
+  isLoggedin: boolean = false;
+  usuario: Usuario | null = null;
+  correo: string = '';
 
+  constructor(
+    private socialAuthService: SocialAuthService,
+    private router: Router,
+    private usuarioService: UsuarioService,
+    private _snackBar: MatSnackBar
+  ) {}
+
+  ngOnInit() {
+    this.socialAuthService.authState.subscribe((user) => {
+      this.socialUser = user;
+      this.isLoggedin = user != null;
+      if (this.socialUser && this.socialUser.email) {
+        this.correo = this.socialUser.email;
+        this.usuarioService.verificarCorreo(this.correo).subscribe((usuario) => {
+          this.usuario = usuario;
+          if (usuario && usuario.usuario_correo !== null) {
+            this.handleLoginSuccess();
+          } else {
+            this.showSnackBar('No se encontró su correo registrado, comuníquese con el administrador');
+          }
+        });
+      }
+    });
+
+    // Verificar si el usuario ya está autenticado y redirigirlo a la página de inicio
+    if (this.isLoggedin) {
+      this.router.navigate(['/home']);
+    }
+  }
+
+  loginWithGoogle(): void {
+    this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID);
+  }
+
+  logOut(): void {
+    this.socialAuthService.signOut();
+    this.clearLocalStorage();
+  }
+
+  private handleLoginSuccess(): void {
+    // Almacenar la información del usuario en el almacenamiento local o de sesión
+    if (typeof localStorage !== 'undefined') {
+      localStorage.setItem('isLoggedin', JSON.stringify(true));
+      localStorage.setItem('user', JSON.stringify(this.socialUser));
+    } else if (typeof sessionStorage !== 'undefined') {
+      sessionStorage.setItem('isLoggedin', JSON.stringify(true));
+      sessionStorage.setItem('user', JSON.stringify(this.socialUser));
+    } else {
+      console.log('Web Storage is not supported in this environment.');
+    }
+    // Redirigir al usuario a la página de inicio
+    this.router.navigate(['/home']);
+  }
+
+  private showSnackBar(message: string): void {
+    this._snackBar.open(message, 'Cerrar', {
+      duration: 5000, // Duración del Snackbar en milisegundos
+    });
+  }
+
+  private clearLocalStorage(): void {
+    if (typeof localStorage !== 'undefined') {
+      localStorage.removeItem('isLoggedin');
+    } else if (typeof sessionStorage !== 'undefined') {
+      sessionStorage.removeItem('isLoggedin');
+    } else {
+      console.log('Web Storage is not supported in this environment.');
+    }
+  }
 }
