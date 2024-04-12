@@ -22,7 +22,7 @@
           <option *ngFor="let recurso of recursos" [value]="recurso.id">{{ recurso.recurso_nombre }}</option>
         </select>
       </div>
-      <div claas="input_fecha">
+      <div class="input_fecha">
         <label for="Fecha">Fecha: </label>
         <input class="fechita" type="date" id="Fecha" name="Fecha">
       </div>
@@ -51,7 +51,7 @@
 
       </div>
       <div class="botones">
-        <button type="button" name="button">Reservar</button>
+        <button type="button" (click)="obtenerFechaSeleccionada()">Reservar</button>
         <button type="button" name="button">Cancelar</button>
 
       </div>

@@ -12,10 +12,12 @@ export class CrearReservaComponent implements OnInit {
   bloques: any[] = [];
   cantidadAlumnos: number = 0;
   horarioSeleccionado: string = '0:00:00 - 0:00:00';
+  selectedCursoId: number | null = null;
+  selectedBloqueId: number | null = null;
+  selectedFecha: string | null = null;
 
   constructor(
-    private crearReservaService: CrearReservaServiceService
-    private disponibilidadService: DisponibilidadService
+    private crearReservaService: CrearReservaServiceService,
   ) { }
 
   ngOnInit(): void {
@@ -32,6 +34,7 @@ export class CrearReservaComponent implements OnInit {
       if (Array.isArray(data) && data.length > 0 && Array.isArray(data[0])) {
         console.log('Datos recibidos en listarRecursos:', data[0]);
         this.recursos = data[0][0];
+        this.selectedCursoId = this.recursos[0].recurso_id;
       } else {
         console.error('La respuesta del servidor no tiene el formato esperado:', data);
         this.recursos = [];
@@ -47,6 +50,7 @@ export class CrearReservaComponent implements OnInit {
   formatDataBloques(data: any[]): any[] {
     if (data && data.length > 0 && Array.isArray(data[0])) {
       const bloquesData = data[0][0];
+      this.selectedBloqueId = bloquesData[0].bloque_id;
       return bloquesData.map((bloque: any) => {
         return {
           id: bloque.bloque_id,
@@ -98,5 +102,18 @@ export class CrearReservaComponent implements OnInit {
       this.recursos = [];
     }
   }
+
+  obtenerFechaSeleccionada(): void {
+    const fechaInput = document.getElementById('Fecha') as HTMLInputElement;
+    this.selectedFecha = fechaInput.value;
+    console.log('Fecha seleccionada:', this.selectedFecha);
+  }
+  obtenerDisponibilidad(): void {
+    console.log('ID del curso seleccionado:', this.selectedCursoId);
+      console.log('ID del bloque seleccionado:', this.selectedBloqueId);
+      console.log('Fecha seleccionada:', this.selectedFecha);
+  }
+
+
 
 }
