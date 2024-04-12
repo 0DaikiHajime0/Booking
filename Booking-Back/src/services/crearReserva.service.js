@@ -41,5 +41,18 @@ class CrearReservaService {
       throw new Error('Error al ejecutar la consulta a la base de datos: ' + error.message);
     }
   }
+  async findDisplonibilidad(data){
+    const fechaFormateada = new Date(data.fecha).toISOString().split('T')[0];
+    const params = [
+      data.id_recurso,
+      data.id_bloque,
+      fechaFormateada];
+    try {
+      const [result]  = await mysqlLib.execute('select booking.ft_devolver_cantidad_credenciales_disponible(?,?,?) as cantidad_disponible;',params);
+      return result[0];
+    } catch (error) {
+      throw new Error('Error al ejecutar la consulta a la base de datos: ' + error.message);
+    }
+  }
 }
 module.exports = CrearReservaService;

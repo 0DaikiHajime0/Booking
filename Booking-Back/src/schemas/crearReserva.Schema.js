@@ -19,16 +19,24 @@ const crearReservaSchema = Joi.object({
   id_bloque: id_bloque.required(),
   reserva_cant: reserva_cant.required(),
 });
+
 const listarcursoSchema = Joi.object({
-  id_docente: id_docente.required(),
+  id: Joi.number().required(),
 });
+
 const listarrecursoSchema = Joi.object({
-  id_asignatura: id_asignatura.required(),
+  id: Joi.number().required(),
+});
+const filtrardisponibilidadSchema = Joi.object({
+  id_recurso: Joi.number().required(),
+  id_bloque: Joi.number().required(),
+  fecha: Joi.date().required(),
 });
 
 
 module.exports = {
   crearReservaSchema,
   listarcursoSchema,
-  listarrecursoSchema
+  listarrecursoSchema,
+  filtrardisponibilidadSchema
 };
