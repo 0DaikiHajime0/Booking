@@ -9,13 +9,6 @@ mat-drawer-container {
     flex-direction: column;
   }
   
-  .menu-button-container {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  
-  
   .usuario {
     width: 100%;
     text-align: center;
