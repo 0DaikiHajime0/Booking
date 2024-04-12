@@ -4,25 +4,22 @@
 <section class="body">
   <div class="Container_Reserva">
     <div class="Container">
-      <div class="input_reserva">
-        <label for="Recurso">Recurso: </label>
-        <select id="Recurso" name="Recurso">
-          <option value="option1">Algetec</option>
-          <option value="option2">Microsoft Excel</option>
-          <option value="option3">Paint</option>
-        </select>
-      </div>
       <div class="input_curso">
         <label for="Asignatura">Asignatura: </label>
-        <select id="Asignatura" name="Asignatura">
-          <option value="Asignatura1">12548 - Calculo Diferencial</option>
-          <option value="Asignatura2">12549 - Calculo Integral</option>
-          <option value="Asignatura3">12550 - Calculo Vectorial</option>
+        <select id="Asignatura" name="Asignatura" (change)="actualizarCantidadAlumnos($event); actualizarRecursos($event)">
+          <option value="" disabled selected>Seleccione un curso</option>
+          <option *ngFor="let curso of cursos" [value]="curso.id">{{ curso.nombre }}</option>
         </select>
       </div>
       <div class="input_cantidad">
-        <label for="Recurso">Cantidad de Alumnos:</label>
-        <input type="number" class="cantidad_alumnos">
+        <label for="Recurso">Cantidad de Alumnos: {{ cantidadAlumnos }}</label>
+      </div>
+      <div class="input_reserva">
+        <label for="Recurso">Recurso: </label>
+        <select id="Recurso" name="Recurso">
+          <option value="" disabled selected>Seleccione un recurso</option>
+          <option *ngFor="let recurso of recursos" [value]="recurso.id">{{ recurso.recurso_nombre }}</option>
+        </select>
       </div>
       <div claas="input_fecha">
         <label for="Fecha">Fecha: </label>

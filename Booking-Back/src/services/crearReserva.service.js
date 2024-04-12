@@ -20,20 +20,26 @@ class CrearReservaService {
       throw new Error('Error al ejecutar la consulta a la base de datos: ' + error.message);
     }
   }
-  async find(id) {
+  async findCurso(id) {
     try {
       return await mysqlLib.execute('call sp_listar_curso_x_docente(?);', [id]);
     } catch (error) {
       throw new Error('Error al ejecutar la consulta a la base de datos: ' + error.message);
     }
   }
-  async find(id) {
+  async findRecurso(id) {
     try {
       return await mysqlLib.execute('call sp_listar_recurso_x_curso(?);', [id]);
     } catch (error) {
       throw new Error('Error al ejecutar la consulta a la base de datos: ' + error.message);
     }
   }
-
+  async findBloque() {
+    try {
+      return await mysqlLib.execute('call booking.sp_listar_bloques();');
+    } catch (error) {
+      throw new Error('Error al ejecutar la consulta a la base de datos: ' + error.message);
+    }
+  }
 }
 module.exports = CrearReservaService;

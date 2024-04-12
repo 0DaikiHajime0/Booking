@@ -22,7 +22,7 @@ router.post('/crear', async (req, res, next) => {
 router.get('/listarcurso/:id', async (req, res, next) => {
   try {
     const { id } = req.params;
-    const [result] = await service.find(id);
+    const [result] = await service.findCurso(id);
     res.json([result]);
   } catch (error) {
     next(error);
@@ -32,7 +32,16 @@ router.get('/listarcurso/:id', async (req, res, next) => {
 router.get('/listarrecurso/:id', async (req, res, next) => {
   try {
     const { id } = req.params;
-    const [result] = await service.find(id);
+    const [result] = await service.findRecurso(id);
+    res.json([result]);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get('/listarbloque', async (req, res, next) => {
+  try {
+    const [result] = await service.findBloque();
     res.json([result]);
   } catch (error) {
     next(error);
