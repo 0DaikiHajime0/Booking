@@ -19,4 +19,7 @@ export class CrearReservaServiceService {
   listarBloques(): Observable<any> {
     return this.http.get<any>(this.url + 'listarbloque/');
   }
+  listaDisponibilidad(): Observable<any> {
+    return this.http.get<any>(this.url + 'disponibilidad/');
+  }
 }
