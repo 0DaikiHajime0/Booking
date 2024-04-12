@@ -3,8 +3,8 @@ mat-drawer-container {
   }
   
   mat-drawer {
-    width: 15%;
-    padding: 20px;
+    width: 25%;
+    padding: 5px;
     display: flex;
     flex-direction: column;
   }
@@ -22,17 +22,19 @@ mat-drawer-container {
   }
   
   .usuario-imagen {
-    width: 40%;
+    width: 20%;
     margin: 0 auto;
     border-radius: 50%;
   }
   
   p {
-    font-size: 10px;
     margin: 0;
   }
   .menu-button{
     width: 100%;
     text-align: left;
-    justify-content: flex-start
+    justify-content: flex-start;
   }
+  .mat-expansion-panel:not([class*='mat-elevation-z']) {
+    box-shadow: none;
+}
