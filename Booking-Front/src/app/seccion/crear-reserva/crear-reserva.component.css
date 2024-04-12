@@ -1,13 +1,15 @@
+body{
+  overflow: hidden;
+}
 * {
   padding: 0px;
   margin: 0px;
-  ;
   box-sizing: border-box;
   font-size: 62.5%;
 }
 
 .Header {
-  margin-top:2rem;
+  margin-top: -2rem;
   margin-left:2rem;
   margin-right: 2rem;
   padding: 2rem;

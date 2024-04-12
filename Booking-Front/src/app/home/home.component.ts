@@ -9,16 +9,16 @@ import { UsuarioService } from '../services/login.service';
 })
 export class HomeComponent {
   usuarioRecuperado: UsuarioGoogle | null = null;
-  opcionSeleccionada:number = 0;
+  opcionSeleccionada:number = 3;
   constructor(
-    
+
   ){
     this.handleLoginSuccess();
   }
   handleLoginSuccess(): void {
     const usuarioString = localStorage.getItem('user');
     if (usuarioString) {
-      this.usuarioRecuperado = JSON.parse(usuarioString); 
+      this.usuarioRecuperado = JSON.parse(usuarioString);
       console.log(this.usuarioRecuperado);
       //TO DO:BOTARLO SI NO EXISTE
     }
