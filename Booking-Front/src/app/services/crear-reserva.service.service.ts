@@ -16,4 +16,10 @@ export class CrearReservaServiceService {
   listarRecursos(id: string): Observable<any> {
     return this.http.get<any>(this.url + 'listarrecurso/' + id);
   }
+  listarBloques(): Observable<any> {
+    return this.http.get<any>(this.url + 'listarbloque/');
+  }
+  listaDisponibilidad(): Observable<any> {
+    return this.http.get<any>(this.url + 'disponibilidad/');
+  }
 }

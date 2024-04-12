@@ -1,25 +1,32 @@
+body{
+  overflow: hidden;
+}
 mat-drawer-container {
     height: 100%;
   }
-  
+
   mat-drawer {
     width: 25%;
     padding: 5px;
     display: flex;
     flex-direction: column;
   }
-  
+  .menu-button-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
   .usuario {
     width: 100%;
     text-align: center;
   }
-  
+
   .usuario-imagen {
     width: 20%;
     margin: 0 auto;
     border-radius: 50%;
   }
-  
+
   p {
     margin: 0;
   }

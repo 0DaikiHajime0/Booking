@@ -1,9 +1,22 @@
 const express = require('express');
 const CrearReservaService = require('./../services/crearReserva.service');
-const { crearReservaSchema } = require('../schemas/crearReserva.Schema');
+const { crearReservaSchema,listarcursoSchema,listarrecursoSchema,filtrardisponibilidadSchema } = require('../schemas/crearReserva.Schema');
 
 const router = express.Router();
 const service = new CrearReservaService();
+
+router.get('/disponibilidad', async (req, res, next) => {
+  try{
+    const { error, value } = filtrardisponibilidadSchema.validate(req.body);
+    if (error) {
+      throw new Error(error.details[0].message);
+    }
+    const result = await service.findDisplonibilidad(value);
+    res.json(result);
+  }catch (error) {
+    next(error);
+  }
+});
 
 router.post('/crear', async (req, res, next) => {
   try {
@@ -22,16 +35,24 @@ router.post('/crear', async (req, res, next) => {
 router.get('/listarcurso/:id', async (req, res, next) => {
   try {
     const { id } = req.params;
+    const { error } = listarcursoSchema.validate({ id });
+    if (error) {
+      throw new Error(error.details[0].message);
+    }
     const [result] = await service.findCurso(id);
     res.json([result]);
   } catch (error) {
     next(error);
   }
-})
+});
 
 router.get('/listarrecurso/:id', async (req, res, next) => {
   try {
     const { id } = req.params;
+    const { error } = listarrecursoSchema.validate({ id });
+    if (error) {
+      throw new Error(error.details[0].message);
+    }
     const [result] = await service.findRecurso(id);
     res.json([result]);
   } catch (error) {
@@ -47,5 +68,6 @@ router.get('/listarbloque', async (req, res, next) => {
     next(error);
   }
 });
+
 
 module.exports = router;

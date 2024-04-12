@@ -6,7 +6,8 @@
     <div class="Container">
       <div class="input_curso">
         <label for="Asignatura">Asignatura: </label>
-        <select id="Asignatura" name="Asignatura" (change)="actualizarCantidadAlumnos($event); actualizarRecursos($event)">
+        <select id="Asignatura" name="Asignatura"
+          (change)="actualizarCantidadAlumnos($event); actualizarRecursos($event)">
           <option value="" disabled selected>Seleccione un curso</option>
           <option *ngFor="let curso of cursos" [value]="curso.id">{{ curso.nombre }}</option>
         </select>
@@ -21,23 +22,21 @@
           <option *ngFor="let recurso of recursos" [value]="recurso.id">{{ recurso.recurso_nombre }}</option>
         </select>
       </div>
-      <div claas="input_fecha">
+      <div class="input_fecha">
         <label for="Fecha">Fecha: </label>
         <input class="fechita" type="date" id="Fecha" name="Fecha">
       </div>
       <div claas="input_Bloque">
         <div>
           <label for="Bloque">Bloque: </label>
-          <select id="Bloque" name="Bloque">
-            <option value="Bloque1">Bloque I</option>
-            <option value="Bloque2">Bloque II</option>
-            <option value="Bloque3">Bloque III</option>
-
+          <select id="Bloque" name="Bloque" (change)="actualizarHorario($event)">
+            <option value="" disabled selected>Seleccione un bloque</option>
+            <option *ngFor="let bloque of bloques" [value]="bloque.id">{{ bloque.nombre }}</option>
           </select>
         </div>
         <div>
-          <label for="Bloque">Horario: </label>
-          <label for="Bloque">7:00:00 8:30:00 </label>
+          <label for="Horario">Horario: </label>
+          <label for="Horario">{{ horarioSeleccionado }}</label>
         </div>
       </div>
       <div class="cantidad_licencias">
@@ -52,7 +51,7 @@
 
       </div>
       <div class="botones">
-        <button type="button" name="button">Reservar</button>
+        <button type="button" (click)="obtenerFechaSeleccionada()">Reservar</button>
         <button type="button" name="button">Cancelar</button>
 
       </div>
