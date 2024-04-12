@@ -31,6 +31,7 @@ export class LoginComponent implements OnInit {
         this.correo = this.socialUser.email;
         this.usuarioService.verificarCorreo(this.correo).subscribe((usuario) => {
           this.usuario = usuario;
+          console.log(this.usuario)
           if (usuario && usuario.usuario_correo !== null) {
             this.handleLoginSuccess();
           } else {
@@ -57,9 +58,11 @@ export class LoginComponent implements OnInit {
     if (typeof localStorage !== 'undefined') {
       localStorage.setItem('isLoggedin', JSON.stringify(true));
       localStorage.setItem('user', JSON.stringify(this.socialUser));
+      localStorage.setItem('usuario', JSON.stringify(this.usuario));
     } else if (typeof sessionStorage !== 'undefined') {
       sessionStorage.setItem('isLoggedin', JSON.stringify(true));
       sessionStorage.setItem('user', JSON.stringify(this.socialUser));
+      sessionStorage.setItem('usuario', JSON.stringify(this.usuario));
     } else {
       console.log('Web Storage is not supported in this environment.');
     }    this.router.navigate(['/home']);

@@ -16,7 +16,11 @@ import { HomeComponent } from './home/home.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async'
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatSidenavModule} from '@angular/material/sidenav';
-
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
+import {
+  ReactiveFormsModule,
+} from '@angular/forms';
 import {
   GoogleLoginProvider,
   SocialLoginModule,
@@ -46,8 +50,10 @@ import { HttpClientModule } from '@angular/common/http';
     GoogleSigninButtonModule,
     HttpClientModule,
     MatSidenavModule,
-    MatExpansionModule
-    
+    MatExpansionModule,
+    MatFormFieldModule,
+    MatInputModule,
+    ReactiveFormsModule,
   ],
   providers: [
     provideClientHydration(),
