@@ -1,3 +1,32 @@
 <section>
-    <p class="header">Crear Reserva</p>
+    <p class="header">Perfil</p>
 </section>
+<form class="formulario">
+    <mat-form-field class="formulario-input">
+        <mat-label>Nombres:</mat-label>
+        <input matInput [formControl]="nombresFormControl">
+        <mat-error *ngIf="nombresFormControl.hasError('required')">
+            Por favor, ingrese sus nombres completos
+        </mat-error>
+    </mat-form-field>
+    <mat-form-field class="formulario-input">
+        <mat-label>Apellidos: </mat-label>
+        <input matInput [formControl]="apellidosFormControl">
+        <mat-error *ngIf="apellidosFormControl.hasError('required')">
+            Por favor, ingrese sus apellidos completos
+        </mat-error>
+    </mat-form-field>
+    <mat-form-field class="formulario-input">
+        <mat-label>Correo: </mat-label>
+        <input matInput disabled [value]="usuario?.usuario_correo || ''">
+    </mat-form-field>
+    <mat-form-field class="formulario-input">
+        <mat-label>Rol: </mat-label>
+        <input matInput disabled [value]="usuario?.usuario_rol || ''">
+    </mat-form-field>
+    <div class="formulario-botones">
+        <button mat-raised-button class="formulario-botones-boton" (click)="guardar()" color="accent">Guardar</button>
+        <button mat-raised-button (click)="guardar()">Cancelar</button>
+    </div>
+   
+</form>

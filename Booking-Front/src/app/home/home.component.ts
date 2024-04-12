@@ -21,4 +21,12 @@ export class HomeComponent {
       //TO DO:BOTARLO SI NO EXISTE
     }
   }
+  logOut():void{
+    if (typeof localStorage !== 'undefined') {
+      localStorage.clear();
+    } else {
+      console.log('El localStorage no está disponible en este navegador.');
+    }
+    
+  }
 }
