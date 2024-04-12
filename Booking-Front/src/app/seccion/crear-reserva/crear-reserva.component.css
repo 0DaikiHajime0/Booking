@@ -22,9 +22,9 @@ body{
 .body {
   display: flex;
   justify-content: space-between;
-  margin-left: 2rem;
+  margin-left: 4rem;
   margin-bottom: 2rem;
-  margin-right: 2rem;
+  margin-right: 4rem;
 }
 
 .Container-Reserva {
@@ -44,6 +44,7 @@ body{
   font-size: 2rem;
   padding-left: 2rem;
   padding-right: 2rem;
+  background-color: #d8d8d8;
 }
 
 .Container div {
