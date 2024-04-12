@@ -1,40 +1,70 @@
 <mat-drawer-container class="container" autosize>
     <mat-drawer #drawer class="sidenav" mode="side">
-        <div class="usuario">
-            <img [src]="usuarioRecuperado?.photoUrl" alt="" class="usuario-imagen">
-            <p>{{usuarioRecuperado?.firstName}}</p>
-            <p>{{usuarioRecuperado?.lastName}}</p>
-            <p>{{usuarioRecuperado?.email}}</p>
-        </div>
-        <button mat-button class="menu-button" aria-label="Inicio">
-            Inicio
-            <mat-icon>list</mat-icon>
+      <div class="usuario">
+        <img [src]="usuarioRecuperado?.photoUrl" alt="" class="usuario-imagen">
+        <p>{{usuarioRecuperado?.firstName}}</p>
+        <p>{{usuarioRecuperado?.lastName}}</p>
+        <p>{{usuarioRecuperado?.email}}</p>
+      </div>
+      <div class="menu-button-container">
+        <button mat-button class="menu-button" >
+          Perfil
+          <mat-icon>person</mat-icon>
         </button>
         <button mat-button class="menu-button" aria-label="Inicio">
-            Inicio
-            <mat-icon>list</mat-icon>
+          Mostrar Reservas
+          <mat-icon>list</mat-icon>
         </button>
         <button mat-button class="menu-button" aria-label="Inicio">
-            Inicio
-            <mat-icon>list</mat-icon>
+          Crear Reservas
+          <mat-icon>add_circle</mat-icon>
         </button>
         <button mat-button class="menu-button" aria-label="Inicio">
-            Inicio
-            <mat-icon>list</mat-icon>
+          Calendario
+          <mat-icon>calendar_month</mat-icon>
         </button>
         <button mat-button class="menu-button" aria-label="Inicio">
-            Inicio
-            <mat-icon>list</mat-icon>
+          Nuevo Usuario
+          <mat-icon>person_add</mat-icon>
         </button>
         <button mat-button class="menu-button" aria-label="Inicio">
-            Inicio
-            <mat-icon>list</mat-icon>
+          Nueva Asignatura
+          <mat-icon>add_circle</mat-icon>
         </button>
+        <button mat-button class="menu-button" aria-label="Inicio">
+            Nueva Recurso
+            <mat-icon>add_circle</mat-icon>
+        </button>
+        <button mat-button class="menu-button" aria-label="Inicio">
+            Editar Usuario
+            <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-button class="menu-button" aria-label="Inicio">
+            Editar Asignatura
+            <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-button class="menu-button" aria-label="Inicio">
+            Editar Recurso
+            <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-button class="menu-button" aria-label="Inicio">
+            Nueva Reserva
+            <mat-icon>add_circle</mat-icon>
+        </button>
+        <button mat-button class="menu-button" aria-label="Inicio">
+            Editar Reserva
+            <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-button class="menu-button" aria-label="Inicio">
+            Cerrar Sesión
+            <mat-icon>logout</mat-icon>
+        </button>
+      </div>
     </mat-drawer>
     <div class="sidenav-content">
       <button type="button" mat-button (click)="drawer.toggle()">
         <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="menu"></mat-icon>
       </button>
     </div>
-</mat-drawer-container>
+  </mat-drawer-container>
   
