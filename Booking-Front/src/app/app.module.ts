@@ -3,6 +3,7 @@ import { BrowserModule, provideClientHydration } from '@angular/platform-browser
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
@@ -44,7 +45,8 @@ import { HttpClientModule } from '@angular/common/http';
     SocialLoginModule,
     GoogleSigninButtonModule,
     HttpClientModule,
-    MatSidenavModule
+    MatSidenavModule,
+    MatExpansionModule
     
   ],
   providers: [
