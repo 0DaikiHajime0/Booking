@@ -1,6 +1,6 @@
 const express = require('express');
 
-const ListarReservaService = require('./../services/listarreservaService');
+const ListarReservaService = require('../services/listarreservaService');
 const { required } = require('joi');
 
 const router = express.Router();

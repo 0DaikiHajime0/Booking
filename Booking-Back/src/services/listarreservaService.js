@@ -6,7 +6,7 @@ class ListarReservaService {
   constructor() {}
 
   async find(id) {
-    return mysqlLib.execute('call booking.sp_docente_listarreserva(?);', [id])
+    return mysqlLib.execute('call sp_docente_listarreserva(?);', [id])
   }
 }
 
