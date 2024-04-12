@@ -14,7 +14,6 @@ import { MostrarReservasComponent } from './seccion/mostrar-reservas/mostrar-res
 import { HomeComponent } from './home/home.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async'
 import {MatPaginatorModule} from '@angular/material/paginator';
-import {MatSnackBar} from '@angular/material/snack-bar';
 import {MatSidenavModule} from '@angular/material/sidenav';
 
 import {
