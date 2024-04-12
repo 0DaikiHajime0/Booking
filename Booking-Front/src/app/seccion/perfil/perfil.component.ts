@@ -8,6 +8,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogActions, MatDialogClose, MatDialogContent, MatDialogRef, MatDialogTitle } from '@angular/material/dialog';
+
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
     const isSubmitted = form && form.submitted;
@@ -62,7 +63,7 @@ export class PerfilComponent {
   constructor(
     private usuarioService:UsuarioService,
     public dialog: MatDialog
-
+    private _snackBar: MatSnackBar
   ){
     this.obtenerUsuario();
   }
@@ -81,7 +82,7 @@ export class PerfilComponent {
   }
   guardar(){
     this.openDialog()
-    
+   
   }
 
 }

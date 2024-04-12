@@ -27,7 +27,6 @@ export class HomeComponent {
     } else {
       console.log('El localStorage no está disponible en este navegador.');
     }
-
   }
 }
 

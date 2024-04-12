@@ -31,6 +31,8 @@ import {
   MatDialogActions,
   MatDialogClose,
 } from '@angular/material/dialog';
+  ReactiveFormsModule,
+} from '@angular/forms';
 import {
   GoogleLoginProvider,
   SocialLoginModule,
