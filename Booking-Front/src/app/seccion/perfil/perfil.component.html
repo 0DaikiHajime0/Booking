@@ -18,15 +18,14 @@
     </mat-form-field>
     <mat-form-field class="formulario-input">
         <mat-label>Correo: </mat-label>
-        <input matInput disabled [value]="usuario?.usuario_correo || ''">
+        <input matInput disabled [value]="usuario.usuario_correo || ''">
     </mat-form-field>
     <mat-form-field class="formulario-input">
         <mat-label>Rol: </mat-label>
-        <input matInput disabled [value]="usuario?.usuario_rol || ''">
+        <input matInput disabled [value]="usuario.usuario_rol || ''">
     </mat-form-field>
     <div class="formulario-botones">
         <button mat-raised-button class="formulario-botones-boton" (click)="guardar()" color="accent">Guardar</button>
         <button mat-raised-button (click)="guardar()">Cancelar</button>
     </div>
-   
 </form>

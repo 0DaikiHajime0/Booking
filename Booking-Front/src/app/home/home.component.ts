@@ -10,7 +10,7 @@ import { UsuarioService } from '../services/login.service';
 export class HomeComponent {
   usuarioRecuperado: UsuarioGoogle | null = null;
   opcionSeleccionada:number = 3;
-  ){
+  constructor(){
     this.handleLoginSuccess();
   }
   handleLoginSuccess(): void {
@@ -27,6 +27,6 @@ export class HomeComponent {
     } else {
       console.log('El localStorage no está disponible en este navegador.');
     }
-    
+
   }
 }
