@@ -32,6 +32,9 @@ import {
   MatDialogClose,
 } from '@angular/material/dialog';
 
+import { FullCalendarModule } from '@fullcalendar/angular';
+
+
 import {
   GoogleLoginProvider,
   SocialLoginModule,
@@ -48,7 +51,7 @@ import { HttpClientModule } from '@angular/common/http';
     PerfilComponent,
     CrearReservaComponent,
     MostrarReservasComponent,
-    HomeComponent
+    HomeComponent,
   ],
   imports: [
     BrowserModule,
@@ -62,6 +65,7 @@ import { HttpClientModule } from '@angular/common/http';
     HttpClientModule,
     MatSidenavModule,
     MatExpansionModule,
+    FullCalendarModule
     MatFormFieldModule,
     MatInputModule,
     ReactiveFormsModule,

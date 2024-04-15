@@ -24,7 +24,7 @@
       </div>
       <div class="input_fecha">
         <label for="Fecha">Fecha: </label>
-        <input class="fechita" type="date" id="Fecha" name="Fecha">
+        <input class="fechita" type="date" id="Fecha" name="Fecha" (input)="obtenerFechaSeleccionada($event)">
       </div>
       <div claas="input_Bloque">
         <div>
@@ -40,8 +40,9 @@
         </div>
       </div>
       <div class="cantidad_licencias">
-        <label for="cantidad_licencia">Cantidad de liscencias displonibles: 20 </label>
+        <label id="cantidad_licencia">Cantidad de licencias disponibles: {{ cantidadLicenciasDisponibles }}</label>
       </div>
+
       <div class="Input_licencias">
         <label for="Licencias">Cantidad de Licencias:</label>
         <input class="input_number" type="number" id="Licencias" name="Licencias" min="1" max="20"
@@ -51,13 +52,19 @@
 
       </div>
       <div class="botones">
-        <button type="button" (click)="obtenerFechaSeleccionada()">Reservar</button>
+        <button type="button">Reservar</button>
         <button type="button" name="button">Cancelar</button>
 
       </div>
     </div>
   </div>
   <div class="Container_full_Calendar">
+      <full-calendar [options]="calendarOptions" class="calendar">
+        <ng-template #eventContent let-arg >
+          <b class="events-calendar">{{arg.timeText}}</b>
+          <i class="events-calendar">{{arg.event.title}}</i>
+        </ng-template>
+      </full-calendar>
     <div class="calendar">
       <img src="https://fullcalendar.io/docs/showNonCurrentDates-false.png" alt="">
     </div>
