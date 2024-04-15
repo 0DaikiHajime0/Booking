@@ -30,6 +30,7 @@
     "@fullcalendar/interaction": "^6.1.11",
     "@fullcalendar/timegrid": "^6.1.11",
     "express": "^4.18.2",
+    "fullcalendar": "^6.1.11",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.3"

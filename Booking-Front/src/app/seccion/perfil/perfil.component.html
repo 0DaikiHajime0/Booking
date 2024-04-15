@@ -26,7 +26,7 @@
         <input matInput disabled [value]="usuario.usuario_correo || ''">
     </mat-form-field>
     <div class="formulario-botones">
-        <button mat-raised-button class="formulario-botones-boton" (click)="guardar()" color="accent">Guardar</button>
-        <button mat-raised-button (click)="guardar()">Cancelar</button>
+        <button mat-raised-button class="formulario-botones-boton" (click)="openDialog()" color="accent">Guardar</button>
+        <button mat-raised-button>Cancelar</button>
     </div>
 </form>
