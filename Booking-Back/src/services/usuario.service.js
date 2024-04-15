@@ -22,6 +22,35 @@ class UsuarioService{
     
         return usuario_actualizado;
     }
-    
+    async mostrarUsuarios(){
+        const result = await mysqlLib.execute('CALL sp_mostrar_usuarios()')
+        const usuarios = result [0][0];
+        if(usuarios==null){
+            return 'No hay usuarios existentes'
+        }
+        return usuarios;
+    }
+    async obtenerUsuario(correo){
+        const result = await mysqlLib.execute('CALL sp_obtener_usuario(?)',[correo])
+        const usuario = result[0][0]
+        if(!usuario){
+            return null
+        }
+        return usuario;
+    }
+    async editarUsuario(usuarioId, usuarioData) {
+        const result = await mysqlLib.execute('CALL sp_editar_usuario(?, ?, ?, ?, ?)', [
+            usuarioId,
+            usuarioData.usuario_nombres,
+            usuarioData.usuario_apellidos,
+            usuarioData.usuario_correo,
+            usuarioData.usuario_rol
+        ]);
+        const usuario = result[0][0];
+        if (!usuario) {
+            return null;
+        }
+        return usuario;
+    }
 }
 module.exports = UsuarioService;

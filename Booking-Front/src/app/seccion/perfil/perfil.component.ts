@@ -32,17 +32,20 @@ export class PerfilComponent {
   ) {
     this.obtenerUsuario();
   }
-
-  obtenerUsuario(): void {
-    if (this.usuarioService.getUsuarioFromStorage()) {
-      this.usuario = this.usuarioService.getUsuarioFromStorage();
+  async obtenerUsuario(): Promise<void> {
+    try {
+      if (this.usuarioService.getUsuarioFromStorage()) {
+        this.usuario = this.usuarioService.getUsuarioFromStorage();
+        this.correoFormControl.setValue(this.usuario.usuario_correo);
+      }
+      this.usuario = await this.usuarioService.getUsuarioInfo(this.usuario.usuario_correo);
       this.nombresFormControl.setValue(this.usuario.usuario_nombres);
-      this.apellidosFormControl.setValue(this.usuario.usuario_apellidos);
-      this.rolFormControl.setValue(this.usuario.usuario_rol);
-      this.correoFormControl.setValue(this.usuario.usuario_correo);
+      this.apellidosFormControl.setValue(this.usuario.usuario_apellidos)
+      this.rolFormControl.setValue(this.usuario.usuario_rol)
+    } catch (error) {
+      console.error('Error al obtener usuario:', error);
     }
   }
-
   openDialog(): void {
     const dialogRef = this.dialog.open(GuardarCambiosDialog, {
       data: { 
@@ -98,7 +101,6 @@ export class GuardarCambiosDialog {
         this._snackBar.open('Perfil de usuario guardado', 'Cerrar', { duration: 5000 });
       },
       error => {
-        // Manejar errores de la solicitud si es necesario
         console.error('Error al guardar el perfil:', error);
       }
     );
