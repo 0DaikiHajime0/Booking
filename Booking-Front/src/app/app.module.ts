@@ -17,6 +17,9 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatSidenavModule} from '@angular/material/sidenav';
 
+import { FullCalendarModule } from '@fullcalendar/angular';
+
+
 import {
   GoogleLoginProvider,
   SocialLoginModule,
@@ -33,7 +36,7 @@ import { HttpClientModule } from '@angular/common/http';
     PerfilComponent,
     CrearReservaComponent,
     MostrarReservasComponent,
-    HomeComponent
+    HomeComponent,
   ],
   imports: [
     BrowserModule,
@@ -46,8 +49,9 @@ import { HttpClientModule } from '@angular/common/http';
     GoogleSigninButtonModule,
     HttpClientModule,
     MatSidenavModule,
-    MatExpansionModule
-    
+    MatExpansionModule,
+    FullCalendarModule
+
   ],
   providers: [
     provideClientHydration(),

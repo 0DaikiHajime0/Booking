@@ -8,18 +8,23 @@ import { API_BASE_URL } from './constants';
 })
 export class CrearReservaServiceService {
   private url = API_BASE_URL + 'reserva/';
+
   constructor(private http: HttpClient) { }
 
   listarCurso(id: string): Observable<any> {
-    return this.http.get<any>(this.url + 'listarcurso/' + id);
+    return this.http.get<any>(`${this.url}listarcurso/${id}`);
   }
+
   listarRecursos(id: string): Observable<any> {
-    return this.http.get<any>(this.url + 'listarrecurso/' + id);
+    return this.http.get<any>(`${this.url}listarrecurso/${id}`);
   }
+
   listarBloques(): Observable<any> {
-    return this.http.get<any>(this.url + 'listarbloque/');
+    return this.http.get<any>(`${this.url}listarbloque/`);
   }
-  listaDisponibilidad(): Observable<any> {
-    return this.http.get<any>(this.url + 'disponibilidad/');
+
+  listaDisponibilidad(parametros: any): Observable<any> {
+    const urlWithParams = `${this.url}disponibilidad/?id_recurso=${parametros.id_recurso}&id_bloque=${parametros.id_bloque}&fecha=${parametros.fecha}`;
+    return this.http.get<any>(urlWithParams);
   }
 }

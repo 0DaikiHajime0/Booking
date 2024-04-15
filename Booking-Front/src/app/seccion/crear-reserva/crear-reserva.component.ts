@@ -1,20 +1,35 @@
 import { Component, OnInit } from '@angular/core';
+import { HttpHeaders } from '@angular/common/http';
 import { CrearReservaServiceService } from '../../services/crear-reserva.service.service';
+
+import { CalendarOptions } from '@fullcalendar/core';
+import dayGridPlugin from '@fullcalendar/daygrid';
+
+
 
 @Component({
   selector: 'app-crear-reserva',
   templateUrl: './crear-reserva.component.html',
-  styleUrls: ['./crear-reserva.component.css']
+  styleUrls: ['./crear-reserva.component.css'],
+
+
 })
 export class CrearReservaComponent implements OnInit {
   cursos: any[] = [];
   recursos: any[] = [];
   bloques: any[] = [];
   cantidadAlumnos: number = 0;
+  cantidadLicenciasDisponibles:number = 0;
   horarioSeleccionado: string = '0:00:00 - 0:00:00';
-  selectedCursoId: number | null = null;
+  selectedRecursoId: number | null = null;
   selectedBloqueId: number | null = null;
-  selectedFecha: string | null = null;
+  selectedFecha: string= '';
+
+  parametrosSolicitud: any = {
+    id_recurso: null,
+    id_bloque: null,
+    fecha: ''
+  };
 
   constructor(
     private crearReservaService: CrearReservaServiceService,
@@ -24,6 +39,23 @@ export class CrearReservaComponent implements OnInit {
     this.listarCurso('6');
     this.listarBloques();
   }
+  llamarListaDisponibilidad(): void {
+    this.parametrosSolicitud.id_recurso = this.selectedRecursoId;
+    this.parametrosSolicitud.id_bloque = this.selectedBloqueId;
+    this.parametrosSolicitud.fecha = this.selectedFecha;
+    console.log('Parametros de la solicitud:', this.parametrosSolicitud);
+    this.crearReservaService.listaDisponibilidad(this.parametrosSolicitud)
+      .subscribe(
+        (data: any) => {
+          this.cantidadLicenciasDisponibles = data[0][0].cantidad_disponible;
+        },
+        (error: any) => {
+          console.error('Error al llamar a listaDisponibilidad:', error);
+        }
+      );
+  }
+
+
   listarCurso(id: string): void {
     this.crearReservaService.listarCurso(id).subscribe((data: any) => {
       this.cursos = this.formatData(data);
@@ -34,7 +66,8 @@ export class CrearReservaComponent implements OnInit {
       if (Array.isArray(data) && data.length > 0 && Array.isArray(data[0])) {
         console.log('Datos recibidos en listarRecursos:', data[0]);
         this.recursos = data[0][0];
-        this.selectedCursoId = this.recursos[0].recurso_id;
+        this.selectedRecursoId = this.recursos[0].recurso_id;
+        this.llamarListaDisponibilidad();
       } else {
         console.error('La respuesta del servidor no tiene el formato esperado:', data);
         this.recursos = [];
@@ -67,6 +100,7 @@ export class CrearReservaComponent implements OnInit {
     const bloqueSeleccionado = this.bloques.find((bloque: any) => bloque.id === bloqueId);
     if (bloqueSeleccionado) {
       this.horarioSeleccionado = bloqueSeleccionado.horario;
+      this.llamarListaDisponibilidad();
     } else {
       this.horarioSeleccionado = '';
     }
@@ -98,22 +132,28 @@ export class CrearReservaComponent implements OnInit {
     const cursoId = event.target.value;
     if (cursoId) {
       this.listarRecursos(cursoId);
+      this.llamarListaDisponibilidad();
     } else {
       this.recursos = [];
     }
   }
 
-  obtenerFechaSeleccionada(): void {
-    const fechaInput = document.getElementById('Fecha') as HTMLInputElement;
-    this.selectedFecha = fechaInput.value;
-    console.log('Fecha seleccionada:', this.selectedFecha);
-  }
-  obtenerDisponibilidad(): void {
-    console.log('ID del curso seleccionado:', this.selectedCursoId);
-      console.log('ID del bloque seleccionado:', this.selectedBloqueId);
-      console.log('Fecha seleccionada:', this.selectedFecha);
+  obtenerFechaSeleccionada(event: any): void {
+    this.selectedFecha = event.target.value;
+    this.llamarListaDisponibilidad();
   }
 
-
-
+  /*full calendar*/
+  calendarOptions: CalendarOptions = {
+    plugins: [dayGridPlugin],
+    initialView: 'dayGridMonth',
+    weekends: true,
+    events: [
+      { title:'Quedan 1 licencia', start: '2024-04-05' },
+      { title:'Quedan 2 licencias', start: '2024-04-06' },
+      { title:'Quedan 30 licencias', start: '2024-04-07' },
+      { title:'Quedan 40 licencias', start: '2024-04-08' },
+      { title:'Quedan 50 licencias', start: '2024-04-09' },
+    ]
+  };
 }
