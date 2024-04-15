@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import {Usuario} from '../models/Usuario'
+import{Perfil} from '../models/Perfil'
 @Injectable({
     providedIn: 'root'
 })
@@ -14,5 +15,8 @@ export class UsuarioService{
     getUsuarioFromStorage(): Usuario {
         const userString = localStorage.getItem('usuario') || sessionStorage.getItem('usuario');
         return userString ? JSON.parse(userString) : null;
+    }
+    guardarInfoPerfil(perfil: Perfil): Observable<any> {
+        return this.http.post<any>(`${this.url}actualizarusuario`, perfil);
       }
 }
