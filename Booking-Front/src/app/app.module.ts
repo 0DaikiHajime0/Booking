@@ -65,7 +65,7 @@ import { HttpClientModule } from '@angular/common/http';
     HttpClientModule,
     MatSidenavModule,
     MatExpansionModule,
-    FullCalendarModule
+    FullCalendarModule,
     MatFormFieldModule,
     MatInputModule,
     ReactiveFormsModule,
