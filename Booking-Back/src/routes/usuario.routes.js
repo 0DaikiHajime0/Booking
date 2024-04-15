@@ -25,6 +25,39 @@ router.post('/actualizarusuario',
         }
     }
 );
+router.get('/mostrarusuarios',
+    async(req,res,next)=>{
+        try {
+            const result = await usuarioservice.mostrarUsuarios();
+            res.json(result);
+        } catch (error) {
+            next(error);
+        }
+    }    
+)
+router.get('/obtenerusuario/:correo',
+    async(req,res,next) =>{
+        try {
+            const correo = req.params.correo;
+            const [result] = await usuarioservice.obtenerUsuario(correo)
+            res.json(result)
+        } catch (error) {
+            next(error)
+        }
+    }
+)
+router.put('/editarusuario/:usuario_id',
+    async (req, res, next) => {
+        try {
+            const usuario = req.body; 
+            const usuarioId = req.params.usuario_id; 
+            const result = await usuarioservice.editarUsuario(usuarioId, usuario); 
+            res.json(result);
+        } catch (error) {
+            next(error);
+        }
+    }
+);
 
 
 module.exports = router;

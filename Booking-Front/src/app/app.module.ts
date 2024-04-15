@@ -33,6 +33,8 @@ import {
 } from '@angular/material/dialog';
 
 import { FullCalendarModule } from '@fullcalendar/angular';
+import {MatTableModule} from '@angular/material/table';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 
 import {
@@ -42,6 +44,7 @@ import {
 } from '@abacritt/angularx-social-login';
 import { GoogleSigninButtonModule } from '@abacritt/angularx-social-login';
 import { HttpClientModule } from '@angular/common/http';
+import { UsuariosComponent } from './seccion/usuarios/usuarios.component';
 
 
 @NgModule({
@@ -52,6 +55,7 @@ import { HttpClientModule } from '@angular/common/http';
     CrearReservaComponent,
     MostrarReservasComponent,
     HomeComponent,
+    UsuariosComponent,
   ],
   imports: [
     BrowserModule,
@@ -74,6 +78,8 @@ import { HttpClientModule } from '@angular/common/http';
     MatDialogContent,
     MatDialogActions,
     MatDialogClose,
+    MatTableModule,
+    MatTooltipModule
   ],
   providers: [
     provideClientHydration(),

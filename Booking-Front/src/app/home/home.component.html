@@ -1,5 +1,5 @@
-<mat-drawer-container class="container" autosize >
-    <mat-drawer #drawer class="sidenav" mode="side">
+<mat-drawer-container class="container" >
+    <mat-drawer #drawer class="sidenav" [opened]="false">
       <div class="usuario">
         <img [src]="usuarioRecuperado?.photoUrl" alt="" class="usuario-imagen">
         <p>{{usuarioRecuperado?.firstName}}</p>
@@ -32,7 +32,9 @@
       <mat-accordion>
         <mat-expansion-panel >
             <mat-expansion-panel-header>
-                Usuario
+                <button class="seleccion" (click)="opcionSeleccionada=5">
+                  Usuarios
+                </button>
             </mat-expansion-panel-header>
             <button mat-button class="menu-button" aria-label="Inicio"(click)="opcionSeleccionada=5">
                 Nuevo Usuario
@@ -42,6 +44,7 @@
                 Editar Usuario
                 <mat-icon>edit</mat-icon>
             </button>
+            
         </mat-expansion-panel>
       </mat-accordion>
       <mat-accordion>
@@ -101,9 +104,7 @@
                 --->
         }
         @case(5){
-             <!--
-                <app-nuevo-usuario></app-nuevo-usuario>
-                --->
+            <app-usuarios></app-usuarios>
         }
         @case(6){
              <!--
