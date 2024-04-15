@@ -14,5 +14,17 @@ router.get('/verificar/:correo',
         }
     }
 );
+router.post('/actualizarusuario',
+    async (req, res, next) => {
+        try {
+            const { usuario_nombres, usuario_apellidos, usuario_correo } = req.body;
+            const result = await usuarioservice.actualizarUsuario(usuario_nombres, usuario_apellidos, usuario_correo);
+            res.json(result);
+        } catch (error) {
+            next(error);
+        }
+    }
+);
+
 
 module.exports = router;

@@ -4,6 +4,22 @@
     padding: 2rem;
     font-size: 2rem;
     background-color: #D9D9D9;
-    display: flex;
-    justify-content: center;
-  }
+    text-align: center;
+    border-radius: 10px;
+ }
+ .formulario{
+  margin-left:15%;
+  width: 70%;
+ }
+ .formulario-input{
+  display: block;
+ }
+ .formulario-botones{
+  width: 100%;
+  display: flex;
+  align-items:center;
+  justify-content: center;
+ }
+ .formulario-botones-boton{
+  margin-right: 40px;
+ }

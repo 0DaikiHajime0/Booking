@@ -10,7 +10,6 @@ import { UsuarioService } from '../services/login.service';
 export class HomeComponent {
   usuarioRecuperado: UsuarioGoogle | null = null;
   opcionSeleccionada:number = 3;
-
   constructor(){
     this.handleLoginSuccess();
   }
@@ -20,6 +19,13 @@ export class HomeComponent {
       this.usuarioRecuperado = JSON.parse(usuarioString);
       console.log(this.usuarioRecuperado);
       //TO DO:BOTARLO SI NO EXISTE
+    }
+  }
+  logOut():void{
+    if (typeof localStorage !== 'undefined') {
+      localStorage.clear();
+    } else {
+      console.log('El localStorage no está disponible en este navegador.');
     }
   }
 }
