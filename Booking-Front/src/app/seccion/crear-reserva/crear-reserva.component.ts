@@ -150,10 +150,16 @@ export class CrearReservaComponent implements OnInit {
     weekends: true,
     events: [
       { title:'Quedan 1 licencia', start: '2024-04-05' },
+      { title:'Quedan 1 licencia', start: '2024-04-05' },
+      { title:'Quedan 1 licencia', start: '2024-04-05' },
+      { title:'Quedan 1 licencia', start: '2024-04-05' },
+
       { title:'Quedan 2 licencias', start: '2024-04-06' },
       { title:'Quedan 30 licencias', start: '2024-04-07' },
       { title:'Quedan 40 licencias', start: '2024-04-08' },
       { title:'Quedan 50 licencias', start: '2024-04-09' },
+      { title:'Quedan 50 licencias', start: '2024-04-10' },
+      { title:'Quedan 50 licencias', start: '2024-04-11' },
     ]
   };
 }
