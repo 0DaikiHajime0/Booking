@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { API_BASE_URL } from './constants';
-import {Disponibilidad} from '../models/Disponibilidad'
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +23,8 @@ export class CrearReservaServiceService {
     return this.http.get<any>(`${this.url}listarbloque/`);
   }
 
-  listaDisponibilidad():Disponibilidad{
-    return new Disponibilidad(1,1,'2021-07-01',10)
+  listaDisponibilidad(parametros: any): Observable<any> {
+    const urlWithParams = `${this.url}disponibilidad/?id_recurso=${parametros.id_recurso}&id_bloque=${parametros.id_bloque}&fecha=${parametros.fecha}`;
+    return this.http.get<any>(urlWithParams);
   }
 }

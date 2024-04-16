@@ -40,10 +40,21 @@ export class CrearReservaComponent implements OnInit {
     this.listarBloques();
   }
   llamarListaDisponibilidad(): void {
-    console.log('Llamando a listaDisponibilidad...');
-
-    this.crearReservaService.listaDisponibilidad()
+    this.parametrosSolicitud.id_recurso = this.selectedRecursoId;
+    this.parametrosSolicitud.id_bloque = this.selectedBloqueId;
+    this.parametrosSolicitud.fecha = this.selectedFecha;
+    console.log('Parametros de la solicitud:', this.parametrosSolicitud);
+    this.crearReservaService.listaDisponibilidad(this.parametrosSolicitud)
+      .subscribe(
+        (data: any) => {
+          this.cantidadLicenciasDisponibles = data[0][0].cantidad_disponible;
+        },
+        (error: any) => {
+          console.error('Error al llamar a listaDisponibilidad:', error);
+        }
+      );
   }
+
 
   listarCurso(id: string): void {
     this.crearReservaService.listarCurso(id).subscribe((data: any) => {
