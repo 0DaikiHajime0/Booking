@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { FormControl, FormGroupDirective, FormsModule, NgForm, Validators } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { Usuario } from '../../models/Usuario';
@@ -8,6 +8,8 @@ import { MatDialog, MatDialogActions, MatDialogClose, MatDialogContent, MatDialo
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { Perfil } from '../../models/Perfil';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-perfil',
@@ -16,6 +18,7 @@ import { MatButtonModule } from '@angular/material/button';
 })
 export class PerfilComponent {
   usuario!: Usuario;
+  perfil!:Perfil;
   correoFormControl = new FormControl('', [Validators.required, Validators.email]);
   nombresFormControl = new FormControl('', [Validators.required]);
   apellidosFormControl = new FormControl('', [Validators.required]);
@@ -29,24 +32,37 @@ export class PerfilComponent {
   ) {
     this.obtenerUsuario();
   }
-
-  obtenerUsuario(): void {
-    if (this.usuarioService.getUsuarioFromStorage()) {
-      this.usuario = this.usuarioService.getUsuarioFromStorage();
+  async obtenerUsuario(): Promise<void> {
+    try {
+      if (this.usuarioService.getUsuarioFromStorage()) {
+        this.usuario = this.usuarioService.getUsuarioFromStorage();
+        this.correoFormControl.setValue(this.usuario.usuario_correo);
+      }
+      this.usuario = await this.usuarioService.getUsuarioInfo(this.usuario.usuario_correo);
       this.nombresFormControl.setValue(this.usuario.usuario_nombres);
-      this.apellidosFormControl.setValue(this.usuario.usuario_apellidos);
-      this.rolFormControl.setValue(this.usuario.usuario_rol);
-      this.correoFormControl.setValue(this.usuario.usuario_correo);
+      this.apellidosFormControl.setValue(this.usuario.usuario_apellidos)
+      this.rolFormControl.setValue(this.usuario.usuario_rol)
+    } catch (error) {
+      console.error('Error al obtener usuario:', error);
     }
   }
-
   openDialog(): void {
-    const dialogRef = this.dialog.open(GuardarCambiosDialog, {});
+    const dialogRef = this.dialog.open(GuardarCambiosDialog, {
+      data: { 
+        perfil: { 
+          usuario_correo: this.correoFormControl.value,
+          usuario_nombres: this.nombresFormControl.value,
+          usuario_apellidos: this.apellidosFormControl.value
+        }
+      }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === 'guardar') {
+        // Aquí puedes realizar alguna acción adicional si lo necesitas
+      }
+    });
   }
-
-  guardar(): void {
-    this.openDialog();
-  }
+  
 }
 
 @Component({
@@ -65,15 +81,29 @@ export class PerfilComponent {
   ],
 })
 export class GuardarCambiosDialog {
-  constructor(public dialogRef: MatDialogRef<GuardarCambiosDialog>, private _snackBar: MatSnackBar) {}
+  constructor(
+    public dialogRef: MatDialogRef<GuardarCambiosDialog>, 
+    private usuarioService: UsuarioService,
+    private _snackBar: MatSnackBar,
+    @Inject(MAT_DIALOG_DATA) public data: any
+
+  ) {}
 
   cancelar(): void {
     this.dialogRef.close();
   }
 
   guardar(): void {
-    this.dialogRef.close('guardar');
-    this._snackBar.open('Perfil de usuario guardado', 'Cerrar', { duration: 5000 });
+    const perfilActualizado: Perfil = this.data.perfil;
+    this.usuarioService.guardarInfoPerfil(perfilActualizado).subscribe(
+      () => {
+        this.dialogRef.close('guardar');
+        this._snackBar.open('Perfil de usuario guardado', 'Cerrar', { duration: 5000 });
+      },
+      error => {
+        console.error('Error al guardar el perfil:', error);
+      }
+    );
   }
 }
 

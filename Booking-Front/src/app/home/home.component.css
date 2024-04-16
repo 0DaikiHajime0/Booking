@@ -38,3 +38,6 @@ mat-drawer-container {
   .mat-expansion-panel:not([class*='mat-elevation-z']) {
     box-shadow: none;
 }
+.seleccion{
+  all:unset
+}
