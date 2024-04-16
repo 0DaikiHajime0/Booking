@@ -1,8 +1,5 @@
 const boom = require('@hapi/boom');
 const mysqlLib = require('./../../libs/mysql');
-const transporter = require('./../../libs/mailConfing');
-const  maqueta = require('./../shared/EmailSend');
-
 
 class CrearReservaService {
 
@@ -105,6 +102,5 @@ class CrearReservaService {
       throw new Error('Error al enviar el correo electrónico: ' + error.message);
     }
   }
-
 }
 module.exports = CrearReservaService;

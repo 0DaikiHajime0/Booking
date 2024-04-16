@@ -68,7 +68,6 @@ router.get('/listarbloque', async (req, res, next) => {
     next(error);
   }
 });
-
 router.get('/enviarcorreo', async (req, res, next) => {
   try {
       const data = {
@@ -104,7 +103,4 @@ router.get('/listarfechacredenciales',async (req, res, next) => {
     next(error);
   }
 });
-
-
-
 module.exports = router;
