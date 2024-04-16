@@ -1,5 +1,5 @@
 <mat-drawer-container class="container" autosize >
-    <mat-drawer #drawer class="sidenav" mode="side">
+    <mat-drawer #drawer class="sidenav">
       <div class="usuario">
         <img [src]="usuarioRecuperado?.photoUrl" alt="" class="usuario-imagen">
         <p>{{usuarioRecuperado?.firstName}}</p>
@@ -74,8 +74,8 @@
             </button>
         </mat-expansion-panel>
       </mat-accordion>
-     
-     
+
+
       <button mat-button class="menu-button" aria-label="Inicio">
           Cerrar Sesión
           <mat-icon>logout</mat-icon>
@@ -132,7 +132,6 @@
    }
       }
 
-      
+
     </div>
   </mat-drawer-container>
-  
