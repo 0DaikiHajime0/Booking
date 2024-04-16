@@ -69,17 +69,5 @@ router.get('/listarbloque', async (req, res, next) => {
   }
 });
 
-router.get('/enviarcorreo', async (req, res, next) => {
-  try {
-      const data = {
-      };
-      await service.SendMail(data);
-
-      res.json({ message: 'Correo enviado exitosamente' });
-  } catch (error) {
-      next(error);
-  }
-});
-
 
 module.exports = router;

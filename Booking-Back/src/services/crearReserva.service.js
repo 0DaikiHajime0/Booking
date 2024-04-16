@@ -1,8 +1,5 @@
 const boom = require('@hapi/boom');
 const mysqlLib = require('./../../libs/mysql');
-const transporter = require('./../../libs/mailConfing');
-const  maqueta = require('./../shared/EmailSend');
-
 
 class CrearReservaService {
 
@@ -57,20 +54,5 @@ class CrearReservaService {
       throw new Error('Error al ejecutar la consulta a la base de datos: ' + error.message);
     }
   }
-  async SendMail(data){
-    try {
-        const mailOptions = {
-            from: 'lab.recursosvirt@continental.edu.pe',
-            //nespinoza@continental.edu.pe
-            to: '73898440@continental.edu.pe',
-            subject: 'Credenciales de acceso a Algetec',
-            text: 'Credenciales de acceso a Algetec',
-            html: maqueta
-        };
-        await transporter.sendMail(mailOptions);
-    } catch (error) {
-        throw new Error('Error al enviar el correo electrónico: ' + error.message);
-    }
-}
 }
 module.exports = CrearReservaService;
