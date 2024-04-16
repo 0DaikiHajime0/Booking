@@ -6,20 +6,19 @@
     <div class="Container">
       <div class="input_curso">
         <label for="Asignatura">Asignatura: </label>
-        <select id="Asignatura" name="Asignatura"
-          (change)="actualizarCantidadAlumnos($event); actualizarRecursos($event)">
+        <select id="Asignatura" name="Asignatura" (change)="listarRecurso($event)">
           <option value="" disabled selected>Seleccione un curso</option>
-          <option *ngFor="let curso of cursos" [value]="curso.id">{{ curso.nombre }}</option>
+          <option *ngFor="let curso of cursos" [value]="curso.curso_id">{{ curso.curso_nombre }}</option>
         </select>
       </div>
       <div class="input_cantidad">
-        <label for="Recurso">Cantidad de Alumnos: {{ cantidadAlumnos }}</label>
+        <label>Cantidad de Alumnos: {{ cantidadAlumnos }}</label>
       </div>
       <div class="input_reserva">
         <label for="Recurso">Recurso: </label>
-        <select id="Recurso" name="Recurso">
+        <select id="Recurso" name="Recurso" (change)="obtenerRecurso($event);">
           <option value="" disabled selected>Seleccione un recurso</option>
-          <option *ngFor="let recurso of recursos" [value]="recurso.id">{{ recurso.recurso_nombre }}</option>
+          <option *ngFor="let recurso of recursos" [value]="recurso.recurso_id">{{ recurso.recurso_nombre }}</option>
         </select>
       </div>
       <div class="input_fecha">
@@ -29,14 +28,14 @@
       <div claas="input_Bloque">
         <div>
           <label for="Bloque">Bloque: </label>
-          <select id="Bloque" name="Bloque" (change)="actualizarHorario($event)">
-            <option value="" disabled selected>Seleccione un bloque</option>
-            <option *ngFor="let bloque of bloques" [value]="bloque.id">{{ bloque.nombre }}</option>
+          <select id="Bloque" name="Bloque" (change)="horarioBloques($event)">
+            <option value="" disabled selected  >Seleccione un bloque</option>
+            <option *ngFor="let bloque of bloques" [value]="bloque.bloque_id">{{ bloque.bloque_nombre }}</option>
           </select>
         </div>
         <div>
-          <label for="Horario">Horario: </label>
-          <label for="Horario">{{ horarioSeleccionado }}</label>
+          <label >Horario: </label>
+          <label>{{ horarioSeleccionado}}</label>
         </div>
       </div>
       <div class="cantidad_licencias">
@@ -48,7 +47,8 @@
         <input class="input_number" type="number" id="Licencias" name="Licencias" min="1" max="20"
           placeholder="Cantidad de Licencias">
         <label for="Input_licencias" class="Messaje_negative">Ingrese solo La cantidad de Recursos Disponibles</label>
-
+        <!-- validar de cantidad de licencias menor a licencias disponibles -->
+        <!-- enviar reserva -->
 
       </div>
       <div class="botones">

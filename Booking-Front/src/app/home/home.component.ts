@@ -9,7 +9,7 @@ import { UsuarioService } from '../services/login.service';
 })
 export class HomeComponent {
   usuarioRecuperado: UsuarioGoogle | null = null;
-  opcionSeleccionada:number = 5;
+  opcionSeleccionada:number = 3;
   constructor(){
     this.handleLoginSuccess();
   }
