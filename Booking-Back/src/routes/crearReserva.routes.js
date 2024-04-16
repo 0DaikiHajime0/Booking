@@ -5,7 +5,7 @@ const { crearReservaSchema,listarcursoSchema,listarrecursoSchema,filtrardisponib
 const router = express.Router();
 const service = new CrearReservaService();
 
-router.get('/disponibilidad', async (req, res, next) => {
+router.post('/disponibilidad', async (req, res, next) => {
   try{
     const { error, value } = filtrardisponibilidadSchema.validate(req.body);
     if (error) {
@@ -40,7 +40,7 @@ router.get('/listarcurso/:id', async (req, res, next) => {
       throw new Error(error.details[0].message);
     }
     const [result] = await service.findCurso(id);
-    res.json([result]);
+    res.json(result);
   } catch (error) {
     next(error);
   }
@@ -54,7 +54,7 @@ router.get('/listarrecurso/:id', async (req, res, next) => {
       throw new Error(error.details[0].message);
     }
     const [result] = await service.findRecurso(id);
-    res.json([result]);
+    res.json(result);
   } catch (error) {
     next(error);
   }
@@ -63,7 +63,7 @@ router.get('/listarrecurso/:id', async (req, res, next) => {
 router.get('/listarbloque', async (req, res, next) => {
   try {
     const [result] = await service.findBloque();
-    res.json([result]);
+    res.json(result);
   } catch (error) {
     next(error);
   }

@@ -1,141 +1,70 @@
-
-<mat-drawer-container class="container" autosize >
-    <mat-drawer #drawer class="sidenav">
 <mat-drawer-container class="container" >
-    <mat-drawer #drawer class="sidenav" [opened]="false">
-      <div class="usuario">
-        <img [src]="usuarioRecuperado?.photoUrl" alt="" class="usuario-imagen">
-        <p>{{usuarioRecuperado?.firstName}}</p>
-        <p>{{usuarioRecuperado?.lastName}}</p>
-        <p>{{usuarioRecuperado?.email}}</p>
-      </div>
-      <button mat-button class="menu-button" (click)="opcionSeleccionada=1">
-        Perfil
-        <mat-icon>person</mat-icon>
-      </button>
-      <mat-accordion>
-        <mat-expansion-panel class="mat-elevation-z0" >
-            <mat-expansion-panel-header>
-                Reservas
-            </mat-expansion-panel-header>
-            <button mat-button class="menu-button" aria-label="Inicio"(click)="opcionSeleccionada=2">
-                Mostrar Reservas
-                <mat-icon>list</mat-icon>
-            </button>
-            <button mat-button class="menu-button" aria-label="Inicio"(click)="opcionSeleccionada=3">
-                Crear Reservas
-                <mat-icon>add_circle</mat-icon>
-            </button>
-            <button mat-button class="menu-button" aria-label="Inicio"(click)="opcionSeleccionada=4">
-                Editar Reserva
-                <mat-icon>edit</mat-icon>
-            </button>
-        </mat-expansion-panel>
-      </mat-accordion>
-      <mat-accordion>
-        <mat-expansion-panel >
-            <mat-expansion-panel-header>
-                <button class="seleccion" (click)="opcionSeleccionada=5">
-                  Usuarios
-                </button>
-            </mat-expansion-panel-header>
-            <button mat-button class="menu-button" aria-label="Inicio"(click)="opcionSeleccionada=5">
-                Nuevo Usuario
-                <mat-icon>person_add</mat-icon>
-            </button>
-            <button mat-button class="menu-button" aria-label="Inicio" (click)="opcionSeleccionada=6">
-                Editar Usuario
-                <mat-icon>edit</mat-icon>
-            </button>
-            
-        </mat-expansion-panel>
-      </mat-accordion>
-      <mat-accordion>
-        <mat-expansion-panel >
-            <mat-expansion-panel-header>
-                Asignatura
-            </mat-expansion-panel-header>
-            <button mat-button class="menu-button" aria-label="Inicio" (click)="opcionSeleccionada=7">
-                Nueva Asignatura
-                <mat-icon>add_circle</mat-icon>
-              </button>
-              <button mat-button class="menu-button" aria-label="Inicio" (click)="opcionSeleccionada=8">
-                Editar Asignatura
-                <mat-icon>edit</mat-icon>
-            </button>
-        </mat-expansion-panel>
-      </mat-accordion>
-      <mat-accordion>
-        <mat-expansion-panel >
-            <mat-expansion-panel-header>
-                Recurso
-            </mat-expansion-panel-header>
-            <button mat-button class="menu-button" aria-label="Inicio" (click)="opcionSeleccionada=9">
-                Nuevo Recurso
-                <mat-icon>add_circle</mat-icon>
-              </button>
-              <button mat-button class="menu-button" aria-label="Inicio" (click)="opcionSeleccionada=10">
-                Editar Recurso
-                <mat-icon>edit</mat-icon>
-            </button>
-        </mat-expansion-panel>
-      </mat-accordion>
-
-
-      <button mat-button class="menu-button" aria-label="Inicio">
-          Cerrar Sesión
-          <mat-icon>logout</mat-icon>
-      </button>
-    </mat-drawer>
-    <div class="sidenav-content">
-      <button type="button" mat-button (click)="drawer.toggle()">
-        <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="menu"></mat-icon>
-      </button>
-      @switch (opcionSeleccionada) {
-        @case(1){
-            <app-perfil></app-perfil>
-        }
-        @case(2){
-            <app-mostrar-reservas></app-mostrar-reservas>
-        }
-        @case(3){
-            <app-crear-reserva></app-crear-reserva>
-        }
-        @case(4){
-            <!--
-                <app-editar-reserva></app-editar-reserva>
-                --->
-        }
-        @case(5){
-            <app-usuarios></app-usuarios>
-        }
-        @case(6){
-             <!--
-                <app-editar-usuario></app-editar-usuario>
-                --->
-        }
-        @case(7){
-             <!--
-                <app-nueva-asignatura></app-nueva-asignatura>
-                --->
-        }
-        @case(8){
-             <!--
-                <app-editar-asignatura></app-editar-asignatura>
-                --->
-        }
-        @case(9){
-            <!--
-               <app-nuevo-recurso></app-nuevo-recurso>
-               --->
-       }
-       @case(10){
-        <!--
-           <app-editar-recurso></app-editar-recurso>
-           --->
-   }
-      }
-
-
+  <mat-drawer #drawer class="sidenav" [opened]="false">
+    <div class="usuario">
+      <img [src]="usuarioRecuperado?.photoUrl" alt="" class="usuario-imagen">
+      <p>{{usuarioRecuperado?.firstName}}</p>
+      <p>{{usuarioRecuperado?.lastName}}</p>
+      <p>{{usuarioRecuperado?.email}}</p>
     </div>
-  </mat-drawer-container>
+    <button mat-button class="menu-button" (click)="opcionSeleccionada=1">
+      Perfil
+      <mat-icon>person</mat-icon>
+    </button>
+    <mat-accordion>
+      <mat-expansion-panel class="mat-elevation-z0" >
+          <mat-expansion-panel-header>
+              Reservas
+          </mat-expansion-panel-header>
+          <button mat-button class="menu-button" aria-label="Inicio"(click)="opcionSeleccionada=2">
+              Mostrar Reservas
+              <mat-icon>list</mat-icon>
+          </button>
+          <button mat-button class="menu-button" aria-label="Inicio"(click)="opcionSeleccionada=3">
+              Crear Reservas
+              <mat-icon>add_circle</mat-icon>
+          </button>
+      </mat-expansion-panel>
+    </mat-accordion>
+    <button mat-button class="menu-button" (click)="opcionSeleccionada=4">
+        Usuarios
+      <mat-icon>group</mat-icon>
+    </button>
+    <button mat-button class="menu-button" (click)="opcionSeleccionada=5">
+      Recursos
+    <mat-icon>book</mat-icon>
+    </button>
+    <button mat-button class="menu-button" (click)="opcionSeleccionada=6">
+      Asignaturas
+    <mat-icon>library_books</mat-icon>
+    </button>
+    <button mat-button class="menu-button" aria-label="Inicio">
+        Cerrar Sesión
+        <mat-icon>logout</mat-icon>
+    </button>
+  </mat-drawer>
+  <div class="sidenav-content">
+    <button type="button" mat-button (click)="drawer.toggle()">
+      <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="menu"></mat-icon>
+    </button>
+    @switch (opcionSeleccionada) {
+      @case(1){
+          <app-perfil></app-perfil>
+      }
+      @case(2){
+          <app-mostrar-reservas></app-mostrar-reservas>
+      }
+      @case(3){
+          <app-crear-reserva></app-crear-reserva>
+      }
+      @case(4){
+          <app-usuarios></app-usuarios>
+      }
+      @case(5){
+          <app-recursos></app-recursos>
+      }
+      @case(6){
+        <app-asignaturas></app-asignaturas>
+      }
+    }
+  </div>
+</mat-drawer-container>

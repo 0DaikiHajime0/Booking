@@ -25,21 +25,24 @@ class CrearReservaService {
   }
   async findCurso(id) {
     try {
-      return await mysqlLib.execute('call sp_listar_curso_x_docente(?);', [id]);
+      const [curso] = await mysqlLib.execute('call sp_listar_curso_x_docente(?);', [id]);
+      return curso
     } catch (error) {
       throw new Error('Error al ejecutar la consulta a la base de datos: ' + error.message);
     }
   }
   async findRecurso(id) {
     try {
-      return await mysqlLib.execute('call sp_listar_recurso_x_curso(?);', [id]);
+      const [recursos] =await mysqlLib.execute('call sp_listar_recurso_x_curso(?);', [id]);
+      return recursos
     } catch (error) {
       throw new Error('Error al ejecutar la consulta a la base de datos: ' + error.message);
     }
   }
   async findBloque() {
     try {
-      return await mysqlLib.execute('call booking.sp_listar_bloques();');
+      const [bloques] =await mysqlLib.execute('call booking.sp_listar_bloques();');
+      return bloques
     } catch (error) {
       throw new Error('Error al ejecutar la consulta a la base de datos: ' + error.message);
     }

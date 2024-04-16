@@ -1,8 +1,11 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { API_BASE_URL } from './constants';
 import {Disponibilidad} from '../models/Disponibilidad'
+import { Asignatura } from '../models/Asignatura';
+import { Recurso } from '../models/Recurso';
+import { Bloques } from '../models/Bloques';
 
 @Injectable({
   providedIn: 'root'
@@ -12,19 +15,20 @@ export class CrearReservaServiceService {
 
   constructor(private http: HttpClient) { }
 
-  listarCurso(id: string): Observable<any> {
-    return this.http.get<any>(`${this.url}listarcurso/${id}`);
+  listarCurso(id: number): Observable<Asignatura[]> {
+    return this.http.get<Asignatura[]>(`${this.url}listarcurso/${id}`);
   }
 
-  listarRecursos(id: string): Observable<any> {
-    return this.http.get<any>(`${this.url}listarrecurso/${id}`);
+  listarRecursos(id: number): Observable<Recurso[]> {
+    return this.http.get<Recurso[]>(`${this.url}listarrecurso/${id}`);
   }
 
-  listarBloques(): Observable<any> {
-    return this.http.get<any>(`${this.url}listarbloque/`);
+  listarBloques(): Observable<Bloques[]> {
+    return this.http.get<Bloques[]>(`${this.url}listarbloque/`);
   }
+  listaDisponibilidad(disponibilidad: Disponibilidad): Observable<any> {
+    return this.http.post<any>(`${this.url}disponibilidad/`, disponibilidad);
 
-  listaDisponibilidad():Disponibilidad{
-    return new Disponibilidad(1,1,'2021-07-01',10)
   }
+  
 }

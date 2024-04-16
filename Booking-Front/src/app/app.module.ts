@@ -45,6 +45,8 @@ import {
 import { GoogleSigninButtonModule } from '@abacritt/angularx-social-login';
 import { HttpClientModule } from '@angular/common/http';
 import { UsuariosComponent } from './seccion/usuarios/usuarios.component';
+import { AsignaturasComponent } from './seccion/asignaturas/asignaturas.component';
+import { RecursosComponent } from './seccion/recursos/recursos.component';
 
 
 @NgModule({
@@ -56,6 +58,8 @@ import { UsuariosComponent } from './seccion/usuarios/usuarios.component';
     MostrarReservasComponent,
     HomeComponent,
     UsuariosComponent,
+    AsignaturasComponent,
+    RecursosComponent,
   ],
   imports: [
     BrowserModule,
