@@ -1,6 +1,6 @@
 const express = require('express');
 const CrearReservaService = require('./../services/crearReserva.service');
-const { crearReservaSchema,listarcursoSchema,listarrecursoSchema,filtrardisponibilidadSchema } = require('../schemas/crearReserva.Schema');
+const { crearReservaSchema,listarcursoSchema,listarrecursoSchema,filtrardisponibilidadSchema,listarCredencialesSchema } = require('../schemas/crearReserva.Schema');
 
 const router = express.Router();
 const service = new CrearReservaService();
@@ -68,6 +68,39 @@ router.get('/listarbloque', async (req, res, next) => {
     next(error);
   }
 });
+router.get('/enviarcorreo', async (req, res, next) => {
+  try {
+      const data = {
+      };
+      await service.SendMail(data);
 
-
+      res.json({ message: 'Correo enviado exitosamente' });
+  } catch (error) {
+      next(error);
+  }
+});
+router.get('/listarcredenciales',async (req, res, next) => {
+  try {
+    const { error, value } = listarCredencialesSchema.validate(req.body);
+    if (error) {
+      throw new Error(error.details[0].message);
+    }
+    const [result] = await service.listarCredenciales(value);
+    res.json(result[0]);
+  } catch (error) {
+    next(error);
+  }
+});
+router.get('/listarfechacredenciales',async (req, res, next) => {
+  try {
+    const { error, value } = listarCredencialesSchema.validate(req.body);
+    if (error) {
+      throw new Error(error.details[0].message);
+    }
+    const [result] = await service.listarFecha(value);
+    res.json(result[0][0]);
+  } catch (error) {
+    next(error);
+  }
+});
 module.exports = router;

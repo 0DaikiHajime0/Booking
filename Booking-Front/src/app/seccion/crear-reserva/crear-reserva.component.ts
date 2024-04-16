@@ -39,6 +39,7 @@ export class CrearReservaComponent implements OnInit {
     this.listarCurso('6');
     this.listarBloques();
   }
+  
   llamarListaDisponibilidad(): void {
     this.parametrosSolicitud.id_recurso = this.selectedRecursoId;
     this.parametrosSolicitud.id_bloque = this.selectedBloqueId;

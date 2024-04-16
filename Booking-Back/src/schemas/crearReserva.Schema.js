@@ -32,9 +32,19 @@ const filtrardisponibilidadSchema = Joi.object({
   id_bloque: Joi.number().required(),
   fecha: Joi.date().required(),
 });
+const listarCredencialesSchema = Joi.object({
+  id_docente: id_docente.required(),
+  id_asignatura: id_asignatura.required(),
+  id_recurso: id_recurso.required(),
+  id_bloque: id_bloque.required(),
+  fecha: fecha.required(),
+});
+
+
 
 
 module.exports = {
+  listarCredencialesSchema,
   crearReservaSchema,
   listarcursoSchema,
   listarrecursoSchema,
