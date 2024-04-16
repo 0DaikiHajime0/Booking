@@ -39,6 +39,7 @@ export class CrearReservaComponent implements OnInit {
     this.listarCurso('6');
     this.listarBloques();
   }
+  
   llamarListaDisponibilidad(): void {
     console.log('Llamando a listaDisponibilidad...');
 
