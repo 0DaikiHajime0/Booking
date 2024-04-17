@@ -52,5 +52,13 @@ class UsuarioService{
         }
         return usuario;
     }
+    async deshabilitarUsuario(usuarioId){
+        const result = await mysqlLib.execute('CALL sp_deshabilitar_usuario(?)',[usuarioId]);
+        return result;
+    }
+    async habilitarUsuario(usuarioId){
+        const result = await mysqlLib.execute('CALL sp_habilitar_usuario(?)',[usuarioId]);
+        return result;
+    }
 }
 module.exports = UsuarioService;

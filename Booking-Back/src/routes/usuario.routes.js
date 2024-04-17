@@ -58,6 +58,28 @@ router.put('/editarusuario/:usuario_id',
         }
     }
 );
+router.get('/deshabilitarusuario/:usuario_id',
+    async (req,res,next) =>{
+        try {
+            const usuario_id = req.params.usuario_id;
+            const [result] = await usuarioservice.deshabilitarUsuario(usuario_id);
+            res.json(result);
+        } catch (error) {
+            next(error)
+        }
+    }
+)
+router.get('/habilitarusuario/:usuario_id',
+    async (req,res,next) =>{
+        try {
+            const usuario_id = req.params.usuario_id;
+            const [result] = await usuarioservice.habilitarUsuario(usuario_id);
+            res.json(result);
+        } catch (error) {
+            next(error)
+        }
+    }
+)
 
 
 module.exports = router;

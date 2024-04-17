@@ -1,1 +1,71 @@
-<p>recursos works!</p>
+<section>
+    <p class="header">Recursos</p>
+</section>
+<div class="busqueda">
+    <mat-form-field appearance="fill">
+        <input
+        matInput
+        (keyup)="aplicarFiltro($any($event.target).value)"
+        placeholder="Buscar"
+        #input
+      />
+    </mat-form-field>
+    <div class="botones">
+        <button mat-raised-button color="primary">Crear Nuevo Usuario</button>
+    </div>
+</div>
+<div class="tabla">
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z2">
+        <ng-container matColumnDef="ID">
+            <th mat-header-cell *matHeaderCellDef>Id</th>
+            <td mat-cell *matCellDef="let usuarios"> {{usuarios.usuario_id}} </td>
+        </ng-container>
+        <ng-container matColumnDef="Nombres">
+            <th mat-header-cell *matHeaderCellDef>Nombres</th>
+            <td mat-cell *matCellDef="let usuarios"> {{usuarios.usuario_nombres}} </td>
+        </ng-container>
+        <ng-container matColumnDef="Apellidos">
+            <th mat-header-cell *matHeaderCellDef>Apellidos</th>
+            <td mat-cell *matCellDef="let usuarios"> {{usuarios.usuario_apellidos}} </td>
+        </ng-container>
+        <ng-container matColumnDef="Correo">
+            <th mat-header-cell *matHeaderCellDef>Correo</th>
+            <td mat-cell *matCellDef="let usuarios"> {{usuarios.usuario_correo}} </td>
+        </ng-container>
+        <ng-container matColumnDef="Rol">
+            <th mat-header-cell *matHeaderCellDef>Rol</th>
+            <td mat-cell *matCellDef="let usuarios"> {{usuarios.usuario_rol}} </td>
+        </ng-container>
+        <ng-container matColumnDef="Editar">
+            <th mat-header-cell *matHeaderCellDef>Editar</th>
+            <td mat-cell *matCellDef="let usuario">
+                <button mat-icon-button color="primary"  matTooltip="Editar" (click)="editarUsuario(usuario.usuario_id)">
+                    <mat-icon>edit</mat-icon>
+                  </button>
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="Estado">
+            <th mat-header-cell *matHeaderCellDef>Estado</th>
+            <td mat-cell *matCellDef="let usuario">
+                @if (usuario.usuario_estado=='Activo') {
+                    <button mat-button color="success" aria-label="" (click)="habilitardeshabilitar(usuario.usuario_id)" matTooltip="Activar">
+                       Activo
+                      </button>
+                }
+                @else if(usuario.usuario_estado){
+                    <button mat-button color="warn" (click)="habilitardeshabilitar(usuario.usuario_id)" aria-label="" matTooltip="Desactivar">
+                        Desactivado
+                      </button>
+                }
+                
+            </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="columnas"></tr>
+        <tr mat-row *matRowDef="let row; columns: columnas;"></tr>
+    </table>
+    <mat-paginator [length]="100"
+              [pageSize]="10"
+              [pageSizeOptions]="[5, 10, 25, 100]"
+              aria-label="Select page">
+</mat-paginator>
+</div>
