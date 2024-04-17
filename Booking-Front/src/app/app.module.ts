@@ -108,4 +108,4 @@ import { RecursosComponent } from './seccion/recursos/recursos.component';
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}
