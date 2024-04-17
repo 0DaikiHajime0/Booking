@@ -31,6 +31,7 @@ import {
   MatDialogActions,
   MatDialogClose,
 } from '@angular/material/dialog';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 import { FullCalendarModule } from '@fullcalendar/angular';
 import {MatTableModule} from '@angular/material/table';
@@ -83,7 +84,8 @@ import { RecursosComponent } from './seccion/recursos/recursos.component';
     MatDialogActions,
     MatDialogClose,
     MatTableModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatSlideToggleModule
   ],
   providers: [
     provideClientHydration(),
