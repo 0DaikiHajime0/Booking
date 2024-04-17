@@ -7,7 +7,7 @@ import { Asignatura } from '../models/Asignatura';
 import { Recurso } from '../models/Recurso';
 import { Bloques } from '../models/Bloques';
 import { Reserva } from '../models/Reserva';
-import {Credencial} from '../models/Credenciales'
+import {Credencial} from '../models/Credenciales';
 
 @Injectable({
   providedIn: 'root'
@@ -42,5 +42,10 @@ export class CrearReservaServiceService {
       responseType: 'blob'
     });
   }
+  listardisponibilidadCalendar(id_recurso: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.url}listardisponibilidadcalendar/${id_recurso}`);
+  }
+
 
 }
+

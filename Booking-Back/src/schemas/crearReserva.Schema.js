@@ -7,6 +7,8 @@ const id_recurso = Joi.number().integer();
 const fecha = Joi.string().max(10).min(10);
 const id_bloque = Joi.number().integer();
 const reserva_cant = Joi.number().integer();
+const fecha_inicio = Joi.string().max(10).min(10);
+const fecha_fin = Joi.string().max(10).min(10);
 
 const crearReservaSchema = Joi.object({
   id_usuario: id_usuario.required(),
@@ -38,7 +40,11 @@ const listarCredencialesSchema = Joi.object({
   id_bloque: id_bloque.required(),
   fecha: fecha.required(),
 });
+const listardisponibilidadCalendario = Joi.object({
+  id_recurso: id_recurso.required()
+});
 module.exports = {
+  listardisponibilidadCalendario,
   listarCredencialesSchema,
   crearReservaSchema,
   listarcursoSchema,

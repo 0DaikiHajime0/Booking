@@ -83,10 +83,18 @@ class CrearReservaService {
       data.id_bloque,
       fechaFormateada];
     try {
-      return await mysqlLib.execute('call listar_fecha_horario_reserva(?,?,?,?,?);',params);
+      return await mysqlLib.execute('call sp_obtener_licencias_disponibles_calendario(?,?,?,?,?);',params);
     } catch (error) {
       throw new Error('Error al ejecutar la consulta a la base de datos: ' + error.message);
     }
+  }
+  async listardisponibilidadCalendario(id_recurso){
+      try {
+        return await mysqlLib.execute('call sp_obtener_licencias_disponibles_calendario(?);', [id_recurso]);
+
+      } catch (error) {
+        throw new Error('Error al ejecutar la consulta a la base de datos: ' + error.message);
+      }
   }
 
   async SendMail(dataCredenciales, dataFechas) {
@@ -144,6 +152,7 @@ class CrearReservaService {
       throw new Error('Error al generar el archivo Excel: ' + error.message);
     }
   }
+
 
 }
 module.exports = CrearReservaService;
