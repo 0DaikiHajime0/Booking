@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CrearReservaServiceService } from '../../services/crear-reserva.service.service';
 import { CalendarOptions } from '@fullcalendar/core';
-import dayGridPlugin from '@fullcalendar/daygrid';
+import timeGridPlugin  from '@fullcalendar/timegrid';
 import { Disponibilidad } from '../../models/Disponibilidad';
 import { Reserva } from '../../models/Reserva';
 import { Usuario } from '../../models/Usuario';
@@ -10,7 +10,7 @@ import { Asignatura } from '../../models/Asignatura';
 import { Recurso } from '../../models/Recurso';
 import { Bloques } from '../../models/Bloques';
 import {MatSnackBar} from '@angular/material/snack-bar';
-import { co } from '@fullcalendar/core/internal-common';
+import esLocale from '@fullcalendar/core/locales/es';
 
 @Component({
   selector: 'app-crear-reserva',
@@ -82,7 +82,22 @@ export class CrearReservaComponent implements OnInit {
     const recursoId = event.target.value;
     this.selectedRecursoId = recursoId;
     this.obtenerDisponibilidad();
+    this.listarHorarioCalendar(this.selectedRecursoId);
   }
+  listarHorarioCalendar(id_Recurso:number){
+    this.crearReservaService.listardisponibilidadCalendar(id_Recurso).subscribe(
+      (response: any[]) => {
+        const eventos = response.map(evento => ({
+          title: evento.title.toString(),
+          start: evento.start,
+          end: evento.end
+        }));
+        console.log(eventos);
+        this.calendarOptions.events = eventos;
+      }
+    );
+  }
+
   horarioBloques(event:any){
     const bloqueId = event.target.value;
     const bloque_seleccionado = this.bloques.find(bloque => bloque.bloque_id==bloqueId)
@@ -111,6 +126,7 @@ export class CrearReservaComponent implements OnInit {
     }
   }
   reservar() {
+    this.listarHorarioCalendar(this.selectedRecursoId);
     if(this.selectedRecursoId && this.selectedBloqueId && this.selectedBloqueId){
       this.reserva = {
         id_usuario: this.docente.usuario_id,
@@ -155,22 +171,15 @@ export class CrearReservaComponent implements OnInit {
     });
   }
 
+
+
   /* Full calendar */
   calendarOptions: CalendarOptions = {
-    plugins: [dayGridPlugin],
-    initialView: 'dayGridMonth',
+    plugins: [timeGridPlugin],
+    initialView: 'timeGridWeek',
     weekends: true,
+    locale: esLocale,
     events: [
-      { title: 'Quedan 1 licencia', start: '2024-04-05' },
-      { title: 'Quedan 1 licencia', start: '2024-04-05' },
-      { title: 'Quedan 1 licencia', start: '2024-04-05' },
-      { title: 'Quedan 1 licencia', start: '2024-04-05' },
-      { title: 'Quedan 2 licencias', start: '2024-04-06' },
-      { title: 'Quedan 30 licencias', start: '2024-04-07' },
-      { title: 'Quedan 40 licencias', start: '2024-04-08' },
-      { title: 'Quedan 50 licencias', start: '2024-04-09' },
-      { title: 'Quedan 50 licencias', start: '2024-04-10' },
-      { title: 'Quedan 50 licencias', start: '2024-04-11' },
     ]
   };
 }

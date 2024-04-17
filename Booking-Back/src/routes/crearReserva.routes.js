@@ -1,6 +1,6 @@
 const express = require('express');
 const CrearReservaService = require('./../services/crearReserva.service');
-const { crearReservaSchema,listarcursoSchema,listarrecursoSchema,filtrardisponibilidadSchema,listarCredencialesSchema } = require('../schemas/crearReserva.Schema');
+const {listardisponibilidadCalendario, crearReservaSchema,listarcursoSchema,listarrecursoSchema,filtrardisponibilidadSchema,listarCredencialesSchema } = require('../schemas/crearReserva.Schema');
 
 const router = express.Router();
 const service = new CrearReservaService();
@@ -58,7 +58,6 @@ router.get('/listarrecurso/:id', async (req, res, next) => {
     next(error);
   }
 });
-
 router.get('/listarbloque', async (req, res, next) => {
   try {
     const [result] = await service.findBloque();
@@ -102,6 +101,7 @@ router.get('/listarfechacredenciales',async (req, res, next) => {
     next(error);
   }
 });
+
 router.post('/descargarcredenciales', async (req, res, next) => {
   try {
     const { error, value } = listarCredencialesSchema.validate(req.body);
@@ -113,6 +113,19 @@ router.post('/descargarcredenciales', async (req, res, next) => {
     res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
     res.setHeader('Content-Disposition', 'attachment; filename=credenciales.xlsx');
     res.send(buffer);
+  } catch (error) {
+    next(error);
+  }
+});
+router.get('/listardisponibilidadcalendar/:id_recurso',async (req, res, next) => {
+  try {
+    const {id_recurso} = req.params;
+    const {error} = listardisponibilidadCalendario.validate({id_recurso});
+    if(error){
+      throw new Error(error.details[0].message);
+    }
+    const [result] = await service.listardisponibilidadCalendario(id_recurso);
+    res.json(result[0]);
   } catch (error) {
     next(error);
   }
