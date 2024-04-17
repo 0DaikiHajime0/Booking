@@ -1,11 +1,10 @@
 const Joi = require("joi");
-
 const id_usuario = Joi.number().integer();
 const rol = Joi.string().max(20);
 const id_docente = Joi.number().integer();
 const id_asignatura = Joi.number().integer();
 const id_recurso = Joi.number().integer();
-const fecha = Joi.date();
+const fecha = Joi.string().max(10).min(10);
 const id_bloque = Joi.number().integer();
 const reserva_cant = Joi.number().integer();
 
@@ -39,10 +38,6 @@ const listarCredencialesSchema = Joi.object({
   id_bloque: id_bloque.required(),
   fecha: fecha.required(),
 });
-
-
-
-
 module.exports = {
   listarCredencialesSchema,
   crearReservaSchema,

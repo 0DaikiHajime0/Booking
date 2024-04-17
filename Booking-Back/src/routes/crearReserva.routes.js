@@ -24,9 +24,8 @@ router.post('/crear', async (req, res, next) => {
     if (error) {
       throw new Error(error.details[0].message);
     }
-    const result = await service.create(value);
-
-    res.json(result);
+    const [result] = await service.create(value);
+    res.json(result[0][0]);
   } catch (error) {
     next(error);
   }
@@ -103,4 +102,21 @@ router.get('/listarfechacredenciales',async (req, res, next) => {
     next(error);
   }
 });
+router.post('/descargarcredenciales', async (req, res, next) => {
+  try {
+    const { error, value } = listarCredencialesSchema.validate(req.body);
+    if (error) {
+      throw new Error(error.details[0].message);
+    }
+    const credenciales = await service.listarCredenciales(value);
+    const buffer = await service.generarArchivoExcel(credenciales);
+    res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    res.setHeader('Content-Disposition', 'attachment; filename=credenciales.xlsx');
+    res.send(buffer);
+  } catch (error) {
+    next(error);
+  }
+});
+
+
 module.exports = router;
