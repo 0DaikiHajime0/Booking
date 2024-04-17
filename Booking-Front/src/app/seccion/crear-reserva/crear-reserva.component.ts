@@ -3,12 +3,14 @@ import { CrearReservaServiceService } from '../../services/crear-reserva.service
 import { CalendarOptions } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import { Disponibilidad } from '../../models/Disponibilidad';
+import { Reserva } from '../../models/Reserva';
 import { Usuario } from '../../models/Usuario';
 import { UsuarioService } from '../../services/login.service';
 import { Asignatura } from '../../models/Asignatura';
 import { Recurso } from '../../models/Recurso';
 import { Bloques } from '../../models/Bloques';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import { co } from '@fullcalendar/core/internal-common';
 
 @Component({
   selector: 'app-crear-reserva',
@@ -28,8 +30,11 @@ export class CrearReservaComponent implements OnInit {
   selectedAsignaturaId: number = 0;
   selectCantidadreservas: number = 0;
   disponibilidad!:Disponibilidad;
+  reserva!:Reserva;
   cantidadLicenciasDisponibles!: number;
   showErrorMessage: boolean = false;
+  mensaje: string = '';
+  estatus: string = '';
   constructor
   (
     private crearReservaService: CrearReservaServiceService,
@@ -67,7 +72,6 @@ export class CrearReservaComponent implements OnInit {
       }
     )
   }
-
   listarBloques(){
     this.crearReservaService.listarBloques().subscribe(
       (bloques:Bloques[])=>{
@@ -101,32 +105,54 @@ export class CrearReservaComponent implements OnInit {
       }
       this.crearReservaService.listaDisponibilidad(this.disponibilidad).subscribe(
         (cantLicencias:any)=>{
-          this.cantidadLicenciasDisponibles = cantLicencias.cantidad_disponible
+          this.cantidadLicenciasDisponibles = cantLicencias.cantidad_disponible;
         }
       )
+    }
+  }
+  reservar() {
+    if(this.selectedRecursoId && this.selectedBloqueId && this.selectedBloqueId){
+      this.reserva = {
+        id_usuario: this.docente.usuario_id,
+        rol: 'Docente',
+        id_docente: 6,
+        id_asignatura: this.selectedAsignaturaId,
+        id_recurso: Number(this.selectedRecursoId),
+        fecha: this.selectedFecha,
+        id_bloque: this.selectedBloqueId,
+        reserva_cant: this.selectCantidadreservas
+      }
+      this.crearReservaService.crearReserva(this.reserva).subscribe(
+        (response: any) => {
+          const mensajeError = response?.Mensaje;
+          if (mensajeError) {
+            this.openSnackBar(mensajeError, 'Cerrar');
+          } else {
+            console.log('Reserva exitosa');
+          }
+        },
+        error => {
+          console.error('Error al crear reserva:', error);
+          this.openSnackBar('Error al crear reserva', 'Cerrar');
+        }
+      );
+
+      console.log(this.reserva);
     }
   }
   validarcantidad(): void {
     const inputElement = document.getElementById('Licencias') as HTMLInputElement;
     if (inputElement) {
       const inputValor = inputElement.valueAsNumber;
+      this.selectCantidadreservas = inputValor;
       const cantidadLicencias = this.cantidadLicenciasDisponibles || 0;
       this.showErrorMessage = inputValor > cantidadLicencias;
     }
   }
-  reservar() {
-    if(this.selectedRecursoId && this.selectedBloqueId && this.selectedBloqueId){
-
-    }
-    console.log("¡Botón 'Reservar' clicado!");
-  }
   openSnackBar(message: string, action: string) {
-    let snackBarRef = this._snackBar.open(message, action, {
+    this._snackBar.open(message, action, {
       duration: 5000,
     });
-    setTimeout(() => {
-      snackBarRef.dismiss();
-    }, 5000);
   }
 
   /* Full calendar */

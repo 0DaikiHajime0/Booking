@@ -1,6 +1,8 @@
 const boom = require('@hapi/boom');
 const mysqlLib = require('./../../libs/mysql');
 const transporter = require('./../../libs/mailConfig');
+const excel = require('exceljs');
+
 
 class CrearReservaService {
 
@@ -106,5 +108,42 @@ class CrearReservaService {
       throw new Error('Error al enviar el correo electrónico: ' + error.message);
     }
   }
+
+  async generarArchivoExcel(credenciales) {
+    try {
+      const workbook = new excel.Workbook();
+      const worksheet = workbook.addWorksheet('Credenciales');
+      worksheet.columns = [
+        { header: 'Correo', key: 'correo' },
+        { header: 'Contraseña', key: 'contraseña' },
+      ];
+      credenciales.forEach(credencial => {
+        worksheet.addRow({ correo: credencial.credencial_usuario, contraseña: credencial.credencial_contrasena });
+      });
+      const buffer = await workbook.xlsx.writeBuffer();
+
+      return buffer;
+    } catch (error) {
+      throw new Error('Error al generar el archivo Excel: ' + error.message);
+    }
+  }
+  async generarArchivoExcel(credenciales) {
+    try {
+      const workbook = new excel.Workbook();
+      const worksheet = workbook.addWorksheet('Credenciales');
+      worksheet.columns = [
+        { header: 'Correo', key: 'correo' },
+        { header: 'Contraseña', key: 'contraseña' },
+      ];
+      credenciales.forEach(credencial => {
+        worksheet.addRow({ correo: credencial.credencial_usuario, contraseña: credencial.credencial_contrasena });
+      });
+      const buffer = await workbook.xlsx.writeBuffer();
+      return buffer;
+    } catch (error) {
+      throw new Error('Error al generar el archivo Excel: ' + error.message);
+    }
+  }
+
 }
 module.exports = CrearReservaService;

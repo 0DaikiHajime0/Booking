@@ -6,6 +6,8 @@ import {Disponibilidad} from '../models/Disponibilidad'
 import { Asignatura } from '../models/Asignatura';
 import { Recurso } from '../models/Recurso';
 import { Bloques } from '../models/Bloques';
+import { Reserva } from '../models/Reserva';
+import {Credencial} from '../models/Credenciales'
 
 @Injectable({
   providedIn: 'root'
@@ -26,10 +28,19 @@ export class CrearReservaServiceService {
   listarBloques(): Observable<Bloques[]> {
     return this.http.get<Bloques[]>(`${this.url}listarbloque/`);
   }
-  
+
   listaDisponibilidad(disponibilidad: Disponibilidad): Observable<any> {
     return this.http.post<any>(`${this.url}disponibilidad/`, disponibilidad);
 
+  }
+  crearReserva(reserva: Reserva): Observable<any> {
+    return this.http.post<any>(`${this.url}crear/`, reserva);
+  }
+
+  listarCredenciales(credencial: Credencial): Observable<any> {
+    return this.http.post(`${this.url}descargarcredenciales`, credencial, {
+      responseType: 'blob'
+    });
   }
 
 }
