@@ -8,6 +8,7 @@ import { UsuarioService } from '../../services/login.service';
 import { Asignatura } from '../../models/Asignatura';
 import { Recurso } from '../../models/Recurso';
 import { Bloques } from '../../models/Bloques';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-crear-reserva',
@@ -24,13 +25,17 @@ export class CrearReservaComponent implements OnInit {
   selectedRecursoId: number = 0;
   selectedBloqueId: number = 0;
   selectedFecha: string = '';
+  selectedAsignaturaId: number = 0;
+  selectCantidadreservas: number = 0;
   disponibilidad!:Disponibilidad;
   cantidadLicenciasDisponibles!: number;
+  showErrorMessage: boolean = false;
   constructor
   (
     private crearReservaService: CrearReservaServiceService,
     private usuarioservice : UsuarioService,
-    
+    private _snackBar: MatSnackBar
+
   ) {}
 
   ngOnInit(): void {
@@ -44,7 +49,8 @@ export class CrearReservaComponent implements OnInit {
   listarCurso(id: number) {
     this.crearReservaService.listarCurso(id).subscribe(
        (cursos:Asignatura[]) =>{
-        this.cursos = cursos
+        this.cursos = cursos;
+        this.selectedAsignaturaId = cursos[0].curso_id;
        }
     )
   }
@@ -61,6 +67,7 @@ export class CrearReservaComponent implements OnInit {
       }
     )
   }
+
   listarBloques(){
     this.crearReservaService.listarBloques().subscribe(
       (bloques:Bloques[])=>{
@@ -89,7 +96,7 @@ export class CrearReservaComponent implements OnInit {
     if(this.selectedRecursoId && this.selectedBloqueId && this.selectedBloqueId){
       this.disponibilidad = {
         id_recurso : this.selectedRecursoId,
-        id_bloque : this.selectedBloqueId, 
+        id_bloque : this.selectedBloqueId,
         fecha : this.selectedFecha
       }
       this.crearReservaService.listaDisponibilidad(this.disponibilidad).subscribe(
@@ -98,6 +105,28 @@ export class CrearReservaComponent implements OnInit {
         }
       )
     }
+  }
+  validarcantidad(): void {
+    const inputElement = document.getElementById('Licencias') as HTMLInputElement;
+    if (inputElement) {
+      const inputValor = inputElement.valueAsNumber;
+      const cantidadLicencias = this.cantidadLicenciasDisponibles || 0;
+      this.showErrorMessage = inputValor > cantidadLicencias;
+    }
+  }
+  reservar() {
+    if(this.selectedRecursoId && this.selectedBloqueId && this.selectedBloqueId){
+
+    }
+    console.log("¡Botón 'Reservar' clicado!");
+  }
+  openSnackBar(message: string, action: string) {
+    let snackBarRef = this._snackBar.open(message, action, {
+      duration: 5000,
+    });
+    setTimeout(() => {
+      snackBarRef.dismiss();
+    }, 5000);
   }
 
   /* Full calendar */

@@ -8,7 +8,7 @@
         <label for="Asignatura">Asignatura: </label>
         <select id="Asignatura" name="Asignatura" (change)="listarRecurso($event)">
           <option value="" disabled selected>Seleccione un curso</option>
-          <option *ngFor="let curso of cursos" [value]="curso.curso_id">{{ curso.curso_nombre }}</option>
+          <option *ngFor="let curso of cursos" [value]="curso.curso_id">{{ curso.nrc }} - {{ curso.curso_nombre }}</option>
         </select>
       </div>
       <div class="input_cantidad">
@@ -45,15 +45,16 @@
       <div class="Input_licencias">
         <label for="Licencias">Cantidad de Licencias:</label>
         <input class="input_number" type="number" id="Licencias" name="Licencias" min="1" max="20"
-          placeholder="Cantidad de Licencias">
-        <label for="Input_licencias" class="Messaje_negative">Ingrese solo La cantidad de Recursos Disponibles</label>
-        <!-- validar de cantidad de licencias menor a licencias disponibles -->
-        <!-- enviar reserva -->
-
+          placeholder="Cantidad de Licencias" (change)="validarcantidad()">
+        <ng-container *ngIf="showErrorMessage; else noErrorMessage">
+          <label for="Input_licencias" class="Messaje_negative">Ingrese solo la cantidad de Recursos Disponibles</label>
+        </ng-container>
+        <ng-template #noErrorMessage></ng-template>
       </div>
+
       <div class="botones">
-        <button type="button">Reservar</button>
-        <button type="button" name="button">Cancelar</button>
+        <button type="button" (click)="reservar(); openSnackBar(message.value, action.value)" [disabled]="showErrorMessage || !selectedRecursoId || !selectedBloqueId || !selectedFecha || cantidadLicenciasDisponibles <= 0">Reservar</button>
+        <button type="button" [disabled]="!selectedRecursoId || !selectedBloqueId || !selectedFecha">Cancelar</button>
 
       </div>
     </div>
@@ -69,3 +70,13 @@
     </div>
   </div>
 </section>
+
+<mat-form-field>
+  <mat-label>Message</mat-label>
+  <input matInput value="Reserva Exitoso!, Puede descargar las reservas" #message>
+</mat-form-field>
+
+<mat-form-field>
+  <mat-label>Action</mat-label>
+  <input matInput value="Descargar" #action>
+</mat-form-field>

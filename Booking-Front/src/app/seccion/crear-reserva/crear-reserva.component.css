@@ -38,6 +38,7 @@ body{
 .Container {
   overflow: scroll;
   max-height: 50rem ;
+  max-width: 33rem;
   margin-left: 2rem;
   margin-right: 2rem;
   padding-top: 1rem;
