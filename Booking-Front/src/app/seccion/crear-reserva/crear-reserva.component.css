@@ -145,3 +145,6 @@ button:active {
 .events-calendar{
   font-size: 1rem;
 }
+.oculto {
+  display: none;
+}

@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { CrearReservaServiceService } from '../../services/crear-reserva.service.service';
 import { CalendarOptions } from '@fullcalendar/core';
-import timeGridPlugin  from '@fullcalendar/timegrid';
+import timeGridPlugin from '@fullcalendar/timegrid';
 import { Disponibilidad } from '../../models/Disponibilidad';
 import { Reserva } from '../../models/Reserva';
 import { Usuario } from '../../models/Usuario';
@@ -9,7 +10,7 @@ import { UsuarioService } from '../../services/login.service';
 import { Asignatura } from '../../models/Asignatura';
 import { Recurso } from '../../models/Recurso';
 import { Bloques } from '../../models/Bloques';
-import {MatSnackBar} from '@angular/material/snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import esLocale from '@fullcalendar/core/locales/es';
 
 @Component({
@@ -18,7 +19,7 @@ import esLocale from '@fullcalendar/core/locales/es';
   styleUrls: ['./crear-reserva.component.css'],
 })
 export class CrearReservaComponent implements OnInit {
-  docente!:Usuario
+  docente!: Usuario
   cursos: Asignatura[] = [];
   recursos: Recurso[] = [];
   bloques: Bloques[] = [];
@@ -29,79 +30,82 @@ export class CrearReservaComponent implements OnInit {
   selectedFecha: string = '';
   selectedAsignaturaId: number = 0;
   selectCantidadreservas: number = 0;
-  disponibilidad!:Disponibilidad;
-  reserva!:Reserva;
+  disponibilidad!: Disponibilidad;
+  reserva!: Reserva;
   cantidadLicenciasDisponibles!: number;
   showErrorMessage: boolean = false;
   mensaje: string = '';
   estatus: string = '';
   constructor
-  (
-    private crearReservaService: CrearReservaServiceService,
-    private usuarioservice : UsuarioService,
-    private _snackBar: MatSnackBar
+    (
+      private router: Router,
+      private crearReservaService: CrearReservaServiceService,
+      private usuarioservice: UsuarioService,
+      private _snackBar: MatSnackBar
 
-  ) {}
-
+    ) { }
   ngOnInit(): void {
     this.obtenerDocente();
     this.listarBloques();
   }
-  obtenerDocente():void{
+  obtenerDocente(): void {
     this.docente = this.usuarioservice.getUsuarioFromStorage()
     this.listarCurso(6)
   }
   listarCurso(id: number) {
     this.crearReservaService.listarCurso(id).subscribe(
-       (cursos:Asignatura[]) =>{
+      (cursos: Asignatura[]) => {
         this.cursos = cursos;
         this.selectedAsignaturaId = cursos[0].curso_id;
-       }
+      }
     )
   }
-  listarRecurso(event: any){
+  listarRecurso(event: any) {
     const cursoId = event.target.value;
     this.crearReservaService.listarRecursos(cursoId).subscribe(
-      (recursos:Recurso[]) =>{
+      (recursos: Recurso[]) => {
         this.recursos = recursos
-        const curso_seleccionado = this.cursos.find(curso => curso.curso_id==cursoId)
-        if(curso_seleccionado){
-          this.cantidadAlumnos=curso_seleccionado.docente_curso_cantidad_alumnos
+        const curso_seleccionado = this.cursos.find(curso => curso.curso_id == cursoId)
+        if (curso_seleccionado) {
+          this.cantidadAlumnos = curso_seleccionado.docente_curso_cantidad_alumnos
           this.obtenerDisponibilidad();
         }
       }
     )
   }
-  listarBloques(){
+  listarBloques() {
     this.crearReservaService.listarBloques().subscribe(
-      (bloques:Bloques[])=>{
+      (bloques: Bloques[]) => {
         this.bloques = bloques
       })
   }
-  obtenerRecurso(event:any){
+  obtenerRecurso(event: any) {
     const recursoId = event.target.value;
     this.selectedRecursoId = recursoId;
     this.obtenerDisponibilidad();
     this.listarHorarioCalendar(this.selectedRecursoId);
   }
-  listarHorarioCalendar(id_Recurso:number){
+  listarHorarioCalendar(id_Recurso: number) {
     this.crearReservaService.listardisponibilidadCalendar(id_Recurso).subscribe(
       (response: any[]) => {
-        const eventos = response.map(evento => ({
-          title: evento.title.toString(),
-          start: evento.start,
-          end: evento.end
-        }));
-        console.log(eventos);
+        const eventos = response.map(evento => {
+          const cupones = parseInt(evento.title);
+          const textoCupones = cupones === 1 ? '1 cupón' : `${cupones} cupones`;
+          const textoQueda = cupones === 1 ? 'Queda' : 'Quedan';
+          return {
+            title: `\n${textoQueda} ${textoCupones}`,
+            start: evento.start,
+            end: evento.end
+          };
+        });
         this.calendarOptions.events = eventos;
       }
     );
   }
-
-  horarioBloques(event:any){
+  horarioBloques(event: any) {
     const bloqueId = event.target.value;
-    const bloque_seleccionado = this.bloques.find(bloque => bloque.bloque_id==bloqueId)
-    if(bloque_seleccionado){
+    const bloque_seleccionado = this.bloques.find(bloque => bloque.bloque_id == bloqueId)
+    if (bloque_seleccionado) {
       this.horarioSeleccionado = bloque_seleccionado.bloque_rango
       this.selectedBloqueId = bloque_seleccionado.bloque_id
     }
@@ -111,23 +115,22 @@ export class CrearReservaComponent implements OnInit {
     this.selectedFecha = event.target.value;
     this.obtenerDisponibilidad();
   }
-  obtenerDisponibilidad(){
-    if(this.selectedRecursoId && this.selectedBloqueId && this.selectedBloqueId){
+  obtenerDisponibilidad() {
+    if (this.selectedRecursoId && this.selectedBloqueId && this.selectedBloqueId) {
       this.disponibilidad = {
-        id_recurso : this.selectedRecursoId,
-        id_bloque : this.selectedBloqueId,
-        fecha : this.selectedFecha
+        id_recurso: this.selectedRecursoId,
+        id_bloque: this.selectedBloqueId,
+        fecha: this.selectedFecha
       }
       this.crearReservaService.listaDisponibilidad(this.disponibilidad).subscribe(
-        (cantLicencias:any)=>{
+        (cantLicencias: any) => {
           this.cantidadLicenciasDisponibles = cantLicencias.cantidad_disponible;
         }
       )
     }
   }
   reservar() {
-    this.listarHorarioCalendar(this.selectedRecursoId);
-    if(this.selectedRecursoId && this.selectedBloqueId && this.selectedBloqueId){
+    if (this.selectedRecursoId && this.selectedBloqueId && this.selectedBloqueId) {
       this.reserva = {
         id_usuario: this.docente.usuario_id,
         rol: 'Docente',
@@ -137,23 +140,25 @@ export class CrearReservaComponent implements OnInit {
         fecha: this.selectedFecha,
         id_bloque: this.selectedBloqueId,
         reserva_cant: this.selectCantidadreservas
-      }
+      };
       this.crearReservaService.crearReserva(this.reserva).subscribe(
         (response: any) => {
-          const mensajeError = response?.Mensaje;
-          if (mensajeError) {
-            this.openSnackBar(mensajeError, 'Cerrar');
+          const mensaje = response?.Mensaje;
+          const estatus = response?.estatus;
+
+          if (estatus === '201') {
+            this.openSnackBar(mensaje, 'Cerrar');
+            setTimeout(() => {
+              this.router.navigate(['/listar']);
+            }, 3000);
           } else {
-            console.log('Reserva exitosa');
+            this.openSnackBar(mensaje, 'Cerrar');
           }
         },
         error => {
-          console.error('Error al crear reserva:', error);
           this.openSnackBar('Error al crear reserva', 'Cerrar');
         }
       );
-
-      console.log(this.reserva);
     }
   }
   validarcantidad(): void {
@@ -166,14 +171,11 @@ export class CrearReservaComponent implements OnInit {
     }
   }
   openSnackBar(message: string, action: string) {
+    this.listarHorarioCalendar(this.selectedRecursoId);
     this._snackBar.open(message, action, {
-      duration: 5000,
+      duration: 3000,
     });
   }
-
-
-
-  /* Full calendar */
   calendarOptions: CalendarOptions = {
     plugins: [timeGridPlugin],
     initialView: 'timeGridWeek',
