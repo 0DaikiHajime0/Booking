@@ -3,16 +3,14 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogActions, MatDialogClose, MatDialog
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Usuario } from '../../models/Usuario';
-import { UsuarioService } from '../../services/login.service';
-import { HabilitarComponent } from '../dialog/habilitar/habilitar.component';
-import { EditarUsuario } from '../usuarios/usuarios.component';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Asignatura } from '../../models/Asignatura';
+import { Recurso } from '../../models/Recurso';
+import { RecursoService } from '../../services/recurso.service';
 
 @Component({
   selector: 'app-recursos',
@@ -20,25 +18,25 @@ import { Asignatura } from '../../models/Asignatura';
   styleUrl: './recursos.component.css'
 })
 export class RecursosComponent {
-  asignaturas: Asignatura[] = []; 
-  columnas: string[] = ['ID', 'Nombres', 'Apellidos', 'Correo', 'Rol', 'Estado','Editar'];
-  dataSource: MatTableDataSource<Asignatura> = new MatTableDataSource<Asignatura>(this.asignaturas);
+  recursos: Recurso[] = []; 
+  columnas: string[] = ['ID', 'Nombre', 'Estado', 'Empresa', 'Cantidad Credenciales','Editar'];
+  dataSource: MatTableDataSource<Recurso> = new MatTableDataSource<Recurso>(this.recursos);
   valor!: string
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  constructor(private usuarioService: UsuarioService,
+  constructor(private recursoservice: RecursoService,
     public dialog: MatDialog,
 
   ) {}
 
   ngOnInit() {
-    this.getAsignaturas();
+    this.getRecursos();
   }
 
-  async getAsignaturas() {
+  async getRecursos() {
     try {
-      this.asignaturas = await this.usuarioService.getUsuarios();
-      this.dataSource = new MatTableDataSource<Usuario>(this.usuarios);
+      this.recursos = await this.recursoservice.getRecursos();
+      this.dataSource = new MatTableDataSource<Recurso>(this.recursos);
       this.dataSource.paginator = this.paginator;
     } catch (error) {
       console.error('Error al obtener usuarios:', error);
@@ -48,13 +46,13 @@ export class RecursosComponent {
     valor = valor.trim().toLowerCase();
     this.dataSource.filter = valor;
   }
-  editarUsuario(id: number): void {
-    const usuario = this.usuarios.find(u => u.usuario_id === id);
-    if (usuario) {
+  editarRecurso(id: number): void {
+    const recurso = this.recursos.find(r => r.recurso_id === id);
+    if (recurso) {
         const dialogRef = this.dialog.open(EditarRecurso, {
-            data: { usuario }
+            data: { recurso }
         });
-        dialogRef.afterClosed().subscribe(result => {
+        /*dialogRef.afterClosed().subscribe(result => {
           this.usuarioService.editarUsuario(result.usuario_id,result);
             if (result) {
                 const index = this.usuarios.findIndex(u => u.usuario_id === id);
@@ -63,13 +61,14 @@ export class RecursosComponent {
                     this.dataSource.data = [...this.usuarios];
                 }
             }
-        });
+        });*/
     } else {
-        console.error('Usuario no encontrado');
+        console.error('Recurso no encontrado');
     }
 }
 
 habilitardeshabilitar(id:number){
+  /*
     const usuario = this.usuarios.find(u => u.usuario_id === id);
     let estado = usuario?.usuario_estado
     const dialogRef = this.dialog.open(HabilitarComponent,
@@ -97,7 +96,7 @@ habilitardeshabilitar(id:number){
           }
       }
       }
-    )
+    )*/
   }
 }
 @Component({

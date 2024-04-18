@@ -1,22 +1,21 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Usuario } from '../models/Usuario';
 import { Perfil } from '../models/Perfil';
 import { API_BASE_URL } from './constants';
 import { throws } from 'assert';
 import { er } from '@fullcalendar/core/internal-common';
-import { Asignatura } from '../models/Asignatura';
+import { Recurso } from '../models/Recurso';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AsignaturaService {
-    private url = API_BASE_URL + 'asignatura/'
+export class RecursoService {
+    private url = API_BASE_URL + 'recurso/'
     constructor(private http: HttpClient) {}
-    async getAsignaturas():Promise <Asignatura[]>{
+    async getRecursos():Promise <Recurso[]>{
         try{
-            const response = await this.http.get<Asignatura[]>(`${this.url}mostrarasignaturas`).toPromise();
+            const response = await this.http.get<Recurso[]>(`${this.url}mostrarrecursos`).toPromise();
             if(response){
                 return response;
             }else{
