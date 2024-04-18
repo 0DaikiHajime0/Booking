@@ -1,0 +1,88 @@
+<section>
+  <p class="Header">Crear Reserva - Administrador</p>
+</section>
+<section class="body">
+  <div class="Container_Reserva">
+    <div class="Container">
+      <div class="input_docente">
+        <label for="Docente">Docente: </label>
+        <select id="Docente" name="Docente">
+          <option value="" disabled selected>Seleccione un docente</option>
+          <option >Yuri Markez solis</option>
+        </select>
+      </div>
+      <div class="input_curso">
+        <label for="Asignatura">Asignatura: </label>
+        <select id="Asignatura" name="Asignatura">
+          <option value="" disabled selected>Seleccione un curso</option>
+          <option >1520-Calculo integral</option>
+        </select>
+      </div>
+      <div class="input_cantidad">
+        <label>Cantidad de Alumnos:50</label>
+      </div>
+      <div class="input_reserva">
+        <label for="Recurso">Recurso: </label>
+        <select id="Recurso" name="Recurso">
+          <option value="" disabled selected>Seleccione un recurso</option>
+          <option >Virtual Plant</option>
+        </select>
+      </div>
+      <div class="input_fecha">
+        <label for="Fecha">Fecha: </label>
+        <input class="fechita" type="date" id="Fecha" name="Fecha">
+      </div>
+      <div claas="input_Bloque">
+        <div>
+          <label for="Bloque">Bloque: </label>
+          <select id="Bloque" name="Bloque">
+            <option value="" disabled selected  >Seleccione un bloque</option>
+            <option>Bloque I</option>
+          </select>
+        </div>
+        <div>
+          <label >Horario: </label>
+          <label>20:00:00 - 22:00:00</label>
+        </div>
+      </div>
+      <div class="cantidad_licencias">
+        <label id="cantidad_licencia">Cantidad de licencias disponibles:100</label>
+      </div>
+      <div class="Input_licencias">
+        <label for="Licencias">Cantidad de Licencias:</label>
+        <input class="input_number" type="number" id="Licencias" name="Licencias" min="1" max="20"
+          placeholder="Cantidad de Licencias">
+        <ng-container >
+          <label for="Input_licencias" class="Messaje_negative">Ingrese solo la cantidad de Recursos Disponibles</label>
+        </ng-container>
+        <ng-template #noErrorMessage></ng-template>
+      </div>
+      <div class="botones">
+        <button type="button">Reservar</button>
+        <button type="button">Cancelar</button>
+
+      </div>
+    </div>
+  </div>
+  <div class="Container_full_Calendar">
+      <full-calendar [options]="calendarOptions" class="calendar">
+        <ng-template #eventContent let-arg >
+          <b class="events-calendar">{{arg.timeText}}</b>
+          <i class="events-calendar">{{arg.event.title}}</i>
+        </ng-template>
+      </full-calendar>
+    <div class="calendar">
+    </div>
+  </div>
+</section>
+
+
+<mat-form-field>
+  <mat-label>Message</mat-label>
+  <input matInput value="Reserva Exitoso!, Puede descargar las reservas" #message>
+</mat-form-field>
+
+<mat-form-field>
+  <mat-label>Action</mat-label>
+  <input matInput value="Descargar" #action>
+</mat-form-field>

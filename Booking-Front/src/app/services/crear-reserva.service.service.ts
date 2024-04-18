@@ -37,15 +37,11 @@ export class CrearReservaServiceService {
     return this.http.post<any>(`${this.url}crear/`, reserva);
   }
 
-  listarCredenciales(credencial: Credencial): Observable<any> {
-    return this.http.post(`${this.url}descargarcredenciales`, credencial, {
-      responseType: 'blob'
-    });
+  enviarCredenciales(credencial: Credencial): Observable<any> {
+    return this.http.post<any>(`${this.url}enviarcredenciales/`, credencial);
   }
   listardisponibilidadCalendar(id_recurso: number): Observable<any[]> {
     return this.http.get<any[]>(`${this.url}listardisponibilidadcalendar/${id_recurso}`);
   }
-
-
 }
 

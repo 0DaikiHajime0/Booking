@@ -47,6 +47,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { UsuariosComponent } from './seccion/usuarios/usuarios.component';
 import { AsignaturasComponent } from './seccion/asignaturas/asignaturas.component';
 import { RecursosComponent } from './seccion/recursos/recursos.component';
+import { CrearreservaAdministradorComponent } from './seccion/crearreserva-administrador/crearreserva-administrador.component';
 
 
 @NgModule({
@@ -60,6 +61,7 @@ import { RecursosComponent } from './seccion/recursos/recursos.component';
     UsuariosComponent,
     AsignaturasComponent,
     RecursosComponent,
+    CrearreservaAdministradorComponent,
   ],
   imports: [
     BrowserModule,
