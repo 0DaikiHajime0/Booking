@@ -1,12 +1,13 @@
 const boom = require('@hapi/boom');
 const mysqlLib = require('./../../libs/mysql');
 const transporter = require('./../../libs/mailConfig');
+const { htmlContent,intermedio ,footer } = require('./../shared/EmailSend')
 const excel = require('exceljs');
 
 
 class CrearReservaService {
 
-  constructor() {}
+  constructor() { }
 
   async create(data) {
     try {
@@ -33,7 +34,7 @@ class CrearReservaService {
   }
   async findRecurso(id) {
     try {
-      const [recursos] =await mysqlLib.execute('call sp_listar_recurso_x_curso(?);', [id]);
+      const [recursos] = await mysqlLib.execute('call sp_listar_recurso_x_curso(?);', [id]);
       return recursos
     } catch (error) {
       throw new Error('Error al ejecutar la consulta a la base de datos: ' + error.message);
@@ -41,79 +42,61 @@ class CrearReservaService {
   }
   async findBloque() {
     try {
-      const [bloques] =await mysqlLib.execute('call booking.sp_listar_bloques();');
+      const [bloques] = await mysqlLib.execute('call booking.sp_listar_bloques();');
       return bloques
     } catch (error) {
       throw new Error('Error al ejecutar la consulta a la base de datos: ' + error.message);
     }
   }
-  async findDisplonibilidad(data){
+  async findDisplonibilidad(data) {
     const fechaFormateada = new Date(data.fecha).toISOString().split('T')[0];
     const params = [
       data.id_recurso,
       data.id_bloque,
       fechaFormateada];
     try {
-      const [result]  = await mysqlLib.execute('select booking.ft_devolver_cantidad_credenciales_disponible(?,?,?) as cantidad_disponible;',params);
+      const [result] = await mysqlLib.execute('select booking.ft_devolver_cantidad_credenciales_disponible(?,?,?) as cantidad_disponible;', params);
       return result[0];
     } catch (error) {
       throw new Error('Error al ejecutar la consulta a la base de datos: ' + error.message);
     }
   }
-  async listarCredenciales(data){
-    const fechaFormateada = new Date(data.fecha).toISOString().split('T')[0];
-    const params = [
-      data.id_docente,
-      data.id_asignatura,
-      data.id_recurso,
-      data.id_bloque,
-      fechaFormateada];
-    try {
-      return await mysqlLib.execute('call sp_listar_credenciales_reservadas(?,?,?,?,?);', params);
-    } catch (error) {
-      throw new Error('Error al ejecutar la consulta a la base de datos: ' + error.message);
-    }
-  }
-  async listarFecha(data){
-    const fechaFormateada = new Date(data.fecha).toISOString().split('T')[0];
-    const params = [
-      data.id_docente,
-      data.id_asignatura,
-      data.id_recurso,
-      data.id_bloque,
-      fechaFormateada];
-    try {
-      return await mysqlLib.execute('call sp_obtener_licencias_disponibles_calendario(?,?,?,?,?);',params);
-    } catch (error) {
-      throw new Error('Error al ejecutar la consulta a la base de datos: ' + error.message);
-    }
-  }
-  async listardisponibilidadCalendario(id_recurso){
-      try {
-        return await mysqlLib.execute('call sp_obtener_licencias_disponibles_calendario(?);', [id_recurso]);
 
-      } catch (error) {
-        throw new Error('Error al ejecutar la consulta a la base de datos: ' + error.message);
+  async enviarcredencial(data) {
+    const fechaFormateada = new Date(data.fecha).toISOString().split('T')[0];
+    const params = [
+      data.id_docente,
+      data.id_asignatura,
+      data.id_recurso,
+      data.id_bloque,
+      fechaFormateada
+    ];
+    try {
+      const [credencialesResult] = await mysqlLib.execute('call sp_listar_credenciales_reservadas(?,?,?,?,?);', params);
+      const [FechaResult] = await mysqlLib.execute('call listar_fecha_horario_reserva(?,?,?,?,?);', params);
+      const [mensaje] = await mysqlLib.execute("SELECT 'Revise su correo' AS mensaje;");
+
+
+      if (!credencialesResult || credencialesResult.length === 0 || !FechaResult || FechaResult.length === 0) {
+        throw new Error('No se encontraron credenciales');
       }
-  }
-
-  async SendMail(dataCredenciales, dataFechas) {
-    try {
-      const credenciales = await this.listarCredenciales(dataCredenciales);
-      const fechas = await this.listarFecha(dataFechas);
-      const htmlContent = this.construirHTML(credenciales, fechas);
+      const credencialesHTML = credencialesResult[0].map(credencial => `<tr><td class="correo">${credencial.credencial_usuario}</td><td class="contraseña">${credencial.credencial_contrasena}</td></tr>`).join('');
+      const fechaHTML = FechaResult[0].map(fecha => {
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        const fechaFormateada = new Date(fecha.reserva_fecha).toLocaleDateString('es-ES', options);
+        return `<p>-Fecha: ${fechaFormateada}<br>-Horario: ${fecha.bloque_rango}</p>`;
+    }).join('');
       const mailOptions = {
         from: 'lab.recursosvirt@continental.edu.pe',
-        to: '73898440@continental.edu.pe',
+        to: 'josephw8867@gmail.com',
         subject: 'Credenciales de acceso a Algetec',
         text: 'Credenciales de acceso a Algetec',
-        html: htmlContent
+        html: `${htmlContent} ${fechaHTML}${intermedio}${credencialesHTML}${footer}`
       };
-
-      // Aquí envías el correo electrónico
       await transporter.sendMail(mailOptions);
+      return mensaje[0];
     } catch (error) {
-      throw new Error('Error al enviar el correo electrónico: ' + error.message);
+      throw new Error('Error al ejecutar la consulta a la base de datos: ' + error.message);
     }
   }
 
