@@ -1,6 +1,6 @@
 const express = require('express');
 const CrearReservaService = require('./../services/crearReserva.service');
-const {listardisponibilidadCalendario, crearReservaSchema,listarcursoSchema,listarrecursoSchema,filtrardisponibilidadSchema,listarCredencialesSchema } = require('../schemas/crearReserva.Schema');
+const {listardisponibilidadCalendario, crearReservaSchema,listarcursoSchema,listarrecursoSchema,filtrardisponibilidadSchema,enviarCredencialesSchema } = require('../schemas/crearReserva.Schema');
 
 const router = express.Router();
 const service = new CrearReservaService();
@@ -67,9 +67,9 @@ router.get('/listarbloque', async (req, res, next) => {
   }
 });
 
-router.post('/enviarcredencialesorreo',async (req, res, next) => {
+router.post('/enviarcredenciales',async (req, res, next) => {
   try {
-    const { error, value } = listarCredencialesSchema.validate(req.body);
+    const { error, value } = enviarCredencialesSchema.validate(req.body);
     if (error) {
       throw new Error(error.details[0].message);
     }
@@ -106,6 +106,10 @@ router.get('/listardisponibilidadcalendar/:id_recurso',async (req, res, next) =>
   } catch (error) {
     next(error);
   }
+});
+router.get('/listardocente',async (req, res, next) => {
+  const [result] = await service.listarDocente();
+  res.json(result[0]);
 });
 
 

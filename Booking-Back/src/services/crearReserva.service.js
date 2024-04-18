@@ -64,12 +64,13 @@ class CrearReservaService {
 
   async enviarcredencial(data) {
     const fechaFormateada = new Date(data.fecha).toISOString().split('T')[0];
+    const correoDocente = data.docente_correo
     const params = [
       data.id_docente,
       data.id_asignatura,
       data.id_recurso,
       data.id_bloque,
-      fechaFormateada
+      fechaFormateada,
     ];
     try {
       const [credencialesResult] = await mysqlLib.execute('call sp_listar_credenciales_reservadas(?,?,?,?,?);', params);
@@ -88,7 +89,7 @@ class CrearReservaService {
     }).join('');
       const mailOptions = {
         from: 'lab.recursosvirt@continental.edu.pe',
-        to: 'josephw8867@gmail.com',
+        to: correoDocente,
         subject: 'Credenciales de acceso a Algetec',
         text: 'Credenciales de acceso a Algetec',
         html: `${htmlContent} ${fechaHTML}${intermedio}${credencialesHTML}${footer}`
@@ -135,6 +136,23 @@ class CrearReservaService {
       throw new Error('Error al generar el archivo Excel: ' + error.message);
     }
   }
+  async listardisponibilidadCalendario(id_recurso){
+    try {
+      return await mysqlLib.execute('call sp_obtener_licencias_disponibles_calendario(?);', [id_recurso]);
+    } catch (error) {
+      throw new Error('Error al ejecutar la consulta a la base de datos: ' + error.message);
+    }
+}
+// ----------------------------- admin
+
+listarDocente() {
+  try {
+    return mysqlLib.execute('CALL sp_listar_docente()'); // Corrección en el nombre de la función y la sintaxis de la llamada
+  } catch (error) {
+    throw new Error('Error al ejecutar la consulta a la base de datos: ' + error.message);
+  }
+}
+
 
 
 }

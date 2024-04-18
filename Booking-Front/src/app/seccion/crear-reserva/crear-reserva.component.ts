@@ -42,7 +42,6 @@ export class CrearReservaComponent implements OnInit {
       private crearReservaService: CrearReservaServiceService,
       private usuarioservice: UsuarioService,
       private _snackBar: MatSnackBar
-
     ) { }
   ngOnInit(): void {
     this.obtenerDocente();
@@ -50,7 +49,7 @@ export class CrearReservaComponent implements OnInit {
   }
   obtenerDocente(): void {
     this.docente = this.usuarioservice.getUsuarioFromStorage()
-    this.listarCurso(6)
+    this.listarCurso(this.docente.usuario_id)
   }
   listarCurso(id: number) {
     this.crearReservaService.listarCurso(id).subscribe(
@@ -85,6 +84,7 @@ export class CrearReservaComponent implements OnInit {
     this.obtenerDisponibilidad();
     this.listarHorarioCalendar(this.selectedRecursoId);
   }
+
   listarHorarioCalendar(id_Recurso: number) {
     this.crearReservaService.listardisponibilidadCalendar(id_Recurso).subscribe(
       (response: any[]) => {
@@ -134,7 +134,7 @@ export class CrearReservaComponent implements OnInit {
       this.reserva = {
         id_usuario: this.docente.usuario_id,
         rol: 'Docente',
-        id_docente: 6,
+        id_docente: this.docente.usuario_id,
         id_asignatura: this.selectedAsignaturaId,
         id_recurso: Number(this.selectedRecursoId),
         fecha: this.selectedFecha,
@@ -148,6 +148,7 @@ export class CrearReservaComponent implements OnInit {
 
           if (estatus === '201') {
             this.openSnackBar(mensaje, 'Cerrar');
+            this.enviarCredenciales();
             setTimeout(() => {
               this.router.navigate(['/listar']);
             }, 3000);
@@ -160,6 +161,25 @@ export class CrearReservaComponent implements OnInit {
         }
       );
     }
+  }
+  enviarCredenciales(): void {
+    const data = {
+      id_docente: this.docente.usuario_id,
+      id_asignatura: this.selectedAsignaturaId,
+      id_recurso: Number(this.selectedRecursoId),
+      id_bloque: this.selectedBloqueId,
+      fecha: this.selectedFecha,
+      docente_correo: this.docente.usuario_correo
+    };
+    console.log(data)
+    this.crearReservaService.enviarCredenciales(data).subscribe(
+      response => {
+        console.log('Credenciales enviadas:', response);
+      },
+      error => {
+        console.error('Error al enviar las credenciales:', error);
+      }
+    );
   }
   validarcantidad(): void {
     const inputElement = document.getElementById('Licencias') as HTMLInputElement;
