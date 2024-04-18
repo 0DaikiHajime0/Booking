@@ -64,53 +64,32 @@ const htmlContent = `
           margin-top: -10px;
 
         }
-        .export-btn {
-            background-color: #1a73e8; /* Color del botón similar al de Google Sheets */
-            color: #fff; /* Texto en blanco */
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-bottom: 20px;
-        }
     </style>
 </head>
 <body>
   <h1>Bienvenido a Algetec</h1>
   <p>Estimado Docente,</p>
     <p>Nos complace informarle que su reserva ha sido confirmada.</p>
-    <p>Detalles de la reserva:<br>- Fecha: 2014-05-06 <br>- Rango de Horario : 7:00:00 - 8:30:00</p>
-    <p>Agradecemos su preferencia y quedamos a su disposición para cualquier consulta adicional,a continuación, encontrará la información de acceso a su cuenta en Algetec:</p>
-    <div class="container">
-    <div>
-      <p>Lista de Credenciales de Algetec: </p>
-      <button class="export-btn" onclick="exportToExcel()">Exportar a Excel</button>
-    </div>
-        <table>
-            <tr>
-                <th>Correo</th>
-                <th>Contraseña</th>
-            </tr>
-            ${Array.from({ length: 20 }, (_, i) => `<tr>
-                <td class="correo">algetec${(i + 1).toString().padStart(3, '0')}@continental.edu.pe</td>
-                <td class="contraseña">Contialgete2023</td>
-            </tr>`).join('')}
-        </table>
+`;
+const intermedio = `<p>Agradecemos su preferencia y quedamos a su disposición para cualquier consulta adicional,a continuación, encontrará la información de acceso a su cuenta en Algetec:</p>
+<div class="container">
+<div>
+  <p>Lista de Credenciales de Algetec: </p>
+</div>
+    <table>
+        <tr>
+            <th>Correo</th>
+            <th>Contraseña</th>
+        </tr>`
+const footer = `
+</table>
         <p>Por favor, guarde esta información de manera segura y no la comparta con nadie.</p>
       <p>Gracias por utilizar nuestros servicios.</p>
     </div>
-    <div class="Firma">
-      <img src="https://conecta.continental.edu.pe/wp-content/uploads/2024/crea-tu-propia-historia.gif" alt="Gif">
-      <p style="font-weight: bold; font-size: 18px;">Recursos Académicos Virtuales</>
-      <p>Laboratorios y Talleres <br> +51 945 605752</p>
-    </div>
+<div class="Firma">
+<img src="https://conecta.continental.edu.pe/wp-content/uploads/2024/crea-tu-propia-historia.gif" alt="Gif">
+<p style="font-weight: bold; font-size: 18px;">Recursos Académicos Virtuales</>
+<p>Laboratorios y Talleres <br> +51 945 605752</p>
+</div>`;
 
-<script>
-    function exportToExcel() {
-        const table = document.querySelector('table');
-        const rows = table.querySelectorAll('tr');
-
-
-`;
-
-module.exports = htmlContent;
+module.exports = {htmlContent,intermedio,footer};
