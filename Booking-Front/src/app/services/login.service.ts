@@ -42,7 +42,6 @@ export class UsuarioService {
       const response = await this.http.get<Usuario[]>(`${this.url}mostrarusuarios`).toPromise();
       return response || [];
     } catch (error) {
-      console.error('Error al obtener usuarios:', error);
       throw error;
     }
   }

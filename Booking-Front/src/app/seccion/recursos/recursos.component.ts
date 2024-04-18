@@ -12,6 +12,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Asignatura } from '../../models/Asignatura';
 
 @Component({
   selector: 'app-recursos',
@@ -19,9 +20,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrl: './recursos.component.css'
 })
 export class RecursosComponent {
-  usuarios: Usuario[] = []; 
+  asignaturas: Asignatura[] = []; 
   columnas: string[] = ['ID', 'Nombres', 'Apellidos', 'Correo', 'Rol', 'Estado','Editar'];
-  dataSource: MatTableDataSource<Usuario> = new MatTableDataSource<Usuario>(this.usuarios);
+  dataSource: MatTableDataSource<Asignatura> = new MatTableDataSource<Asignatura>(this.asignaturas);
   valor!: string
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -31,12 +32,12 @@ export class RecursosComponent {
   ) {}
 
   ngOnInit() {
-    this.getUsuarios();
+    this.getAsignaturas();
   }
 
-  async getUsuarios() {
+  async getAsignaturas() {
     try {
-      this.usuarios = await this.usuarioService.getUsuarios();
+      this.asignaturas = await this.usuarioService.getUsuarios();
       this.dataSource = new MatTableDataSource<Usuario>(this.usuarios);
       this.dataSource.paginator = this.paginator;
     } catch (error) {
