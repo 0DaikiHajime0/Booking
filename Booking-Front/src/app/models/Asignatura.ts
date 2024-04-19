@@ -4,6 +4,7 @@ export class Asignatura{
     curso_estado:string;
     curso_descripcion:string;
     docente_curso_cantidad_alumnos:number;
+    nrc:string
     nrc:number;
     constructor(
         curso_id:number,
@@ -11,13 +12,13 @@ export class Asignatura{
         curso_estado:string,
         curso_descripcion:string,
         docente_curso_cantidad_alumnos:number,
-        nrc:number
+        nrc:string
     ){
         this.curso_id = curso_id,
         this.curso_nombre = curso_nombre,
         this.curso_estado = curso_estado,
-        this.curso_descripcion = curso_descripcion,
-        this.docente_curso_cantidad_alumnos = docente_curso_cantidad_alumnos,
-        this.nrc = nrc
+        this.curso_descripcion = curso_descripcion
+        this.docente_curso_cantidad_alumnos = docente_curso_cantidad_alumnos
+        this.nrc=nrc
     }
 }

@@ -42,13 +42,12 @@ export class UsuarioService {
       const response = await this.http.get<Usuario[]>(`${this.url}mostrarusuarios`).toPromise();
       return response || [];
     } catch (error) {
-      console.error('Error al obtener usuarios:', error);
       throw error;
     }
   }
- async editarUsuario(usuario: Usuario): Promise<Usuario> {
+ async editarUsuario(id_usuario:number,usuario: Usuario): Promise<Usuario> {
     try {
-      const response = await this.http.put<Usuario>(`${this.url}editarusuario`, usuario).toPromise();
+      const response = await this.http.put<Usuario>(`${this.url}editarusuario/${id_usuario}`, usuario).toPromise();
       if (response) {
         return response;
       } else {
@@ -56,6 +55,36 @@ export class UsuarioService {
       }
     } catch (error) {
       throw error;
+    }
+  }
+  async deshabilitarUsuario(usuario_id:number){
+    try {
+      const response  = await this.http.get(`${this.url}deshabilitarusuario/${usuario_id}`).toPromise();
+      if(response){
+        return response
+      }
+      else{
+        throw new Error('No se recibió respuesta del servidor');
+
+      }
+    } catch (error) {
+      throw error;
+
+    }
+  }
+  async habilitarUsuario(usuario_id:number){
+    try {
+      const response  = await this.http.get(`${this.url}habilitarusuario/${usuario_id}`).toPromise();
+      if(response){
+        return response
+      }
+      else{
+        throw new Error('No se recibió respuesta del servidor');
+
+      }
+    } catch (error) {
+      throw error;
+
     }
   }
 }

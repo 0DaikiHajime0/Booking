@@ -11,6 +11,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import {MatSelectModule} from '@angular/material/select';
+import { HabilitarComponent } from '../dialog/habilitar/habilitar.component';
 
 @Component({
   selector: 'app-usuarios',
@@ -19,7 +20,7 @@ import {MatSelectModule} from '@angular/material/select';
 })
 export class UsuariosComponent implements OnInit {
   usuarios: Usuario[] = []; 
-  columnas: string[] = ['ID', 'Nombres', 'Apellidos', 'Correo', 'Rol', 'Estado','Editar','Deshabilitar'];
+  columnas: string[] = ['ID', 'Nombres', 'Apellidos', 'Correo', 'Rol', 'Estado','Editar'];
   dataSource: MatTableDataSource<Usuario> = new MatTableDataSource<Usuario>(this.usuarios);
   valor!: string
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -52,10 +53,51 @@ export class UsuariosComponent implements OnInit {
         const dialogRef = this.dialog.open(EditarUsuario, {
             data: { usuario }
         });
+        dialogRef.afterClosed().subscribe(result => {
+          this.usuarioService.editarUsuario(result.usuario_id,result);
+            if (result) {
+                const index = this.usuarios.findIndex(u => u.usuario_id === id);
+                if (index !== -1) {
+                    this.usuarios[index] = result;
+                    this.dataSource.data = [...this.usuarios];
+                }
+            }
+        });
     } else {
         console.error('Usuario no encontrado');
     }
 }
+
+habilitardeshabilitar(id:number){
+    const usuario = this.usuarios.find(u => u.usuario_id === id);
+    let estado = usuario?.usuario_estado
+    const dialogRef = this.dialog.open(HabilitarComponent,
+      {
+        data : {
+          usuario,
+          tipo:'Usuario',
+          estado:estado
+        }
+      }
+    )
+    dialogRef.afterClosed().subscribe(
+      result=>{
+        if (result) {
+          if(result.usuario_estado=='Desactivado'){
+            this.usuarioService.deshabilitarUsuario(result.usuario_id)
+          }else{
+            this.usuarioService.habilitarUsuario(result.usuario_id)
+
+          }
+          const index = this.usuarios.findIndex(u => u.usuario_id === id);
+          if (index !== -1) {
+              this.usuarios[index] = result;
+              this.dataSource.data = [...this.usuarios];
+          }
+      }
+      }
+    )
+  }
 }
 @Component({
   selector:'app-editar-usuario',
@@ -75,21 +117,17 @@ export class UsuariosComponent implements OnInit {
   ]
 })
 export class EditarUsuario{
-  usuario!:Usuario
-  rolPredeterminado!:string
+  nuveousuario!:Usuario
   constructor(
     public dialogRef: MatDialogRef<EditarUsuario>,
-    private usuarioService : UsuarioService,
     private _snackBar:MatSnackBar,
     @Inject(MAT_DIALOG_DATA) public data: any
 
   ){
-    this.usuario = data.usuario;
-    this.rolPredeterminado = this.usuario.usuario_rol;
-    console.log(this.rolPredeterminado)
+    this.nuveousuario={...data.usuario}
   }
-  guardarEditarUsuario():void{
-    this.usuarioService.editarUsuario(this.usuario)
+  cerrar():void{
+    this.dialogRef.close();
   }
   
 }
