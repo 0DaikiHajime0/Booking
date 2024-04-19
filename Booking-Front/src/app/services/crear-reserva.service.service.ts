@@ -43,5 +43,8 @@ export class CrearReservaServiceService {
   listardisponibilidadCalendar(id_recurso: number): Observable<any[]> {
     return this.http.get<any[]>(`${this.url}listardisponibilidadcalendar/${id_recurso}`);
   }
+  listardocetes(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.url}listardocente`);
+  }
 }
 

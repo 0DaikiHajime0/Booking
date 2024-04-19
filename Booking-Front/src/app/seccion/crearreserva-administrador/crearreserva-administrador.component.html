@@ -4,62 +4,63 @@
 <section class="body">
   <div class="Container_Reserva">
     <div class="Container">
-      <div class="input_docente">
+      <div class="input_curso">
         <label for="Docente">Docente: </label>
-        <select id="Docente" name="Docente">
-          <option value="" disabled selected>Seleccione un docente</option>
-          <option >Yuri Markez solis</option>
+        <select id="Docente" name="Docente" (change)="listarCurso($event);">
+          <option value="" disabled selected>Seleccione un Docente</option>
+          <option *ngFor="let docente of docentes" [value]="docente.usuario_id">{{ docente.usuario_nombres}} {{ docente.usuario_apellidos}}</option>
         </select>
       </div>
+
       <div class="input_curso">
         <label for="Asignatura">Asignatura: </label>
-        <select id="Asignatura" name="Asignatura">
+        <select id="Asignatura" name="Asignatura" (change)="listarRecurso($event)">
           <option value="" disabled selected>Seleccione un curso</option>
-          <option >1520-Calculo integral</option>
+          <option *ngFor="let curso of cursos" [value]="curso.curso_id">{{ curso.nrc }} - {{ curso.curso_nombre }}</option>
         </select>
       </div>
       <div class="input_cantidad">
-        <label>Cantidad de Alumnos:50</label>
+        <label>Cantidad de Alumnos: {{ cantidadAlumnos }}</label>
       </div>
       <div class="input_reserva">
         <label for="Recurso">Recurso: </label>
-        <select id="Recurso" name="Recurso">
+        <select id="Recurso" name="Recurso" (change)="obtenerRecurso($event);">
           <option value="" disabled selected>Seleccione un recurso</option>
-          <option >Virtual Plant</option>
+          <option *ngFor="let recurso of recursos" [value]="recurso.recurso_id">{{ recurso.recurso_nombre }}</option>
         </select>
       </div>
       <div class="input_fecha">
         <label for="Fecha">Fecha: </label>
-        <input class="fechita" type="date" id="Fecha" name="Fecha">
+        <input class="fechita" type="date" id="Fecha" name="Fecha" (input)="obtenerFechaSeleccionada($event)">
       </div>
       <div claas="input_Bloque">
         <div>
           <label for="Bloque">Bloque: </label>
-          <select id="Bloque" name="Bloque">
+          <select id="Bloque" name="Bloque" (change)="horarioBloques($event)">
             <option value="" disabled selected  >Seleccione un bloque</option>
-            <option>Bloque I</option>
+            <option *ngFor="let bloque of bloques" [value]="bloque.bloque_id">{{ bloque.bloque_nombre }}</option>
           </select>
         </div>
         <div>
           <label >Horario: </label>
-          <label>20:00:00 - 22:00:00</label>
+          <label>{{ horarioSeleccionado}}</label>
         </div>
       </div>
       <div class="cantidad_licencias">
-        <label id="cantidad_licencia">Cantidad de licencias disponibles:100</label>
+        <label id="cantidad_licencia">Cantidad de licencias disponibles: {{ cantidadLicenciasDisponibles }}</label>
       </div>
       <div class="Input_licencias">
         <label for="Licencias">Cantidad de Licencias:</label>
         <input class="input_number" type="number" id="Licencias" name="Licencias" min="1" max="20"
-          placeholder="Cantidad de Licencias">
-        <ng-container >
+          placeholder="Cantidad de Licencias" (change)="validarcantidad()">
+        <ng-container *ngIf="showErrorMessage; else noErrorMessage">
           <label for="Input_licencias" class="Messaje_negative">Ingrese solo la cantidad de Recursos Disponibles</label>
         </ng-container>
         <ng-template #noErrorMessage></ng-template>
       </div>
       <div class="botones">
-        <button type="button">Reservar</button>
-        <button type="button">Cancelar</button>
+        <button type="button" (click)="reservar(); openSnackBar(message.value, action.value);" [disabled]="showErrorMessage || !selectedRecursoId || !selectedBloqueId || !selectedFecha || cantidadLicenciasDisponibles <= 0">Reservar</button>
+        <button type="button" [disabled]="!selectedRecursoId || !selectedBloqueId || !selectedFecha">Cancelar</button>
 
       </div>
     </div>
