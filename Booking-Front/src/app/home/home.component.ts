@@ -9,7 +9,7 @@ import { UsuarioService } from '../services/login.service';
 })
 export class HomeComponent {
   usuarioRecuperado: UsuarioGoogle | null = null;
-  opcionSeleccionada:number = 3;
+  opcionSeleccionada:number = 5;
   constructor(){
     this.handleLoginSuccess();
   }
@@ -17,7 +17,6 @@ export class HomeComponent {
     const usuarioString = localStorage.getItem('user');
     if (usuarioString) {
       this.usuarioRecuperado = JSON.parse(usuarioString);
-      console.log(this.usuarioRecuperado);
       //TO DO:BOTARLO SI NO EXISTE
     }
   }
