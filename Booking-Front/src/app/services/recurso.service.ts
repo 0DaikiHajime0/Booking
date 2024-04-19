@@ -1,11 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { Perfil } from '../models/Perfil';
 import { API_BASE_URL } from './constants';
-import { throws } from 'assert';
-import { er } from '@fullcalendar/core/internal-common';
 import { Recurso } from '../models/Recurso';
+import { Asignatura } from '../models/Asignatura';
 
 @Injectable({
   providedIn: 'root'
@@ -23,6 +20,45 @@ export class RecursoService {
             }
         }catch(error){
             throw error
+        }
+    }
+    async getAsignaturasByRecurso(recurso_id:number):Promise <Asignatura[]>{
+        try {
+            const response = await this.http.get<Asignatura[]>(`${this.url}mostrarasignaturasbyrecurso/${recurso_id}`).toPromise()
+            if(response){
+                return response
+            }
+            else{
+                throw new Error('No se recibio respuesta del servidor')
+            }
+        } catch (error) {
+            throw error
+        }
+    }
+    async guardarRecurso(recurso:Recurso):Promise<Recurso>{
+        try {
+            const response = await this.http.post<Recurso>(`${this.url}guardarRecurso/`,recurso).toPromise()
+            if(response){
+                return response
+            }
+            else{
+                throw new Error('No se recibio respuesta del servidor')
+            }
+        } catch (error) {
+            throw error;
+        }
+    }
+    async editarRecurso(recurso:Recurso):Promise<Recurso>{
+        try {
+            const response = await this.http.post<Recurso>(`${this.url}editarRecurso/`,recurso).toPromise()
+            if(response){
+                return response
+            }
+            else{
+                throw new Error('No se recibio respuesta del servidor')
+            }
+        } catch (error) {
+            throw error;
         }
     }
 }

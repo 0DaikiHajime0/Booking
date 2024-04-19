@@ -8,6 +8,7 @@ import { UsuarioService } from '../../services/login.service';
 import { Asignatura } from '../../models/Asignatura';
 import { Recurso } from '../../models/Recurso';
 import { Bloques } from '../../models/Bloques';
+import { s } from '@fullcalendar/core/internal-common';
 
 @Component({
   selector: 'app-crear-reserva',

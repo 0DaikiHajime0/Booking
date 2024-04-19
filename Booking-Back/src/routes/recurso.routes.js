@@ -13,4 +13,37 @@ router.get('/mostrarrecursos',
         }
     }
 )
+router.get('/mostrarasignaturasbyrecurso/:recurso_id',
+    async(req,res,next)=>{
+        const {recurso_id} = req.params
+        try {
+            const result = await recursoservice.mostrarAsignaturasByRecurso(recurso_id)
+            res.json(result)
+        } catch (error) {
+            next(error)
+        }
+    }
+)
+router.post('/guardarRecurso/',
+    async(req,res,next)=>{
+        const recurso = req.body
+        try{
+            const result  = await recursoservice.guardarRecurso(recurso)
+            res.json(result)
+        }catch(error){
+            next(error)
+        }
+    }
+)
+router.post('/editarRecurso/',
+    async(req,res,next)=>{
+        const recurso = req.body
+        try{
+            const result  = await recursoservice.editarRecurso(recurso)
+            res.json(result)
+        }catch(error){
+            next(error)
+        }
+    }
+)
 module.exports = router
