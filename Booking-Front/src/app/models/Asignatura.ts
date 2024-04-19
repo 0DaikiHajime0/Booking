@@ -5,7 +5,6 @@ export class Asignatura{
     curso_descripcion:string;
     docente_curso_cantidad_alumnos:number;
     nrc:string
-    nrc:number;
     constructor(
         curso_id:number,
         curso_nombre:string,
