@@ -8,6 +8,7 @@ import { PerfilComponent } from './seccion/perfil/perfil.component';
 import { UsuariosComponent } from './seccion/usuarios/usuarios.component';
 import { RecursosComponent } from './seccion/recursos/recursos.component';
 import { AsignaturasComponent } from './seccion/asignaturas/asignaturas.component';
+import {CrearreservaAdministradorComponent} from './seccion/crearreserva-administrador/crearreserva-administrador.component'
 
 const routes: Routes = [
   {path:'login', component:LoginComponent},
@@ -27,6 +28,10 @@ const routes: Routes = [
   {
     path:'perfil',component:PerfilComponent
   },
+  {
+    path:'crearreserva-administrador',component:CrearreservaAdministradorComponent
+  }
+
 
 ];
 

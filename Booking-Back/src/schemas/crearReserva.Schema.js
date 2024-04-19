@@ -1,13 +1,15 @@
 const Joi = require("joi");
-
 const id_usuario = Joi.number().integer();
 const rol = Joi.string().max(20);
 const id_docente = Joi.number().integer();
 const id_asignatura = Joi.number().integer();
 const id_recurso = Joi.number().integer();
-const fecha = Joi.date();
+const fecha = Joi.string().max(10).min(10);
 const id_bloque = Joi.number().integer();
 const reserva_cant = Joi.number().integer();
+const fecha_inicio = Joi.string().max(10).min(10);
+const fecha_fin = Joi.string().max(10).min(10);
+const docente_correo = Joi.string().max(50);
 
 const crearReservaSchema = Joi.object({
   id_usuario: id_usuario.required(),
@@ -32,19 +34,20 @@ const filtrardisponibilidadSchema = Joi.object({
   id_bloque: Joi.number().required(),
   fecha: Joi.date().required(),
 });
-const listarCredencialesSchema = Joi.object({
+const enviarCredencialesSchema = Joi.object({
   id_docente: id_docente.required(),
   id_asignatura: id_asignatura.required(),
   id_recurso: id_recurso.required(),
   id_bloque: id_bloque.required(),
   fecha: fecha.required(),
+  docente_correo: docente_correo.required(),
 });
-
-
-
-
+const listardisponibilidadCalendario = Joi.object({
+  id_recurso: id_recurso.required()
+});
 module.exports = {
-  listarCredencialesSchema,
+  listardisponibilidadCalendario,
+  enviarCredencialesSchema,
   crearReservaSchema,
   listarcursoSchema,
   listarrecursoSchema,

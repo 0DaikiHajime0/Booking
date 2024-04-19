@@ -6,7 +6,7 @@ const transporterOptions  = {
   secure: false,
   auth: {
       user: 'lab.recursosvirt@continental.edu.pe',
-      pass: 'bpfh royd oqrh vyyh'
+      pass: 'wqhj zzgy fafb pkdj'
   }
 };
 
