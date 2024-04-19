@@ -18,10 +18,17 @@ import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
+import {MatSelectModule} from '@angular/material/select';
 import {
   FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms';
+
+import {AfterViewInit, ViewChild} from '@angular/core';
+import {MatSort, MatSortModule} from '@angular/material/sort';
+import {MatTableDataSource} from '@angular/material/table';
+
+
 import {
   MatDialog,
   MAT_DIALOG_DATA,
@@ -89,6 +96,7 @@ import { CrearreservaAdministradorComponent } from './seccion/crearreserva-admin
     MatDialogClose,
     MatTableModule,
     MatTooltipModule,
+    MatSelectModule
     MatSlideToggleModule,
     MatProgressSpinnerModule,
     MatSortModule,

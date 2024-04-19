@@ -4,70 +4,56 @@
 </section>
 
 <section>
-  <div class="container_header">
-    <ul>
-      <li>N</li>
-      <li>Asignaturas / NRC</li>
-      <li>Cantidad Licencias</li>
-      <li>Fecha de Creación</li>
-      <li>Fecha de Reserva</li>
-      <li>Bloque</li>
-      <li>Editar</li>
-    </ul>
-  </div>
-  <div class="container_object">
-    <ul>
-      <li>1</li>
-      <li>Asignatura 1 / 12345</li>
-      <li>10</li>
-      <li>12/12/2018</li>
-      <li>12/12/2018</li>
-      <li>1</li>
-      <li><a href="#">Editar</a></li>
-    </ul>
-    <ul>
-      <li>2</li>
-      <li>Asignatura 2 / 12346</li>
-      <li>10</li>
-      <li>12/12/2018</li>
-      <li>12/12/2018</li>
-      <li>2</li>
-      <li><a href="#">Editar</a></li>
-    </ul>
-    <ul>
-      <li>3</li>
-      <li>Asignatura 3 / 12347</li>
-      <li>10</li>
-      <li>12/12/2018</li>
-      <li>12/12/2018</li>
-      <li>3</li>
-      <li><a href="#">Editar</a></li>
-    </ul>
-    <ul>
-      <li>4</li>
-      <li>Asignatura 4 / 12348</li>
-      <li>10</li>
-      <li>12/12/2018</li>
-      <li>12/12/2018</li>
-      <li>4</li>
-      <li><a href="#">Editar</a></li>
-    </ul>
-    <ul>
-      <li>5</li>
-      <li>Asignatura 5 / 12349</li>
-      <li>10</li>
-      <li>12/12/2018</li>
-      <li>12/12/2018</li>
-      <li>5</li>
-      <li><a href="#">Editar</a></li>
-    </ul>
+  <mat-form-field>
+    <mat-label>Filter</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
+  </mat-form-field>
 
+  <mat-form-field>
+    <mat-label>Select an option</mat-label>
+    <mat-select [(value)]="selected">
+      <mat-option>None</mat-option>
+      <mat-option value="option1">Option 1</mat-option>
+      <mat-option value="option2">Option 2</mat-option>
+      <mat-option value="option3">Option 3</mat-option>
+    </mat-select>
+  </mat-form-field>
+  
+
+
+  <div class="mat-elevation-z8 tabla">
+    <table mat-table [dataSource]="dataSource" matSort>
+
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
+        <td mat-cell *matCellDef="let row"> {{row.id}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="progress">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Progress </th>
+        <td mat-cell *matCellDef="let row"> {{row.progress}}% </td>
+      </ng-container>
+
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+        <td mat-cell *matCellDef="let row"> {{row.name}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="fruit">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Fruit </th>
+        <td mat-cell *matCellDef="let row"> {{row.fruit}} </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+      </tr>
+    </table>
+
+    <mat-paginator [pageSizeOptions]="[10]" aria-label="Select page of users"></mat-paginator>
   </div>
 
-</section>
 
-<section class ="paginator">
-  <mat-paginator [length]="100"
-                aria-label="Select page">
-  </mat-paginator>
 </section>
