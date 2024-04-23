@@ -13,8 +13,8 @@ const htmlContent = `
             line-height: 1.6;
             margin: 0;
             padding: 0;
-            background-color: #f3f3f3; /* Fondo gris claro */
-            color: #333; /* Texto en negro para mayor contraste */
+            background-color: #f3f3f3;
+            color: #333;
         }
         .container {
             max-width: 600px;
@@ -25,35 +25,35 @@ const htmlContent = `
             background-color: #ccc;
         }
         h1 {
-            color: #ffcc00;
+            color: rgb(103 58 183);
             text-align: center;
             margin-bottom: 20px;
         }
         p {
-            color: #666; /* Texto en gris oscuro */
+            color: #666;
         }
         table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
-            border: 1px solid #9b9b9b; /* Borde gris claro */
+            border: 1px solid #9b9b9b;
             border-radius: 10px;
         }
         th, td {
-            border: 1px solid #9b9b9b; /* Borde gris claro */
+            border: 1px solid #9b9b9b;
             padding: 10px;
             text-align: left;
         }
         th {
-            background-color: #f0f0f0; /* Fondo gris claro */
-            color: #333; /* Texto en negro */
+            background-color: #f0f0f0;
+            color: #333;
         }
         td.correo {
-            color: #ffcc00;
+            color: rgb(103 58 183);
             background-color: #f0f0f0;
         }
         td.contraseña {
-            color: #333; /* Texto en negro */
+            color: #333;
             background-color: #f0f0f0;
         }
         .Firma{
