@@ -1,6 +1,7 @@
 export class mostrarReserva {
   nrc: string;
   curso_nombre: string;
+  recurso_nombre:string;
   tipo_autor: string;
   cantidad_reserva: number;
   bloque_nombre: string;
@@ -11,6 +12,7 @@ export class mostrarReserva {
   constructor(
     nrc: string,
     curso_nombre: string,
+    recurso_nombre:string,
     tipo_autor: string,
     cantidad_reserva: number,
     bloque_nombre: string,
@@ -20,6 +22,7 @@ export class mostrarReserva {
   ) {
     this.nrc = nrc;
     this.curso_nombre = curso_nombre;
+    this.recurso_nombre = recurso_nombre,
     this.tipo_autor = tipo_autor;
     this.cantidad_reserva = cantidad_reserva;
     this.bloque_nombre = bloque_nombre;

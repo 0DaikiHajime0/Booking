@@ -19,7 +19,7 @@ export class MostrarReservasComponent implements AfterViewInit {
   listar!: ListarReservas;
    mostrar : mostrarReserva[] = [];
 
-   displayedColumns: string[] = ['nrc', 'curso_nombre', 'tipo_autor', 'cantidad_reserva', 'bloque_nombre', 'bloque_rango', 'reserva_fecha', 'fecha_registro'];
+   displayedColumns: string[] = ['nrc', 'curso_nombre','recurso_nombre', 'tipo_autor', 'cantidad_reserva', 'bloque_nombre', 'bloque_rango', 'reserva_fecha', 'fecha_registro'/*,'acciones'*/];
   dataSource: MatTableDataSource<mostrarReserva>;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -89,4 +89,9 @@ export class MostrarReservasComponent implements AfterViewInit {
     const time = dateTime.toLocaleTimeString();
     return `${date} ${time}`;
   }
+/*  enviarCorreo(row: any) {
+    console.log('Datos de la fila para enviar el correo:', row);
+  }*/
+
 }
+

@@ -89,11 +89,7 @@ export class MostrarreservaAdministradorComponent implements AfterViewInit {
       fechaRegistroFin: this.selectedFechaRegistroFin?.toISOString().split('T')[0],
       estado_reserva: this.selectedEstado,
     };
-
-
     console.log(this.selectedFechaReservaInicio?.toISOString().split('T')[0], this.selectedFechaReservaFin?.toISOString().split('T')[0]);
-
-
     this.ListarReservaService.listarReservaAdmin(this.listar).subscribe(
       (reservas: mostrarReservaAdmin[]) => {
         this.dataSource.data = reservas.map(reserva => ({
