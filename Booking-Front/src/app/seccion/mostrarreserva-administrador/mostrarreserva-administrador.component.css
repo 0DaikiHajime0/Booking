@@ -1,6 +1,7 @@
 
 .Header{
   margin: 2rem;
+  margin-bottom: 0rem;
   padding: 2rem;
   font-size: 2rem;
   background-color: #D9D9D9;
@@ -15,11 +16,19 @@
 }
 .search{
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
+
 }
 .cuerpo{
   margin: 4rem;
-   margin-top: 2rem;
+  margin-top: 1rem;
+}
+.barra{
+  width: 100%;
+}
+.Filter{
+  display: flex;
+  justify-content: space-between;
 }
 
 

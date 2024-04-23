@@ -11,6 +11,7 @@ import { Asignatura } from '../../models/Asignatura';
 import { Recurso } from '../../models/Recurso';
 import { Bloques } from '../../models/Bloques';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import esLocale from '@fullcalendar/core/locales/es';
 
 @Component({
   selector: 'app-crear-reserva',
