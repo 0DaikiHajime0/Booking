@@ -25,7 +25,7 @@ const htmlContent = `
             background-color: #ccc;
         }
         h1 {
-            color: rgb(103 58 183);
+            color: #7D2181;
             text-align: center;
             margin-bottom: 20px;
         }
@@ -49,7 +49,7 @@ const htmlContent = `
             color: #333;
         }
         td.correo {
-            color: rgb(103 58 183);
+            color: #7D2181;
             background-color: #f0f0f0;
         }
         td.contraseña {
