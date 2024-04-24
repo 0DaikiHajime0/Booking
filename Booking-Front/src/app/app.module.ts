@@ -19,13 +19,15 @@ import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {MatSelectModule} from '@angular/material/select';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import {
   FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms';
 
 import {AfterViewInit, ViewChild} from '@angular/core';
-import {MatSort, MatSortModule} from '@angular/material/sort';
+import {MatSort,Sort, MatSortModule} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
 
 
@@ -57,6 +59,8 @@ import { UsuariosComponent } from './seccion/usuarios/usuarios.component';
 import { AsignaturasComponent } from './seccion/asignaturas/asignaturas.component';
 import { RecursosComponent } from './seccion/recursos/recursos.component';
 import { CrearreservaAdministradorComponent } from './seccion/crearreserva-administrador/crearreserva-administrador.component';
+import { MostrarreservaAdministradorComponent } from './seccion/mostrarreserva-administrador/mostrarreserva-administrador.component';
+
 
 
 @NgModule({
@@ -71,8 +75,10 @@ import { CrearreservaAdministradorComponent } from './seccion/crearreserva-admin
     AsignaturasComponent,
     RecursosComponent,
     CrearreservaAdministradorComponent,
+    MostrarreservaAdministradorComponent,
   ],
   imports: [
+    MatNativeDateModule,
     BrowserModule,
     AppRoutingModule,
     MatButtonModule,
@@ -100,6 +106,7 @@ import { CrearreservaAdministradorComponent } from './seccion/crearreserva-admin
     MatProgressSpinnerModule,
     MatSortModule,
     MatTabsModule
+    MatDatepickerModule
   ],
   providers: [
     provideClientHydration(),

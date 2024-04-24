@@ -66,6 +66,7 @@ select {
 select option {
   padding: 2.5rem;
 }
+
 select:hover{
   cursor: pointer;
 }

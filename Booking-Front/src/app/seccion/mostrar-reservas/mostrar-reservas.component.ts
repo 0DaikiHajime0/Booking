@@ -1,48 +1,13 @@
 import {AfterViewInit, Component, ViewChild} from '@angular/core';
-import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
-import {MatSort, MatSortModule} from '@angular/material/sort';
-import {MatTableDataSource, MatTableModule} from '@angular/material/table';
-import {MatInputModule} from '@angular/material/input';
-import {MatFormFieldModule} from '@angular/material/form-field';
-
-export interface UserData {
-  id: string;
-  name: string;
-  progress: string;
-  fruit: string;
-}
-const FRUITS: string[] = [
-  'blueberry',
-  'lychee',
-  'kiwi',
-  'mango',
-  'peach',
-  'lime',
-  'pomegranate',
-  'pineapple',
-];
-const NAMES: string[] = [
-  'Maia',
-  'Asher',
-  'Olivia',
-  'Atticus',
-  'Amelia',
-  'Jack',
-  'Charlotte',
-  'Theodore',
-  'Isla',
-  'Oliver',
-  'Isabella',
-  'Jasper',
-  'Cora',
-  'Levi',
-  'Violet',
-  'Arthur',
-  'Mia',
-  'Thomas',
-  'Elizabeth',
-];
-
+import {MatPaginator} from '@angular/material/paginator';
+import {MatSort} from '@angular/material/sort';
+import {MatTableDataSource} from '@angular/material/table';
+import {ListarReservaService} from '../../services/listar-reserva.service';
+import {ListarReservas} from './../../models/ListarReservas'
+import { mostrarReserva } from '../../models/mostrarReservadocente';
+import { Usuario } from '../../models/Usuario';
+import { UsuarioService } from '../../services/login.service';
+import { Console } from 'console';
 
 @Component({
   selector: 'app-mostrar-reservas',
@@ -50,25 +15,39 @@ const NAMES: string[] = [
   styleUrl: './mostrar-reservas.component.css'
 })
 export class MostrarReservasComponent implements AfterViewInit {
-  selected = 'option2';
-  displayedColumns: string[] = ['id', 'name', 'progress', 'fruit'];
-  dataSource: MatTableDataSource<UserData>;
+  docente!: Usuario
+  listar!: ListarReservas;
+   mostrar : mostrarReserva[] = [];
+
+   displayedColumns: string[] = ['nrc', 'curso_nombre','recurso_nombre', 'tipo_autor', 'cantidad_reserva', 'bloque_nombre', 'bloque_rango', 'reserva_fecha', 'fecha_registro'/*,'acciones'*/];
+  dataSource: MatTableDataSource<mostrarReserva>;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor() {
+  ngOnInit(): void {
+    this.obtenerDocente();
+    this.listarReservas();
+  }
+
+  constructor(
+    private ListarReservaService: ListarReservaService,
+    private usuarioservice: UsuarioService,
+  ) {
+
     this.paginator = {} as MatPaginator;
     this.sort = {} as MatSort;
-    const users = Array.from({length: 100}, (_, k) => createNewUser(k + 1));
-    this.dataSource = new MatTableDataSource(users);
+    this.dataSource = new MatTableDataSource();
+  }
+
+  obtenerDocente(): void {
+    this.docente = this.usuarioservice.getUsuarioFromStorage()
   }
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
-
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
@@ -77,20 +56,42 @@ export class MostrarReservasComponent implements AfterViewInit {
       this.dataSource.paginator.firstPage();
     }
   }
+  listarReservas() {
+    this.listar = {
+      id_docente:this.docente.usuario_id,
+      id_bloques:null,
+      fechaReservaInicio:null,
+      fechaReservaFin:null,
+      fechaRegistroInicio:null,
+      fechaRegistroFin:null,
+    }
+    this.ListarReservaService.listarreservas(this.listar).subscribe(
+      (reservas: mostrarReserva[]) => {
+        this.dataSource.data = reservas.map(reserva => ({
+          ...reserva,
+          reserva_fecha: this.formatDate(reserva.reserva_fecha),
+          fecha_registro: this.formatDateTime(reserva.fecha_registro)
+        }));
+      },
+      error => {
+        console.error('Error al cargar las reservas: ', error);
+      }
+    );
+  }
+  formatDate(dateString: string): string {
+    const date = new Date(dateString);
+    return date.toISOString().split('T')[0];
+  }
+
+  formatDateTime(dateTimeString: string): string {
+    const dateTime = new Date(dateTimeString);
+    const date = dateTime.toISOString().split('T')[0];
+    const time = dateTime.toLocaleTimeString();
+    return `${date} ${time}`;
+  }
+/*  enviarCorreo(row: any) {
+    console.log('Datos de la fila para enviar el correo:', row);
+  }*/
+
 }
 
-
-function createNewUser(id: number): UserData {
-  const name =
-    NAMES[Math.round(Math.random() * (NAMES.length - 1))] +
-    ' ' +
-    NAMES[Math.round(Math.random() * (NAMES.length - 1))].charAt(0) +
-    '.';
-
-  return {
-    id: id.toString(),
-    name: name,
-    progress: Math.round(Math.random() * 100).toString(),
-    fruit: FRUITS[Math.round(Math.random() * (FRUITS.length - 1))],
-  };
-}
