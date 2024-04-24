@@ -12,6 +12,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import {MatSelectModule} from '@angular/material/select';
 import { HabilitarComponent } from '../dialog/habilitar/habilitar.component';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-usuarios',
@@ -27,6 +28,7 @@ export class UsuariosComponent implements OnInit {
 
   constructor(private usuarioService: UsuarioService,
     public dialog: MatDialog,
+    private _snackBar: MatSnackBar
 
   ) {}
 
@@ -67,6 +69,30 @@ export class UsuariosComponent implements OnInit {
         console.error('Usuario no encontrado');
     }
 }
+nuevoUsuario(): void {
+  const dialogRef = this.dialog.open(NuevoUsuario);
+  dialogRef.afterClosed().subscribe(
+    async result => {
+      if (result) {
+        try {
+          const response = await this.usuarioService.nuevoUsuario(result);
+          if (response instanceof HttpErrorResponse && response.error instanceof Error) {
+            // Si hay un error
+            this.mostrarSnackbar('Error: ' + response.error.message, 'error');
+          } else {
+            // Si la creación del usuario fue exitosa
+            this.mostrarSnackbar('Usuario creado exitosamente', 'success');
+          }
+        } catch (error) {
+          this.mostrarSnackbar('Error: ' + (error instanceof Error ? error.message : 'Error desconocido'), 'error');
+        }
+      }
+    }
+  );
+  this.getUsuarios()
+}
+
+
 
 habilitardeshabilitar(id:number){
     const usuario = this.usuarios.find(u => u.usuario_id === id);
@@ -98,6 +124,12 @@ habilitardeshabilitar(id:number){
       }
     )
   }
+  mostrarSnackbar(message: string, tipo: string): void {
+    this._snackBar.open(message, 'Cerrar', {
+      duration: 5000,
+      panelClass: [tipo == 'error' ? 'snackbar-error' : 'snackbar-success']
+    });
+  }
 }
 @Component({
   selector:'app-editar-usuario',
@@ -118,6 +150,7 @@ habilitardeshabilitar(id:number){
 })
 export class EditarUsuario{
   nuveousuario!:Usuario
+  usuario_nombre:string='existe'
   constructor(
     public dialogRef: MatDialogRef<EditarUsuario>,
     private _snackBar:MatSnackBar,
@@ -125,6 +158,46 @@ export class EditarUsuario{
 
   ){
     this.nuveousuario={...data.usuario}
+  }
+  cerrar():void{
+    this.dialogRef.close();
+  }
+  
+}
+@Component({
+  selector:'app-nuevo-usuario',
+  templateUrl:'./editar-usuario.html',
+  styleUrls:['./editar-usuario.css'],
+  standalone:true,
+  imports:[
+    MatFormFieldModule,
+    MatInputModule,
+    FormsModule,
+    MatButtonModule,
+    MatDialogTitle,
+    MatDialogContent,
+    MatDialogActions,
+    MatDialogClose,
+    MatSelectModule
+  ]
+})
+export class NuevoUsuario{
+  nuveousuario:Usuario={
+    usuario_nombres:'',
+    usuario_apellidos:'',
+    usuario_estado:'',
+    usuario_id:0,
+    usuario_correo:'',
+    usuario_rol:''
+  }
+  usuario_nombre:string=''
+  constructor(
+    public dialogRef: MatDialogRef<NuevoUsuario>,
+    private _snackBar:MatSnackBar,
+    @Inject(MAT_DIALOG_DATA) public data: any
+
+  ){
+    
   }
   cerrar():void{
     this.dialogRef.close();

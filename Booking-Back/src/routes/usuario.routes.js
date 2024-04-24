@@ -80,6 +80,16 @@ router.get('/habilitarusuario/:usuario_id',
         }
     }
 )
-
+router.post('/nuevousuario',
+    async(req,res,next)=>{
+        try {
+            const usuario = req.body;
+            const result = await usuarioservice.nuevoUsuario(usuario);
+            res.json(result)
+        } catch (error) {
+            next(error)
+        }
+    }
+)
 
 module.exports = router;
