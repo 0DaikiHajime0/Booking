@@ -107,9 +107,13 @@ realizarFiltro(): void {
   });
   this.asignaturasFiltradas = asignaturasUnicas.filter(asignatura => asignatura !== undefined) as Asignatura[];
   this.dataSourceAsignaturaFiltrada = new MatTableDataSource<Asignatura>(this.asignaturasFiltradas);
-  console.log(this.asignaturasFiltradas)
 }
-
+asignarCredenciales():void{
+  const recursos = this.recursos
+  const dialogRef=this.dialog.open(AsignarCredenciales,
+    {data:{recursos}}
+  )
+}
 
 crearRecurso(){
   const recursos = this.recursos
@@ -200,6 +204,39 @@ export class CrearRecurso {
   nombreRepetido(): boolean {
     return this.recursosExistentes.some(r => r.recurso_nombre === this.nuevoRecurso.recurso_nombre.toLowerCase());
   }
+  cerrar(): void {
+    this.dialogRef.close();
+  }
+}
+@Component({
+  selector:'app-asignar-curso',
+  templateUrl:'./asignar-credenciales.html',
+  styleUrls:['../usuarios/editar-usuario.css'],
+  standalone:true,
+  imports:[
+    MatFormFieldModule,
+    MatInputModule,
+    FormsModule,
+    MatButtonModule,
+    MatDialogTitle,
+    MatDialogContent,
+    MatDialogActions,
+    MatDialogClose,
+    MatSelectModule,
+    ReactiveFormsModule,
+  ]
+})
+export class AsignarCredenciales {
+  recursos!:Recurso[]
+  constructor(
+    public dialogRef: MatDialogRef<AsignarCredenciales>,
+    private _snackBar: MatSnackBar,
+    @Inject(MAT_DIALOG_DATA) public data: any
+  ) {
+    this.recursos = {...data.recursos}
+    console.log(this.recursos)
+  }
+
   cerrar(): void {
     this.dialogRef.close();
   }
