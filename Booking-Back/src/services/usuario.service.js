@@ -60,5 +60,18 @@ class UsuarioService{
         const result = await mysqlLib.execute('CALL sp_habilitar_usuario(?)',[usuarioId]);
         return result;
     }
+    async nuevoUsuario(usuario){
+        const result = await mysqlLib.execute('CALL sp_nuevo_usuario(?,?,?,?,?)',[
+            usuario.usuario_nombres,
+            usuario.usuario_apellidos,
+            usuario.usuario_correo,
+            usuario.usuario_rol,
+            usuario.usuario_estado
+        ]);
+        const resultado = result[0][0]
+        if(!usuario){
+            return null
+        }
+    }
 }
 module.exports = UsuarioService;
