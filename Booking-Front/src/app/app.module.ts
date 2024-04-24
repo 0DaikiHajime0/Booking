@@ -44,6 +44,7 @@ import { FullCalendarModule } from '@fullcalendar/angular';
 import {MatTableModule} from '@angular/material/table';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import {MatTabsModule} from '@angular/material/tabs';
 
 import {
   GoogleLoginProvider,
@@ -98,6 +99,7 @@ import { CrearreservaAdministradorComponent } from './seccion/crearreserva-admin
     MatSlideToggleModule,
     MatProgressSpinnerModule,
     MatSortModule,
+    MatTabsModule
   ],
   providers: [
     provideClientHydration(),
