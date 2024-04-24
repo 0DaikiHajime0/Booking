@@ -21,7 +21,7 @@
 </div>
 <div class="contenido">
     <div class="contenido-tabla">
-        <table mat-table [dataSource]="dataSource" matSort  class="mat-elevation-z2" >
+        <table mat-table [dataSource]="dataSource" #sort1="matSort"  matSort class="mat-elevation-z2" >
             <ng-container matColumnDef="recurso_id">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Id</th>
                     <td mat-cell *matCellDef="let recurso"[class.selected-row]="recursoSeleccionado === recurso.recurso_id" > 
@@ -71,34 +71,40 @@
     <mat-tab-group>
         <mat-tab label="Asignaturas">
             <div class="contenido-tabla">
-                <table mat-table [dataSource]="dataSourceAsignatura" class="mat-elevation-z2">
-                    <ng-container matColumnDef="ID">
-                        <th mat-header-cell *matHeaderCellDef>Id</th>
-                        <td mat-cell *matCellDef="let asignaturas"> {{asignaturas.curso_id}} </td>
+                <table mat-table [dataSource]="dataSourceAsignatura" #sort2="matSort"  matSort class="mat-elevation-z2">
+                    <ng-container matColumnDef="curso_id">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Id</th>
+                        <td mat-cell *matCellDef="let asignatura"> {{asignatura.curso_id}} </td>
                     </ng-container>
-                    <ng-container matColumnDef="Nombre">
-                        <th mat-header-cell *matHeaderCellDef>Nombre</th>
-                        <td mat-cell *matCellDef="let asignaturas"> {{asignaturas.curso_nombre}} </td>
+                    <ng-container matColumnDef="curso_nombre">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</th>
+                        <td mat-cell *matCellDef="let asignatura"> {{asignatura.curso_nombre}} </td>
                     </ng-container>
-                    <ng-container matColumnDef="Estado">
-                        <th mat-header-cell *matHeaderCellDef>Estado</th>
-                        <td mat-cell *matCellDef="let asignaturas"> {{asignaturas.curso_estado}} </td>
+                    <ng-container matColumnDef="curso_estado">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Estado</th>
+                        <td mat-cell *matCellDef="let asignatura"> {{asignatura.curso_estado}} </td>
                     </ng-container>
-                    <ng-container matColumnDef="Descripcion">
-                        <th mat-header-cell *matHeaderCellDef>Descripción</th>
-                        <td mat-cell *matCellDef="let asignaturas"> {{asignaturas.curso_descripcion}} </td>
+                    <ng-container matColumnDef="curso_descripcion">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Descripción</th>
+                        <td mat-cell *matCellDef="let asignatura"> {{asignatura.curso_descripcion}} </td>
                     </ng-container>
-                    <ng-container matColumnDef="Cantidad">
-                        <th mat-header-cell *matHeaderCellDef>Cantidad de Credenciales</th>
-                        <td mat-cell *matCellDef="let asignaturas"> {{asignaturas.docente_curso_cantidad_alumnos}} </td>
+                    <ng-container matColumnDef="docente_curso_cantidad_alumnos">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Cantidad de Alumnos</th>
+                        <td mat-cell *matCellDef="let asignatura"> {{asignatura.docente_curso_cantidad_alumnos}} </td>
                     </ng-container>
-                    <ng-container matColumnDef="NRC">
-                        <th mat-header-cell *matHeaderCellDef>NRC</th>
-                        <td mat-cell *matCellDef="let asignaturas"> {{asignaturas.nrc}} </td>
+                    <ng-container matColumnDef="nrc">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>NRC</th>
+                        <td mat-cell *matCellDef="let asignatura"> {{asignatura.nrc}} </td>
                     </ng-container>
                     <tr mat-header-row *matHeaderRowDef="columnasAsignatura"></tr>
                     <tr mat-row *matRowDef="let row; columns: columnasAsignatura;"></tr>
                 </table>
+                <mat-paginator #paginator2="matPaginator"
+                    [length]="this.asignaturas.length"
+                    [pageSize]="5"
+                    [pageSizeOptions]="[5, 10, 25, 100]"
+                    aria-label="Select page">
+                </mat-paginator>
             </div>
             <mat-progress-spinner class="load-asignaturas" *ngIf="cargando" [diameter]="50" mode="indeterminate"></mat-progress-spinner>
         </mat-tab>
