@@ -26,7 +26,7 @@ export class RecursosComponent {
   asignaturas:Asignatura[] = [];
   asignaturasFiltradas:Asignatura[]=[]
   columnas: string[] = ['recurso_id', 'recurso_nombre', 'recurso_estado', 'recurso_empresa', 'recurso_cant_credenciales','Editar'];
-  columnasAsignatura : string[] =['ID','Nombre','Estado','Descripcion','Cantidad','NRC']
+  columnasAsignatura : string[] =['curso_id','curso_nombre','curso_estado','curso_descripcion','docente_curso_cantidad_alumnos','nrc']
   columnaAsignaturaFiltrada :string[] = ['ID','Nombre','Estado','Descripcion']
   dataSource: MatTableDataSource<Recurso> = new MatTableDataSource<Recurso>();
   dataSourceAsignaturaFiltrada : MatTableDataSource<Asignatura> = new MatTableDataSource<Asignatura>(this.asignaturasFiltradas)
@@ -34,9 +34,9 @@ export class RecursosComponent {
   valor!: string
   cargando=false
   @ViewChild('paginator1') paginator1!: MatPaginator;
-  @ViewChild(MatSort) sort1!: MatSort;
+  @ViewChild('sort1') sort1!: MatSort;
   @ViewChild('paginator2') paginator2!: MatPaginator;
-  @ViewChild(MatSort) sort2!: MatSort;
+  @ViewChild('sort2') sort2!: MatSort;
   recursoSeleccionado : number = 0
   constructor(private recursoservice: RecursoService,
     public dialog: MatDialog,

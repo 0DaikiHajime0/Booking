@@ -105,7 +105,7 @@ import { MostrarreservaAdministradorComponent } from './seccion/mostrarreserva-a
     MatSlideToggleModule,
     MatProgressSpinnerModule,
     MatSortModule,
-    MatTabsModule
+    MatTabsModule,
     MatDatepickerModule
   ],
   providers: [
