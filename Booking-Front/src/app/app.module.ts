@@ -46,6 +46,8 @@ import { FullCalendarModule } from '@fullcalendar/angular';
 import {MatTableModule} from '@angular/material/table';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import {MatTabsModule} from '@angular/material/tabs';
+
 import {
   GoogleLoginProvider,
   SocialLoginModule,
@@ -105,6 +107,7 @@ import { AsignarDocenteComponent } from './seccion/asignar-docente/asignar-docen
     MatSlideToggleModule,
     MatProgressSpinnerModule,
     MatSortModule,
+    MatTabsModule,
     MatDatepickerModule
   ],
   providers: [

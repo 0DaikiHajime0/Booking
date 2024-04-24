@@ -13,6 +13,8 @@ import { Recurso } from '../../models/Recurso';
 import { RecursoService } from '../../services/recurso.service';
 import { Asignatura } from '../../models/Asignatura';
 import { MatSort } from '@angular/material/sort';
+import {MatExpansionModule} from '@angular/material/expansion';
+import { resourceLimits } from 'worker_threads';
 
 @Component({
   selector: 'app-recursos',
@@ -20,17 +22,21 @@ import { MatSort } from '@angular/material/sort';
   styleUrl: './recursos.component.css'
 })
 export class RecursosComponent {
-  recursos: Recurso[] = []; 
+  recursos: Recurso[] = [];
   asignaturas:Asignatura[] = [];
+  asignaturasFiltradas:Asignatura[]=[]
   columnas: string[] = ['recurso_id', 'recurso_nombre', 'recurso_estado', 'recurso_empresa', 'recurso_cant_credenciales','Editar'];
-  columnasAsignatura : string[] =['ID','Nombre','Estado','Descripcion','Cantidad','NRC']
+  columnasAsignatura : string[] =['curso_id','curso_nombre','curso_estado','curso_descripcion','docente_curso_cantidad_alumnos','nrc']
+  columnaAsignaturaFiltrada :string[] = ['ID','Nombre','Estado','Descripcion']
   dataSource: MatTableDataSource<Recurso> = new MatTableDataSource<Recurso>();
+  dataSourceAsignaturaFiltrada : MatTableDataSource<Asignatura> = new MatTableDataSource<Asignatura>(this.asignaturasFiltradas)
   dataSourceAsignatura: MatTableDataSource<Asignatura> = new MatTableDataSource<Asignatura>(this.asignaturas)
   valor!: string
   cargando=false
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @ViewChild(MatSort) sort!: MatSort;
-
+  @ViewChild('paginator1') paginator1!: MatPaginator;
+  @ViewChild('sort1') sort1!: MatSort;
+  @ViewChild('paginator2') paginator2!: MatPaginator;
+  @ViewChild('sort2') sort2!: MatSort;
   recursoSeleccionado : number = 0
   constructor(private recursoservice: RecursoService,
     public dialog: MatDialog,
@@ -50,8 +56,8 @@ export class RecursosComponent {
     try {
       this.recursos = await this.recursoservice.getRecursos();
       this.dataSource = new MatTableDataSource<Recurso>(this.recursos);
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
+      this.dataSource.paginator = this.paginator1;
+      this.dataSource.sort = this.sort1;
     } catch (error) {
       console.error('Error al obtener usuarios:', error);
     }
@@ -60,14 +66,16 @@ export class RecursosComponent {
     try {
       this.cargando = true;
       this.asignaturas = await this.recursoservice.getAsignaturasByRecurso(recurso_id);
+      this.realizarFiltro()
       this.dataSourceAsignatura = new MatTableDataSource<Asignatura>(this.asignaturas);
+      this.dataSourceAsignatura.paginator = this.paginator2;
+      this.dataSourceAsignatura.sort = this.sort2;
     } catch (error) {
       console.error('Error al obtener asignaturas:', error);
     } finally {
       this.cargando = false;
     }
   }
-  
   aplicarFiltro(valor: string) {
     valor = valor.trim().toLowerCase();
     this.dataSource.filter = valor;
@@ -92,6 +100,17 @@ export class RecursosComponent {
         console.error('Recurso no encontrado');
     }
 }
+realizarFiltro(): void {
+  let cursoIdsUnicos = new Set(this.asignaturas.map(asignatura => asignatura.curso_id));
+  let asignaturasUnicas = Array.from(cursoIdsUnicos).map(cursoId => {
+      return this.asignaturas.find(asignatura => asignatura.curso_id === cursoId);
+  });
+  this.asignaturasFiltradas = asignaturasUnicas.filter(asignatura => asignatura !== undefined) as Asignatura[];
+  this.dataSourceAsignaturaFiltrada = new MatTableDataSource<Asignatura>(this.asignaturasFiltradas);
+  console.log(this.asignaturasFiltradas)
+}
+
+
 crearRecurso(){
   const recursos = this.recursos
   const dialogRef = this.dialog.open(CrearRecurso,{
@@ -109,37 +128,6 @@ crearRecurso(){
   )
 
 }
-habilitardeshabilitar(id:number){
-  /*
-    const usuario = this.usuarios.find(u => u.usuario_id === id);
-    let estado = usuario?.usuario_estado
-    const dialogRef = this.dialog.open(HabilitarComponent,
-      {
-        data : {
-          usuario,
-          tipo:'Usuario',
-          estado:estado
-        }
-      }
-    )
-    dialogRef.afterClosed().subscribe(
-      result=>{
-        if (result) {
-          if(result.usuario_estado=='Desactivado'){
-            this.usuarioService.deshabilitarUsuario(result.usuario_id)
-          }else{
-            this.usuarioService.habilitarUsuario(result.usuario_id)
-
-          }
-          const index = this.usuarios.findIndex(u => u.usuario_id === id);
-          if (index !== -1) {
-              this.usuarios[index] = result;
-              this.dataSource.data = [...this.usuarios];
-          }
-      }
-      }
-    )*/
-  }
 }
 @Component({
   selector:'app-editar-recurso',

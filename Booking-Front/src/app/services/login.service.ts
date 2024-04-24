@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Usuario } from '../models/Usuario';
 import { Perfil } from '../models/Perfil';
-
+import { HttpErrorResponse } from '@angular/common/http';
 @Injectable({
   providedIn: 'root'
 })
@@ -87,4 +87,13 @@ export class UsuarioService {
 
     }
   }
+  
+async nuevoUsuario(usuario: Usuario) {
+  try {
+    const response = await this.http.post(`${this.url}/nuevousuario`, usuario).toPromise();
+    return response;
+  } catch (error) {
+    throw error; // Lanza el error para que sea manejado en el componente
+  }
+}
 }
