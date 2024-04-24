@@ -227,14 +227,14 @@ export class CrearRecurso {
   ]
 })
 export class AsignarCredenciales {
-  recursos!:Recurso[]
+  recursos: Recurso[] = [];
+  
   constructor(
     public dialogRef: MatDialogRef<AsignarCredenciales>,
     private _snackBar: MatSnackBar,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
-    this.recursos = {...data.recursos}
-    console.log(this.recursos)
+    this.recursos = data.recursos;
   }
 
   cerrar(): void {
