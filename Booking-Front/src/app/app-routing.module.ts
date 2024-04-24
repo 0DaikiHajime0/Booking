@@ -10,6 +10,7 @@ import { RecursosComponent } from './seccion/recursos/recursos.component';
 import { AsignaturasComponent } from './seccion/asignaturas/asignaturas.component';
 import {CrearreservaAdministradorComponent} from './seccion/crearreserva-administrador/crearreserva-administrador.component'
 import {MostrarreservaAdministradorComponent} from './seccion/mostrarreserva-administrador/mostrarreserva-administrador.component'
+import {AsignarDocenteComponent} from './seccion/asignar-docente/asignar-docente.component'
 
 
 
@@ -22,6 +23,7 @@ const routes: Routes = [
   {path:'asignaturas',component:AsignaturasComponent},
   {path:'crearreserva-administrador',component:CrearreservaAdministradorComponent},
   {path:'mostrarreserva-administrador',component:MostrarreservaAdministradorComponent},
+  {path:'asignar-docente',component:AsignarDocenteComponent},
   {
     path:'usuarios',component:UsuariosComponent
   },
