@@ -235,6 +235,7 @@ export class AsignarCredenciales {
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.recursos = data.recursos;
+    console.log('Hola')
   }
 
   cerrar(): void {
