@@ -4,12 +4,14 @@
     <div mat-dialog-content>
         <mat-form-field>
             <mat-label>Seleccionar Recurso</mat-label>
-            <mat-select>
+            <mat-select [(ngModel)]="recursoSeleccionado" (selectionChange)="onChange($event)">
               @for (recurso of recursos; track recurso) {
-                <mat-option [value]="recurso.recurso_id">{{recurso.recurso_nombre}}</mat-option>
+                <mat-option [value]="recurso">{{recurso.recurso_nombre}}</mat-option>
               }
             </mat-select>
           </mat-form-field>
+          
+         
     <div mat-dialog-actions>
       <button mat-button cdkFocusInitial>Guardar</button>
       <button mat-button (click)="cerrar()">Cancelar</button>

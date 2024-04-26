@@ -15,6 +15,9 @@ import { Asignatura } from '../../models/Asignatura';
 import { MatSort } from '@angular/material/sort';
 import {MatExpansionModule} from '@angular/material/expansion';
 import { resourceLimits } from 'worker_threads';
+import {MatGridListModule} from '@angular/material/grid-list';
+import {MatTableModule} from '@angular/material/table';
+import { Licencia } from '../../models/Licencias';
 
 @Component({
   selector: 'app-recursos',
@@ -224,20 +227,34 @@ export class CrearRecurso {
     MatDialogClose,
     MatSelectModule,
     ReactiveFormsModule,
+    MatGridListModule,
+    MatTableModule
   ]
 })
 export class AsignarCredenciales {
   recursos: Recurso[] = [];
-  
+  credenciales: Licencia[] = [];
+  columnasCredenciales:string[] = ['credencial_id','credencial_usuario','credencial_constrasena','credencial_key','credenciales_estado']
+  dataSourceCredenciales: MatTableDataSource<Licencia> = new MatTableDataSource<Licencia>();
+  recursoSeleccionado!:Recurso
   constructor(
     public dialogRef: MatDialogRef<AsignarCredenciales>,
     private _snackBar: MatSnackBar,
+    private recursoService:RecursoService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.recursos = data.recursos;
-    console.log('Hola')
+    
   }
+  onChange(event:any) {
+    try {
+      this.credenciales = await this.recursoService.getLicencias(this.recursoSeleccionado.recurso_id);
 
+    } catch (error) {
+      
+    }
+
+    }
   cerrar(): void {
     this.dialogRef.close();
   }
