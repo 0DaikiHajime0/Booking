@@ -12,7 +12,6 @@
     </mat-form-field>
     <div class="botones">
         <button mat-raised-button color="primary" class="botones-nuevo" (click)="crearRecurso()">Crear Nuevo Recurso</button>        <div *ngIf="asignaturas.length === 0 && recursoSeleccionado < 1">
-        <button mat-raised-button color="primary" class="botones-nuevo" (click)="asignarCredenciales()">Asignar Credenciales</button> 
             <span>Selecciona un recurso para ver sus asignaturas asociadas</span>
         </div>
         <div *ngIf="asignaturas.length === 0 && recursoSeleccionado >= 1">

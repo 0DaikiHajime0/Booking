@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { API_BASE_URL } from './constants';
 import { Recurso } from '../models/Recurso';
 import { Asignatura } from '../models/Asignatura';
+import { Licencia } from '../models/Licencias';
 
 @Injectable({
   providedIn: 'root'
@@ -60,5 +61,30 @@ export class RecursoService {
         } catch (error) {
             throw error;
         }
+    }
+    async getLicencias(recurso_id:number):Promise<Licencia[]>{
+        try {
+            const response = await this.http.get<Licencia[]>(`${this.url}obtenerLicencias/${recurso_id}`).toPromise()
+            if(response){
+                return response
+            }else{
+                throw new Error('No se recibio respuesta del servidor')
+            }
+        } catch (error) {
+            throw error
+        }
+    }
+    async guardarLicencia(licencia:Licencia,recurso_id:number):Promise<Licencia>{
+        try {
+            const response = await this.http.post<Licencia>(`${this.url}nuevaLicencia/${recurso_id}`,licencia).toPromise()
+            if(response){
+                return response
+            }else{
+                throw new Error('No se recibio respuesta del servidor')
+            }
+        } catch (error) {
+            throw Error
+        }
+
     }
 }

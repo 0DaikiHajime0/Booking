@@ -34,5 +34,28 @@ class RecursoService{
         }
         return res
     }
+    async obtenerLicencias(recurso_id){
+        const result = await mysqlLib.execute('CALL sp_listar_licencias(?)',[recurso_id]);
+        const licencias = result[0][0]
+        if(licencias==null){
+            return 'no hay respuesta'
+        }
+        return licencias
+    }
+    async nuevaLicencia(recurso_id,licencia){
+        const result = await mysqlLib.execute('CALL sp_nueva_licencia(?,?,?,?,?)',
+        [
+            recurso_id,
+            licencia.credencial_usuario,
+            licencia.credencial_contrasena,
+            licencia.credencial_key,
+            licencia.credenciales_estado
+        ])
+        const res = result[0][0]
+        if(res==null){
+            return 'no hay respuesta'
+        }
+        return res
+    }
 }
 module.exports = RecursoService;

@@ -46,4 +46,27 @@ router.post('/editarRecurso/',
         }
     }
 )
+router.get('/obtenerLicencias/:recurso_id',
+    async(req,res,next)=>{
+        const recurso_id = req.params.recurso_id
+        try {
+            const result = await recursoservice.obtenerLicencias(recurso_id)
+            res.json(result)
+        } catch (error) {
+            next(error)
+        }
+    }
+)
+router.post('/nuevaLicencia/:recurso_id',
+    async(req,res,next)=>{
+        const recurso_id = req.params.recurso_id
+        const licencia = req.body
+        try {
+            const result = await recursoservice.nuevaLicencia(recurso_id,licencia)
+            res.json(result)
+        } catch (error) {
+            next(error)
+        }
+    }
+)
 module.exports = router

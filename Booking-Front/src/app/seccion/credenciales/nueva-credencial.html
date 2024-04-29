@@ -1,0 +1,29 @@
+<div class="cuadro-dialog">
+    <h1 mat-dialog-title>Nueva Credencial</h1>
+    <div mat-dialog-content>
+        <mat-label>Recurso: {{ recurso.recurso_nombre }}</mat-label> 
+        <mat-form-field>
+            <mat-label>Usuario</mat-label>
+            <input matInput [(ngModel)]="credencial.credencial_usuario" type="text">
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Contraseña</mat-label>
+            <input matInput [(ngModel)]="credencial.credencial_contrasena" type="password">
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Clave</mat-label>
+            <input matInput [(ngModel)]="credencial.credencial_key" type="text">
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Estado</mat-label>
+            <mat-select [(ngModel)]="credencial.credenciales_estado">
+                <mat-option value="Activo">Habilitado</mat-option>
+                <mat-option value="Deshabilitado">Deshabilitado</mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+    <div mat-dialog-actions>
+        <button mat-button [mat-dialog-close]="credencial">Guardar</button>
+        <button mat-button (click)="cerrar()">Cancelar</button>
+    </div>
+</div>
