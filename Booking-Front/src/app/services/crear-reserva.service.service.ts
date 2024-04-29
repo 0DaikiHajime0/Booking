@@ -45,6 +45,7 @@ export class CrearReservaServiceService {
   }
   listardocetes(): Observable<any[]> {
     return this.http.get<any[]>(`${this.url}listardocente`);
+
   }
 }
 

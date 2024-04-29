@@ -29,6 +29,11 @@
 .barra mat-form-field{
   width: 100%;
 }
+.Buscar{
+  display: flex;
+  justify-content:space-between;
+  align-items: center;
+}
 .filter{
   display: flex;
   justify-content: space-between;
