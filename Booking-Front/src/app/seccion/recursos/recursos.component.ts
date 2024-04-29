@@ -43,7 +43,7 @@ export class RecursosComponent {
 
   ngOnInit() {
     this.getRecursos();
-   
+
   }
   seleccionarRecurso(recurso: any){
     this.recursoSeleccionado = recurso.recurso_id;
@@ -118,7 +118,7 @@ crearRecurso(){
     result=>{
       if(result){
         this.recursoservice.guardarRecurso(result);
-        this.getRecursos()  
+        this.getRecursos()
       }
     }
   )
@@ -156,7 +156,7 @@ export class EditarRecurso{
   cerrar():void{
     this.dialogRef.close();
   }
-  
+
 }
 @Component({
   selector:'app-crear-recurso',
@@ -200,3 +200,38 @@ export class CrearRecurso {
     this.dialogRef.close();
   }
 }
+@Component({
+  selector:'app-asignar-curso',
+  templateUrl:'./asignar-credenciales.html',
+  styleUrls:['../usuarios/editar-usuario.css'],
+  standalone:true,
+  imports:[
+    MatFormFieldModule,
+    MatInputModule,
+    FormsModule,
+    MatButtonModule,
+    MatDialogTitle,
+    MatDialogContent,
+    MatDialogActions,
+    MatDialogClose,
+    MatSelectModule,
+    ReactiveFormsModule,
+  ]
+})
+export class AsignarCredenciales {
+  recursos: Recurso[] = [];
+
+  constructor(
+    public dialogRef: MatDialogRef<AsignarCredenciales>,
+    private _snackBar: MatSnackBar,
+    @Inject(MAT_DIALOG_DATA) public data: any
+  ) {
+    this.recursos = data.recursos;
+    console.log('Hola')
+  }
+
+  cerrar(): void {
+    this.dialogRef.close();
+  }
+}
+

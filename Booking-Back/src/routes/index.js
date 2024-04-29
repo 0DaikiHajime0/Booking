@@ -3,6 +3,7 @@ const crearReservaRoute = require('./crearReserva.routes');
 const usuarioRoute = require('./usuario.routes')
 const listarReserva = require('./listarReserva.routes')
 const recursoRoute = require('./recurso.routes')
+const asignarDocente = require('./asignarDocente.routes')
 
 
 function routerApi(app){
@@ -13,6 +14,7 @@ function routerApi(app){
   route.use('/listar', listarReserva);
   route.use('/reserva', crearReservaRoute);
   route.use('/usuario',usuarioRoute);
-  route.use('/recurso',recursoRoute)
+  route.use('/recurso',recursoRoute);
+  route.use('/asignar',asignarDocente);
 }
 module.exports = routerApi;
