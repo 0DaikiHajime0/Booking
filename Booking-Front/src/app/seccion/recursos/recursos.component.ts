@@ -2,7 +2,6 @@ import { Component, Inject, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogActions, MatDialogClose, MatDialogContent, MatDialogRef, MatDialogTitle } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { Usuario } from '../../models/Usuario';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -13,11 +12,7 @@ import { Recurso } from '../../models/Recurso';
 import { RecursoService } from '../../services/recurso.service';
 import { Asignatura } from '../../models/Asignatura';
 import { MatSort } from '@angular/material/sort';
-import {MatExpansionModule} from '@angular/material/expansion';
-import { resourceLimits } from 'worker_threads';
-import {MatGridListModule} from '@angular/material/grid-list';
-import {MatTableModule} from '@angular/material/table';
-import { Licencia } from '../../models/Licencias';
+
 
 @Component({
   selector: 'app-recursos',
@@ -111,12 +106,6 @@ realizarFiltro(): void {
   this.asignaturasFiltradas = asignaturasUnicas.filter(asignatura => asignatura !== undefined) as Asignatura[];
   this.dataSourceAsignaturaFiltrada = new MatTableDataSource<Asignatura>(this.asignaturasFiltradas);
 }
-asignarCredenciales():void{
-  const recursos = this.recursos
-  const dialogRef=this.dialog.open(AsignarCredenciales,
-    {data:{recursos}}
-  )
-}
 
 crearRecurso(){
   const recursos = this.recursos
@@ -207,54 +196,6 @@ export class CrearRecurso {
   nombreRepetido(): boolean {
     return this.recursosExistentes.some(r => r.recurso_nombre === this.nuevoRecurso.recurso_nombre.toLowerCase());
   }
-  cerrar(): void {
-    this.dialogRef.close();
-  }
-}
-@Component({
-  selector:'app-asignar-curso',
-  templateUrl:'./asignar-credenciales.html',
-  styleUrls:['../usuarios/editar-usuario.css'],
-  standalone:true,
-  imports:[
-    MatFormFieldModule,
-    MatInputModule,
-    FormsModule,
-    MatButtonModule,
-    MatDialogTitle,
-    MatDialogContent,
-    MatDialogActions,
-    MatDialogClose,
-    MatSelectModule,
-    ReactiveFormsModule,
-    MatGridListModule,
-    MatTableModule
-  ]
-})
-export class AsignarCredenciales {
-  recursos: Recurso[] = [];
-  credenciales: Licencia[] = [];
-  columnasCredenciales:string[] = ['credencial_id','credencial_usuario','credencial_constrasena','credencial_key','credenciales_estado']
-  dataSourceCredenciales: MatTableDataSource<Licencia> = new MatTableDataSource<Licencia>();
-  recursoSeleccionado!:Recurso
-  constructor(
-    public dialogRef: MatDialogRef<AsignarCredenciales>,
-    private _snackBar: MatSnackBar,
-    private recursoService:RecursoService,
-    @Inject(MAT_DIALOG_DATA) public data: any
-  ) {
-    this.recursos = data.recursos;
-    
-  }
-  onChange(event:any) {
-    try {
-      this.credenciales = await this.recursoService.getLicencias(this.recursoSeleccionado.recurso_id);
-
-    } catch (error) {
-      
-    }
-
-    }
   cerrar(): void {
     this.dialogRef.close();
   }
