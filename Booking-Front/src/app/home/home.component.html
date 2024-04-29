@@ -37,6 +37,10 @@
       Asignaturas
     <mat-icon>library_books</mat-icon>
     </button>
+    <button mat-button class="menu-button" (click)="opcionSeleccionada=7">
+      Credenciales
+    <mat-icon>key</mat-icon>
+    </button>
     <button mat-button class="menu-button" aria-label="Inicio">
         Cerrar Sesión
         <mat-icon>logout</mat-icon>
@@ -64,6 +68,9 @@
       }
       @case(6){
         <app-asignaturas></app-asignaturas>
+      }
+      @case(7){
+        <app-credenciales></app-credenciales>
       }
     }
   </div>
