@@ -45,7 +45,7 @@ export class RecursosComponent {
 
   ngOnInit() {
     this.getRecursos();
-   
+
   }
   seleccionarRecurso(recurso: any){
     this.recursoSeleccionado = recurso.recurso_id;
@@ -126,7 +126,7 @@ crearRecurso(){
     result=>{
       if(result){
         this.recursoservice.guardarRecurso(result);
-        this.getRecursos()  
+        this.getRecursos()
       }
     }
   )
@@ -164,7 +164,7 @@ export class EditarRecurso{
   cerrar():void{
     this.dialogRef.close();
   }
-  
+
 }
 @Component({
   selector:'app-crear-recurso',
@@ -228,7 +228,7 @@ export class CrearRecurso {
 })
 export class AsignarCredenciales {
   recursos: Recurso[] = [];
-  
+
   constructor(
     public dialogRef: MatDialogRef<AsignarCredenciales>,
     private _snackBar: MatSnackBar,
