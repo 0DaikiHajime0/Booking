@@ -2,7 +2,6 @@ import { Component, Inject, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogActions, MatDialogClose, MatDialogContent, MatDialogRef, MatDialogTitle } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { Usuario } from '../../models/Usuario';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -13,8 +12,7 @@ import { Recurso } from '../../models/Recurso';
 import { RecursoService } from '../../services/recurso.service';
 import { Asignatura } from '../../models/Asignatura';
 import { MatSort } from '@angular/material/sort';
-import {MatExpansionModule} from '@angular/material/expansion';
-import { resourceLimits } from 'worker_threads';
+
 
 @Component({
   selector: 'app-recursos',
@@ -107,12 +105,6 @@ realizarFiltro(): void {
   });
   this.asignaturasFiltradas = asignaturasUnicas.filter(asignatura => asignatura !== undefined) as Asignatura[];
   this.dataSourceAsignaturaFiltrada = new MatTableDataSource<Asignatura>(this.asignaturasFiltradas);
-}
-asignarCredenciales():void{
-  const recursos = this.recursos
-  const dialogRef=this.dialog.open(AsignarCredenciales,
-    {data:{recursos}}
-  )
 }
 
 crearRecurso(){
