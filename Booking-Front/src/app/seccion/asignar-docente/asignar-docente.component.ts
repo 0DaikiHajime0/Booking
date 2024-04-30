@@ -61,6 +61,8 @@ export class AsignarDocenteComponent implements AfterViewInit {
           const dialogRef = this.dialog.open(AsignarDocenteCurso, {
             data: {
               cursos: cursos,
+              id_docente: this.docenteSeleccionado
+
             }
           });
         }
@@ -256,4 +258,4 @@ export class EditarDocenteCurso {
   onNoClick(): void {
     this.dialogRef.close();
   }
-}*/
+}
