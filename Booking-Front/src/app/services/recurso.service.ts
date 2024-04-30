@@ -4,12 +4,15 @@ import { API_BASE_URL } from './constants';
 import { Recurso } from '../models/Recurso';
 import { Asignatura } from '../models/Asignatura';
 import { Licencia } from '../models/Licencias';
+import { Bloques } from '../models/Bloques';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RecursoService {
     private url = API_BASE_URL + 'recurso/'
+    private urlbloque =API_BASE_URL+ 'bloque/'
     constructor(private http: HttpClient) {}
     async getRecursos():Promise <Recurso[]>{
         try{
@@ -86,5 +89,11 @@ export class RecursoService {
             throw Error
         }
 
+    }
+    editarBloque(bloque: Bloques): Observable<Bloques> {
+        return this.http.post<Bloques>(`${this.urlbloque}editarBloque`, bloque);
+    }
+    nuevoBloque(bloque:Bloques):Observable<Bloques>{
+        return this.http.post<Bloques>(`${this.urlbloque}nuevoBloque`,bloque);
     }
 }

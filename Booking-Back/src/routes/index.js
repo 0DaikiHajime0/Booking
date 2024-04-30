@@ -4,7 +4,7 @@ const usuarioRoute = require('./usuario.routes')
 const listarReserva = require('./listarReserva.routes')
 const recursoRoute = require('./recurso.routes')
 const asignarDocente = require('./asignarDocente.routes')
-
+const bloqueRoute = require('./bloque.routes')
 
 function routerApi(app){
   const route = express.Router();
@@ -16,5 +16,6 @@ function routerApi(app){
   route.use('/usuario',usuarioRoute);
   route.use('/recurso',recursoRoute);
   route.use('/asignar',asignarDocente);
+  route.use('/bloque',bloqueRoute)
 }
 module.exports = routerApi;
