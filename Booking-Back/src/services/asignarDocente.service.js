@@ -49,7 +49,14 @@ class  AsignarDocenteService{
     }
 
   }
-
-
+  async listarDocenteCurso(id){
+    try{
+      const [DocenteCurso] = await mysqlLib.execute('call sp_listar_docente_curso(?);',id)
+      return DocenteCurso
+    }
+    catch(error){
+      throw new Error('Error al ejecutar la consulta a la base de datos: ' + error.message);
+    }
+  }
   }
 module.exports = AsignarDocenteService;
