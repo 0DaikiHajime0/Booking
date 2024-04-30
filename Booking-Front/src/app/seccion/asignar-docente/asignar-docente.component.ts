@@ -132,7 +132,7 @@ export class AsignarDocenteComponent implements AfterViewInit {
 
   asignarCurso(asignarcurso: Asignar) {
     asignarcurso.id_docente = this.docenteSeleccionado; // Asignar el id_docente aquí
-    this.asignardocenteService.asignarDocenteCurso([asignarcurso]).subscribe(
+    this.asignardocenteService.asignarDocenteCurso(asignarcurso).subscribe(
       (response:any)=>{
         console.log()
       }
@@ -229,4 +229,4 @@ export class EditarDocenteCurso {
   onNoClick(): void {
     this.dialogRef.close();
   }
-}
+}*/
