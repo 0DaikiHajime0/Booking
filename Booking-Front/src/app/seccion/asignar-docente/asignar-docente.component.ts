@@ -58,7 +58,8 @@ export class AsignarDocenteComponent implements AfterViewInit {
           const dialogRef = this.dialog.open(AsignarDocenteCurso, {
             data: {
               cursos: cursos,
-              id_docente: this.docenteSeleccionado // Pasar el id_docente
+              id_docente: this.docenteSeleccionado,
+              asignarCursoRef: this.asignarCurso.bind(this)
             }
           });
         }
@@ -129,6 +130,16 @@ export class AsignarDocenteComponent implements AfterViewInit {
     }
 
   }
+
+  asignarCurso(asignarcurso: Asignar) {
+    asignarcurso.id_docente = this.docenteSeleccionado; // Asignar el id_docente aquí
+    this.asignardocenteService.asignarDocenteCurso([asignarcurso]).subscribe(
+      (response:any)=>{
+        console.log()
+      }
+    )
+    //this.dialogRef.close();
+  }
 }
 
 @Component({
@@ -149,10 +160,11 @@ export class AsignarDocenteComponent implements AfterViewInit {
   ]
 })
 export class AsignarDocenteCurso {
-  asignarcurso: Asignar = new Asignar(0, 0, 0, '', '', '', '', '', '');
+  asignarcurso: Asignar = new Asignar (0, 0, 0, '', '', '','', '', '');
   asignadutarasaasignar: AsignaturanoAsignada[] = [];
   asignar! :Asignar;
   id_docente: number;
+  asignarCursoRef: Function;
 
   constructor(
     private asignardocenteService: AsignarDocenteService,
@@ -161,63 +173,14 @@ export class AsignarDocenteCurso {
   ) {
     this.asignadutarasaasignar = data.cursos;
     this.id_docente = data.id_docente;
-    this.asignarcurso.id_docente = this.id_docente;
+    this.asignarCursoRef = data.asignarCursoRef;
   }
 
   asignarCurso() {
-    this.asignardocenteService.asignarDocenteCurso([this.asignarcurso]).subscribe(
-      (response:any)=>{
-      }
-    )
-    //this.dialogRef.close();
-
-
+    this.asignarCursoRef();
   }
 
-
-
-
-    onNoClick(): void {
-      this.dialogRef.close();
-    }
-  }
-
-
-
-/*
-@Component({
-  selector: 'dialog-overview-example-dialog',
-  templateUrl: './asignar.html',
-  standalone: true,
-  imports:[
-    MatFormFieldModule,
-    MatInputModule,
-    FormsModule,
-    MatButtonModule,
-    MatDialogTitle,
-    MatDialogContent,
-    MatDialogActions,
-    MatDialogClose,
-    MatSelectModule,
-    ReactiveFormsModule,
-  ]
-})
-export class EditarDocenteCurso {
-   asignarcurso: Asignar = new Asignar(0,0,0,'','','','','','');
-   asignadutarasaasignar : AsignaturanoAsignada[]=[];
-
-  constructor(
-    public dialogRef: MatDialogRef<any>,
-    @Inject(MAT_DIALOG_DATA) public data: any
-  ) {
-    this.asignadutarasaasignar = data.cursos;
-  }
-
-  obtenerCurso() {
-    console.log(this.asignarcurso)
-  }
   onNoClick(): void {
     this.dialogRef.close();
   }
 }
-*/
