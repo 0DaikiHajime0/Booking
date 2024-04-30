@@ -24,7 +24,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { response } from 'express';
 
 @Component({
   selector: 'app-asignar-docente',
@@ -143,7 +142,6 @@ export class AsignarDocenteComponent implements AfterViewInit {
     if (this.cursodata.paginator) {
       this.cursodata.paginator.firstPage();
     }
-
   }
 }
 
@@ -258,4 +256,4 @@ export class EditarDocenteCurso {
   onNoClick(): void {
     this.dialogRef.close();
   }
-}
+}*/

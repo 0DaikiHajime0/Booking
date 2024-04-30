@@ -1,77 +1,64 @@
-<mat-drawer-container class="container" >
-  <mat-drawer #drawer class="sidenav" [opened]="false">
-    <div class="usuario">
-      <img [src]="usuarioRecuperado?.photoUrl" alt="" class="usuario-imagen">
-      <p>{{usuarioRecuperado?.firstName}}</p>
-      <p>{{usuarioRecuperado?.lastName}}</p>
-      <p>{{usuarioRecuperado?.email}}</p>
-    </div>
-    <button mat-button class="menu-button" (click)="opcionSeleccionada=1">
-      Perfil
-      <mat-icon>person</mat-icon>
-    </button>
-    <mat-accordion>
-      <mat-expansion-panel class="mat-elevation-z0" >
-          <mat-expansion-panel-header>
-              Reservas
-          </mat-expansion-panel-header>
-          <button mat-button class="menu-button" aria-label="Inicio"(click)="opcionSeleccionada=2">
-              Mostrar Reservas
-              <mat-icon>list</mat-icon>
-          </button>
-          <button mat-button class="menu-button" aria-label="Inicio"(click)="opcionSeleccionada=3">
-              Crear Reservas
-              <mat-icon>add_circle</mat-icon>
-          </button>
-      </mat-expansion-panel>
-    </mat-accordion>
-    <button mat-button class="menu-button" (click)="opcionSeleccionada=4">
-        Usuarios
-      <mat-icon>group</mat-icon>
-    </button>
-    <button mat-button class="menu-button" (click)="opcionSeleccionada=5">
-      Recursos
-    <mat-icon>book</mat-icon>
-    </button>
-    <button mat-button class="menu-button" (click)="opcionSeleccionada=6">
-      Asignaturas
-    <mat-icon>library_books</mat-icon>
-    </button>
-    <button mat-button class="menu-button" (click)="opcionSeleccionada=7">
-      Credenciales
-    <mat-icon>key</mat-icon>
-    </button>
-    <button mat-button class="menu-button" aria-label="Inicio">
-        Cerrar Sesión
-        <mat-icon>logout</mat-icon>
-    </button>
-  </mat-drawer>
-  <div class="sidenav-content">
-    <button type="button" mat-button (click)="drawer.toggle()">
-      <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="menu"></mat-icon>
-    </button>
-    @switch (opcionSeleccionada) {
-      @case(1){
-          <app-perfil></app-perfil>
-      }
-      @case(2){
-          <app-mostrar-reservas></app-mostrar-reservas>
-      }
-      @case(3){
-          <app-crear-reserva></app-crear-reserva>
-      }
-      @case(4){
-          <app-usuarios></app-usuarios>
-      }
-      @case(5){
-          <app-recursos></app-recursos>
-      }
-      @case(6){
-        <app-asignaturas></app-asignaturas>
-      }
-      @case(7){
-        <app-credenciales></app-credenciales>
-      }
-    }
+
+<div class="home-container">
+  <div class="container-usuario">
+    <img [src]="usuarioRecuperado?.photoUrl" alt="" class="container-usuario-imagen">
+    <p class="container-usuario-p">{{usuarioRecuperado?.firstName}}</p>
+    <p class="container-usuario-p">{{usuarioRecuperado?.lastName}}</p>
+    <p class="container-usuario-p">{{usuarioRecuperado?.email}}</p>
   </div>
-</mat-drawer-container>
+  <button mat-button class="menu-button" (click)="cambioComponente('/perfil')">
+    Perfil
+    <mat-icon>person</mat-icon>
+  </button>
+  <mat-accordion>
+    <mat-expansion-panel class="mat-elevation-z0" >
+        <mat-expansion-panel-header>
+            Reservas
+        </mat-expansion-panel-header>
+        <button mat-button class="menu-button" aria-label="Inicio"(click)="cambioComponente('/listar')">
+            Mostrar Reservas
+            <mat-icon>list</mat-icon>
+        </button>
+        <button mat-button class="menu-button" aria-label="Inicio"(click)="cambioComponente('/crear')">
+            Crear Reservas
+            <mat-icon>add_circle</mat-icon>
+        </button>
+    </mat-expansion-panel>
+  </mat-accordion>
+  <button mat-button class="menu-button" (click)="cambioComponente('/usuarios')">
+      Usuarios
+    <mat-icon>group</mat-icon>
+  </button>
+  <button mat-button class="menu-button" (click)="cambioComponente('/recursos')">
+    Recursos
+  <mat-icon>book</mat-icon>
+  </button>
+  <button mat-button class="menu-button" (click)="cambioComponente('/asignaturas')">
+    Asignaturas
+  <mat-icon>library_books</mat-icon>
+  </button>
+  <button mat-button class="menu-button" (click)="cambioComponente('/credenciales')">
+    Credenciales
+  <mat-icon>key</mat-icon>
+  </button>
+  <button mat-button class="menu-button" (click)="cambioComponente('/crearreserva-administrador')">
+    Crear Reserva - Administrador
+  <mat-icon>key</mat-icon>
+  </button>
+  <button mat-button class="menu-button" (click)="cambioComponente('/mostrarreserva-administrador')">
+    Mostrar Reservas - Administrador
+  <mat-icon>key</mat-icon>
+  </button>
+  <button mat-button class="menu-button" (click)="cambioComponente('/asignar-docente')">
+    Asignar Docente a Curso
+  <mat-icon>key</mat-icon>
+  </button>
+  <button mat-button class="menu-button" (click)="cambioComponente('/bloques')">
+    Bloques
+  <mat-icon>key</mat-icon>
+  </button>
+  <button mat-button class="menu-button" aria-label="Inicio">
+      Cerrar Sesión
+      <mat-icon>logout</mat-icon>
+  </button>
+</div>

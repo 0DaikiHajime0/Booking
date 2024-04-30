@@ -5,3 +5,12 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif;}
 .mat-success {
     color:  #009A2C !important;
 }
+.mat-drawer-container {
+    height: 100%;
+}
+.side-nav {
+  width: 300px;
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+}
