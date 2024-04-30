@@ -10,6 +10,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { Asignar } from '../../models/Asignar'
 import {ListarAsignarturaAsignada} from '../../models/ListarAsignaturaAsignada'
 import {EditarAsignacion} from '../../models/EditarAsignacion'
+import { MatSnackBar } from '@angular/material/snack-bar';
+
 
 import {
   MAT_DIALOG_DATA,
@@ -172,6 +174,7 @@ export class AsignarDocenteCurso {
   asignarCursoRef: Function;
 
   constructor(
+    private snackBar: MatSnackBar,
     private asignardocenteService: AsignarDocenteService,
     public dialogRef: MatDialogRef<AsignarDocenteCurso>,
     @Inject(MAT_DIALOG_DATA) public data: any
@@ -184,13 +187,36 @@ export class AsignarDocenteCurso {
   asignarCurso() {
     this.asignarcurso.id_docente = this.id_docente;
     this.asignarcurso.horario_curso = null;
-    this.asignarcurso.cantidad_alumnos = Number(this.asignarcurso.cantidad_alumnos)
-    console.log(this.asignarcurso)
+    this.asignarcurso.cantidad_alumnos = Number(this.asignarcurso.cantidad_alumnos);
+    console.log(this.asignarcurso);
+
     this.asignardocenteService.asignarDocenteCurso(this.asignarcurso).subscribe(
-      (response:any)=>{
-        this.dialogRef.close();}
-    )
-  }
+      (response: any) => {
+          const responseData = response[0];
+          if (responseData.Estatus == '201') {
+              this.dialogRef.close();
+              this.snackBar.open(responseData.Mensaje, 'Cerrar', {
+                  duration: 5000
+              });
+          } else if (responseData.Estatus == '401') {
+              this.snackBar.open(responseData.Mensaje, 'Cerrar', {
+                  duration: 5000
+              });
+          } else {
+              this.snackBar.open('neutro', 'Cerrar', {
+                  duration: 5000
+              });
+          }
+      },
+      (error: any) => {
+          this.snackBar.open('Error: No se pudo completar la solicitud', 'Cerrar', {
+              duration: 3000
+          });
+      }
+  );
+
+}
+
     onNoClick(): void {
       this.dialogRef.close();
     }
@@ -220,6 +246,7 @@ export class EditarDocenteCurso {
    nrc_anterior = '';
    editar! : EditarAsignacion;
   constructor(
+    private snackBar: MatSnackBar,
     private asignardocenteService: AsignarDocenteService,
     public dialogRef: MatDialogRef<any>,
     @Inject(MAT_DIALOG_DATA) public data: any
@@ -239,22 +266,43 @@ export class EditarDocenteCurso {
       );
   }
   editarAsignacion(){
-    this.editar={
-      id_curso:this.asignarcurso.id_curso,
-      id_docente:this.asignarcurso.id_docente,
-      nrc_anterior:this.nrc_anterior,
-      cantidad_alumnos:this.asignarcurso.cantidad_alumnos,
-      nrc_curso:this.asignarcurso.nrc_curso,
-      periodo_curso:this.asignarcurso.periodo_curso,
-      campus_curso:this.asignarcurso.campus_curso,
-      modalidad_curso:this.asignarcurso.modalida_curso,
-    }
+    this.editar = {
+        id_curso: this.asignarcurso.id_curso,
+        id_docente: this.asignarcurso.id_docente,
+        nrc_anterior: this.nrc_anterior,
+        cantidad_alumnos: this.asignarcurso.cantidad_alumnos,
+        nrc_curso: this.asignarcurso.nrc_curso,
+        periodo_curso: this.asignarcurso.periodo_curso,
+        campus_curso: this.asignarcurso.campus_curso,
+        modalidad_curso: this.asignarcurso.modalida_curso,
+    };
+
     this.asignardocenteService.editarDocenteCurso(this.editar).subscribe(
-      (response:any)=>{this.dialogRef.close();}
-    )
+        (response: any) => {
+            const responseData = response[0];
+            if (responseData.estatus == '201') {
+                this.dialogRef.close();
+                this.snackBar.open(responseData.Mensaje, 'Cerrar', {
+                    duration: 3000
+                });
+            } else if (responseData.estatus == '401') {
+                this.snackBar.open(responseData.Mensaje, 'Cerrar', {
+                    duration: 3000
+                });
+            } else {
+                this.snackBar.open('neutro', 'Cerrar', {
+                    duration: 3000
+                });
+            }
+        },
+        (error: any) => {
+            this.snackBar.open('Error: No se pudo completar la solicitud', 'Cerrar', {
+                duration: 3000
+            });
+        }
+    );
+}
 
-
-  }
   onNoClick(): void {
     this.dialogRef.close();
   }
