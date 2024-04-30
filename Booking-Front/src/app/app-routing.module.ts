@@ -7,7 +7,6 @@ import { CrearReservaComponent } from './seccion/crear-reserva/crear-reserva.com
 import { PerfilComponent } from './seccion/perfil/perfil.component';
 import { UsuariosComponent } from './seccion/usuarios/usuarios.component';
 import { RecursosComponent } from './seccion/recursos/recursos.component';
-import { AsignaturasComponent } from './seccion/asignaturas/asignaturas.component';
 import {CrearreservaAdministradorComponent} from './seccion/crearreserva-administrador/crearreserva-administrador.component'
 import {MostrarreservaAdministradorComponent} from './seccion/mostrarreserva-administrador/mostrarreserva-administrador.component'
 import {AsignarDocenteComponent} from './seccion/asignar-docente/asignar-docente.component'
@@ -22,7 +21,6 @@ const routes: Routes = [
   {path:'home', component:HomeComponent},
   {path:'crear', component:CrearReservaComponent},
   {path:'recursos', component:RecursosComponent},
-  {path:'asignaturas',component:AsignaturasComponent},
   {path:'crearreserva-administrador',component:CrearreservaAdministradorComponent},
   {path:'mostrarreserva-administrador',component:MostrarreservaAdministradorComponent},
   {path:'asignar-docente',component:AsignarDocenteComponent},

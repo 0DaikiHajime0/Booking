@@ -56,7 +56,6 @@ import {
 import { GoogleSigninButtonModule } from '@abacritt/angularx-social-login';
 import { HttpClientModule } from '@angular/common/http';
 import { UsuariosComponent } from './seccion/usuarios/usuarios.component';
-import { AsignaturasComponent } from './seccion/asignaturas/asignaturas.component';
 import { RecursosComponent } from './seccion/recursos/recursos.component';
 import { CrearreservaAdministradorComponent } from './seccion/crearreserva-administrador/crearreserva-administrador.component';
 import { MostrarreservaAdministradorComponent } from './seccion/mostrarreserva-administrador/mostrarreserva-administrador.component';
@@ -75,7 +74,6 @@ import { BloquesComponent } from './seccion/bloques/bloques.component';
     MostrarReservasComponent,
     HomeComponent,
     UsuariosComponent,
-    AsignaturasComponent,
     RecursosComponent,
     CrearreservaAdministradorComponent,
     MostrarreservaAdministradorComponent,
