@@ -1,0 +1,39 @@
+<section>
+    <p class="header">Bloques</p>
+</section>
+
+<section class="container">
+    <div class="container-botones">
+        <button mat-raised-button color="primary" (click)="nuevoBloque()">
+            Nuevo
+        </button>
+    </div>
+    <table mat-table [dataSource]="dsBloques" class="container-tabla">
+        <ng-container matColumnDef="bloque_id">
+            <th mat-header-cell *matHeaderCellDef>ID</th>
+            <td mat-cell *matCellDef="let bloque">{{bloque.bloque_id}}</td>
+        </ng-container>
+        <ng-container matColumnDef="bloque_nombre">
+            <th mat-header-cell *matHeaderCellDef>Nombre</th>
+            <td mat-cell *matCellDef="let bloque">{{bloque.bloque_nombre}}</td>
+        </ng-container>
+        <ng-container matColumnDef="bloque_rango">
+            <th mat-header-cell *matHeaderCellDef>Rango</th>
+            <td mat-cell *matCellDef="let bloque">{{bloque.bloque_rango}}</td>
+        </ng-container>
+        <ng-container matColumnDef="bloque_orden">
+            <th mat-header-cell *matHeaderCellDef>Orden</th>
+            <td mat-cell *matCellDef="let bloque">{{bloque.bloque_orden}}</td>
+        </ng-container>
+        <ng-container matColumnDef="bloque_editar">
+            <th mat-header-cell *matHeaderCellDef>Editar</th>
+            <td mat-cell *matCellDef="let bloque">
+                <button mat-icon-button color="primary" matTooltip="Editar" (click)="editarBloque(bloque)">
+                    <mat-icon>edit</mat-icon>
+                </button>
+            </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="columnaBloques"></tr>
+        <tr mat-row *matRowDef="let row; columns: columnaBloques;"></tr>
+    </table>
+</section>
