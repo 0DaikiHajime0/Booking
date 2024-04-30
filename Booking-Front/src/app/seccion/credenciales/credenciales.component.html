@@ -1,66 +1,77 @@
-
-<section>
-    <p class="header">Credenciales</p>
-</section>
-<div class="busqueda">
-    <mat-form-field appearance="fill">
-        <input
-        matInput
-        placeholder="Buscar"
-        #input
-      />
-    </mat-form-field>
-    
-</div>
-<div class="contenido">
-
-    <div class="contenido-tabla">
-        <mat-form-field>
-          <mat-label>Seleccionar Recurso</mat-label>
-          <mat-select [(ngModel)]="recursoSeleccionado" (selectionChange)="onChange($event)">
-            @for (recurso of recursos; track recurso) {
-              <mat-option [value]="recurso">{{recurso.recurso_nombre}}</mat-option>
-            }
-          </mat-select>
+<mat-drawer-container class="mat-drawer-container" >
+  <mat-drawer #drawer class="sidenav" [opened]="false">
+      <app-home></app-home>
+  </mat-drawer>
+  <div class="sidenav-content">
+      <button type="button" mat-button (click)="drawer.toggle()">
+          <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="menu">
+          </mat-icon>
+      </button>
+      <section>
+        <p class="header">Credenciales</p>
+    </section>
+    <div class="busqueda">
+        <mat-form-field appearance="fill">
+            <input
+            matInput
+            placeholder="Buscar"
+            #input
+          />
         </mat-form-field>
-      
-      <div class="container-table">
         
-        @if(recursoSeleccionado){
-            <button mat-raised-button color="primary" class="boton-agregar" (click)="agregarCredencial()">
-                Agregar Credencial
-            </button>
-          <table mat-table [dataSource]="dataSourceCredenciales">
-            <ng-container matColumnDef="credencial_id">
-              <th mat-header-cell *matHeaderCellDef>ID</th>
-              <td mat-cell *matCellDef="let credencial">{{ credencial.credenciales_id }}</td>
-            </ng-container>
-            <ng-container matColumnDef="credencial_usuario">
-              <th mat-header-cell *matHeaderCellDef>Usuario</th>
-              <td mat-cell *matCellDef="let credencial">{{ credencial.credencial_usuario }}</td>
-            </ng-container>
-            <ng-container matColumnDef="credencial_contrasena">
-              <th mat-header-cell *matHeaderCellDef>Contraseña</th>
-              <td mat-cell *matCellDef="let credencial">{{ credencial.credencial_contrasena }}</td>
-            </ng-container>
-            <ng-container matColumnDef="credencial_key">
-              <th mat-header-cell *matHeaderCellDef>Clave</th>
-              <td mat-cell *matCellDef="let credencial">{{ credencial.credencial_key }}</td>
-            </ng-container>
-            <ng-container matColumnDef="credenciales_estado">
-              <th mat-header-cell *matHeaderCellDef>Estado</th>
-              <td mat-cell *matCellDef="let credencial">{{ credencial.credenciales_estado }}</td>
-            </ng-container>
-            <tr mat-header-row *matHeaderRowDef="columnasCredenciales"></tr>
-            <tr mat-row *matRowDef="let row; columns: columnasCredenciales;"></tr>
-          </table>
-          <mat-paginator [length]="credenciales.length"
-          [pageSize]="10"
-          [pageSizeOptions]="[5, 10, 25, 100]"
-          aria-label="Select page">
-          </mat-paginator>
-        }
-      </div>
-</div>
-
-</div>
+    </div>
+    <div class="contenido">
+    
+        <div class="contenido-tabla">
+            <mat-form-field>
+              <mat-label>Seleccionar Recurso</mat-label>
+              <mat-select [(ngModel)]="recursoSeleccionado" (selectionChange)="onChange($event)">
+                @for (recurso of recursos; track recurso) {
+                  <mat-option [value]="recurso">{{recurso.recurso_nombre}}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+          
+          <div class="container-table">
+            
+            @if(recursoSeleccionado){
+                <button mat-raised-button color="primary" class="boton-agregar" (click)="agregarCredencial()">
+                    Agregar Credencial
+                </button>
+              <table mat-table [dataSource]="dataSourceCredenciales">
+                <ng-container matColumnDef="credencial_id">
+                  <th mat-header-cell *matHeaderCellDef>ID</th>
+                  <td mat-cell *matCellDef="let credencial">{{ credencial.credenciales_id }}</td>
+                </ng-container>
+                <ng-container matColumnDef="credencial_usuario">
+                  <th mat-header-cell *matHeaderCellDef>Usuario</th>
+                  <td mat-cell *matCellDef="let credencial">{{ credencial.credencial_usuario }}</td>
+                </ng-container>
+                <ng-container matColumnDef="credencial_contrasena">
+                  <th mat-header-cell *matHeaderCellDef>Contraseña</th>
+                  <td mat-cell *matCellDef="let credencial">{{ credencial.credencial_contrasena }}</td>
+                </ng-container>
+                <ng-container matColumnDef="credencial_key">
+                  <th mat-header-cell *matHeaderCellDef>Clave</th>
+                  <td mat-cell *matCellDef="let credencial">{{ credencial.credencial_key }}</td>
+                </ng-container>
+                <ng-container matColumnDef="credenciales_estado">
+                  <th mat-header-cell *matHeaderCellDef>Estado</th>
+                  <td mat-cell *matCellDef="let credencial">{{ credencial.credenciales_estado }}</td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="columnasCredenciales"></tr>
+                <tr mat-row *matRowDef="let row; columns: columnasCredenciales;"></tr>
+              </table>
+              <mat-paginator [length]="credenciales.length"
+              [pageSize]="10"
+              [pageSizeOptions]="[5, 10, 25, 100]"
+              aria-label="Select page">
+              </mat-paginator>
+            }
+          </div>
+    </div>
+    
+    </div>
+    </div>
+  </mat-drawer-container>
+    

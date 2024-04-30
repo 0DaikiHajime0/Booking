@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { UsuarioGoogle } from '../models/UsuarioGoogle';
 import { UsuarioService } from '../services/login.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -10,7 +11,9 @@ import { UsuarioService } from '../services/login.service';
 export class HomeComponent {
   usuarioRecuperado: UsuarioGoogle | null = null;
   opcionSeleccionada:number = 5;
-  constructor(){
+  constructor(
+    private router: Router
+  ){
     this.handleLoginSuccess();
   }
   handleLoginSuccess(): void {
@@ -26,6 +29,9 @@ export class HomeComponent {
     } else {
       console.log('El localStorage no está disponible en este navegador.');
     }
+  }
+  cambioComponente(ruta: string) {
+    this.router.navigate([ruta]);
   }
 }
 

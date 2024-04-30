@@ -1,3 +1,13 @@
+<mat-drawer-container class="mat-drawer-container" >
+  <mat-drawer #drawer class="sidenav" [opened]="false">
+      <app-home></app-home>
+  </mat-drawer>
+  <div class="sidenav-content">
+      <button type="button" mat-button (click)="drawer.toggle()">
+          <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="menu">
+          </mat-icon>
+      </button>
+      
 <section>
   <p class="Header">Asignar Docente</p>
 </section>
@@ -86,3 +96,5 @@
     </div>
   </div>
 </section>
+</div>
+</mat-drawer-container>
