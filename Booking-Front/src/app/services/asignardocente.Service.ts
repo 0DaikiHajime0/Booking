@@ -5,6 +5,8 @@ import { API_BASE_URL } from './constants';
 import { Asignatura } from '../models/Asignatura';
 import {AsignaturanoAsignada} from "../models/AsignaturaNoAsignadas"
 import {Asignar} from '../models/Asignar'
+import {ListarAsignarturaAsignada} from '../models/ListarAsignaturaAsignada'
+import {EditarAsignacion} from '../models/EditarAsignacion'
 
 @Injectable({
   providedIn: 'root'
@@ -29,6 +31,13 @@ export class AsignarDocenteService{
 
   asignarDocenteCurso(asignar:Asignar):Observable<Asignar>{
     return this.http.post<any>(`${this.url2}asignardocente`,asignar)
+  }
+
+  listartCursoDocenteasignado(id_cocente_curso:number):Observable<ListarAsignarturaAsignada[]>{
+    return this.http.get<ListarAsignarturaAsignada[]>(`${this.url2}/listarcursodocente/${id_cocente_curso}`)
+  }
+  editarDocenteCurso(editar:EditarAsignacion):Observable<EditarAsignacion>{
+    return this.http.post<any>(`${this.url2}editarasignacion`,editar)
   }
 
 }

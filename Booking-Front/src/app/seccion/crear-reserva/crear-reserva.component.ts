@@ -170,14 +170,9 @@ export class CrearReservaComponent implements OnInit {
       fecha: this.selectedFecha,
       docente_correo: this.docente.usuario_correo
     };
-    console.log(data)
     this.crearReservaService.enviarCredenciales(data).subscribe(
-      response => {
-        console.log('Credenciales enviadas:', response);
-      },
-      error => {
-        console.error('Error al enviar las credenciales:', error);
-      }
+      response => {},
+      error => {}
     );
   }
   validarcantidad(): void {
