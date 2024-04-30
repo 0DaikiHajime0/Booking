@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { Recurso } from '../../models/Recurso';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -11,6 +11,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-credenciales',
@@ -23,6 +24,8 @@ export class CredencialesComponent {
   columnasCredenciales:string[] = ['credencial_id','credencial_usuario','credencial_contrasena','credencial_key','credenciales_estado']
   dataSourceCredenciales!: MatTableDataSource<Licencia>
   recursoSeleccionado!:Recurso
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+
   constructor(
     private _snackBar: MatSnackBar,
     private recursoService:RecursoService,
@@ -36,7 +39,7 @@ export class CredencialesComponent {
   async onChange(event:any) {
     try {
       this.credenciales = await this.recursoService.getLicencias(this.recursoSeleccionado.recurso_id);
-      this.dataSourceCredenciales = new MatTableDataSource<Licencia>(this.credenciales);
+      this.dataSourceCredenciales = new MatTableDataSource<Licencia>(this.credenciales);     this.dataSourceCredenciales.paginator = this.paginator;
     } catch (error) {
       console.error('Error al obtener asignaturas:', error);
     }
@@ -50,10 +53,9 @@ export class CredencialesComponent {
       dialogRef.afterClosed().subscribe(
         async result=>{
           if(result){
-            this.recursoService.guardarLicencia(result,recurso.recurso_id);
+            await this.recursoService.guardarLicencia(result, recurso.recurso_id);
             this.credenciales = await this.recursoService.getLicencias(this.recursoSeleccionado.recurso_id);
             this.dataSourceCredenciales = new MatTableDataSource<Licencia>(this.credenciales);
-
           }
         }
       )

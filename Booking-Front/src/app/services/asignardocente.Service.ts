@@ -27,7 +27,7 @@ export class AsignarDocenteService{
     return this.http.get<AsignaturanoAsignada[]>(`${this.url2}listarcursosnoasignados/`);
   }
 
-  asignarDocenteCurso(asignar:Asignar[]):Observable<any>{
+  asignarDocenteCurso(asignar:Asignar):Observable<Asignar>{
     return this.http.post<any>(`${this.url2}asignardocente`,asignar)
   }
 

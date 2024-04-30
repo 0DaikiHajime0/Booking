@@ -54,7 +54,11 @@
             <tr mat-header-row *matHeaderRowDef="columnasCredenciales"></tr>
             <tr mat-row *matRowDef="let row; columns: columnasCredenciales;"></tr>
           </table>
-            
+          <mat-paginator [length]="credenciales.length"
+          [pageSize]="10"
+          [pageSizeOptions]="[5, 10, 25, 100]"
+          aria-label="Select page">
+          </mat-paginator>
         }
       </div>
 </div>

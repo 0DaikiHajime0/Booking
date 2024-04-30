@@ -177,6 +177,53 @@ export class AsignarDocenteCurso {
   }
 
   asignarCurso() {
+
+    this.asignardocenteService.asignarDocenteCurso(this.asignarcurso).subscribe(
+      (response:any)=>{
+      }
+    )
+    //this.dialogRef.close();
+
+
+  }
+
+
+
+
+    onNoClick(): void {
+      this.dialogRef.close();
+    }
+  }
+
+
+
+/*
+@Component({
+  selector: 'dialog-overview-example-dialog',
+  templateUrl: './asignar.html',
+  standalone: true,
+  imports:[
+    MatFormFieldModule,
+    MatInputModule,
+    FormsModule,
+    MatButtonModule,
+    MatDialogTitle,
+    MatDialogContent,
+    MatDialogActions,
+    MatDialogClose,
+    MatSelectModule,
+    ReactiveFormsModule,
+  ]
+})
+export class EditarDocenteCurso {
+   asignarcurso: Asignar = new Asignar(0,0,0,'','','','','','');
+   asignadutarasaasignar : AsignaturanoAsignada[]=[];
+
+  constructor(
+    public dialogRef: MatDialogRef<any>,
+    @Inject(MAT_DIALOG_DATA) public data: any
+  ) {
+    this.asignadutarasaasignar = data.cursos;
     this.asignarCursoRef();
   }
 
