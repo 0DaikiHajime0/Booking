@@ -8,6 +8,8 @@ import { Asignatura } from '../../models/Asignatura';
 import { AsignaturanoAsignada } from '../../models/AsignaturaNoAsignadas'
 import { MatSelectModule } from '@angular/material/select';
 import { Asignar } from '../../models/Asignar'
+import {ListarAsignarturaAsignada} from '../../models/ListarAsignaturaAsignada'
+import {EditarAsignacion} from '../../models/EditarAsignacion'
 
 import {
   MAT_DIALOG_DATA,
@@ -32,9 +34,11 @@ export class AsignarDocenteComponent implements AfterViewInit {
   docentes: Usuario[] = [];
   asignaturas: Asignatura[] = [];
   asignadutarasaasignar: AsignaturanoAsignada[] = [];
+  listarAsignacion :ListarAsignarturaAsignada[] = [];
   displayedColumns1: string[] = ['id', 'Docente', 'Correo'];
   displayedColumns2: string[] = ['nrc', 'curso_nombre', 'docente_curso_cantidad_alumnos', 'curso_periodo', 'curso_campus', 'curso_modalidad', 'acciones'];
   docenteSeleccionado: number = 0;
+  CursoSeleccionado: number = 0;
   docenteSeleccionadoBool: boolean = false;
 
 
@@ -57,17 +61,27 @@ export class AsignarDocenteComponent implements AfterViewInit {
           const dialogRef = this.dialog.open(AsignarDocenteCurso, {
             data: {
               cursos: cursos,
-              id_docente: this.docenteSeleccionado,
-              asignarCursoRef: this.asignarCurso.bind(this)
             }
           });
         }
       );
     } else {
-      console.error("Error: No se ha seleccionado un docente.");
+      console.error("Error: No se ha seleccionado un Curso");
     }
   }
-
+  openDialog2(cursoId: number): void {
+    this.CursoSeleccionado = cursoId;
+    this.asignardocenteService.listartCursoDocenteasignado(this.CursoSeleccionado).subscribe(
+      (asignacion: ListarAsignarturaAsignada[]) => {
+        this.listarAsignacion = asignacion;
+        const dialogRef = this.dialog.open(EditarDocenteCurso, {
+          data: {
+            asignacion: this.listarAsignacion
+          }
+        });
+      }
+    );
+  }
 
   ngOnInit(): void {
     this.listarDocentes();
@@ -107,6 +121,7 @@ export class AsignarDocenteComponent implements AfterViewInit {
       }
     );
   }
+
   seleccionarDocente(docente: Usuario) {
     this.docenteSeleccionado = docente.usuario_id;
     this.docenteSeleccionadoBool = true;
@@ -127,17 +142,6 @@ export class AsignarDocenteComponent implements AfterViewInit {
     if (this.cursodata.paginator) {
       this.cursodata.paginator.firstPage();
     }
-
-  }
-
-  asignarCurso(asignarcurso: Asignar) {
-    asignarcurso.id_docente = this.docenteSeleccionado; // Asignar el id_docente aquí
-    this.asignardocenteService.asignarDocenteCurso(asignarcurso).subscribe(
-      (response:any)=>{
-        console.log()
-      }
-    )
-    //this.dialogRef.close();
   }
 }
 
@@ -176,30 +180,24 @@ export class AsignarDocenteCurso {
   }
 
   asignarCurso() {
-
+    this.asignarcurso.id_docente = this.id_docente;
+    this.asignarcurso.horario_curso = null;
+    this.asignarcurso.cantidad_alumnos = Number(this.asignarcurso.cantidad_alumnos)
+    console.log(this.asignarcurso)
     this.asignardocenteService.asignarDocenteCurso(this.asignarcurso).subscribe(
       (response:any)=>{
-      }
+        this.dialogRef.close();}
     )
-    //this.dialogRef.close();
-
-
   }
-
-
-
-
     onNoClick(): void {
       this.dialogRef.close();
     }
   }
 
 
-
-/*
 @Component({
   selector: 'dialog-overview-example-dialog',
-  templateUrl: './asignar.html',
+  templateUrl: './editar.html',
   standalone: true,
   imports:[
     MatFormFieldModule,
@@ -215,17 +213,46 @@ export class AsignarDocenteCurso {
   ]
 })
 export class EditarDocenteCurso {
-   asignarcurso: Asignar = new Asignar(0,0,0,'','','','','','');
-   asignadutarasaasignar : AsignaturanoAsignada[]=[];
-
+   listarAsignacion: ListarAsignarturaAsignada[] = []
+   asignarcurso: Asignar
+   nrc_anterior = '';
+   editar! : EditarAsignacion;
   constructor(
+    private asignardocenteService: AsignarDocenteService,
     public dialogRef: MatDialogRef<any>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
-    this.asignadutarasaasignar = data.cursos;
-    this.asignarCursoRef();
+      const primerElemento: ListarAsignarturaAsignada = data.asignacion[0];
+      this.nrc_anterior = primerElemento.nrc;
+      this.asignarcurso = new Asignar(
+        primerElemento.docente_curso_cantidad_alumnos,
+        primerElemento.curso_id,
+        primerElemento.docente_id,
+        primerElemento.nrc,
+        primerElemento.curso_modalidad,
+        primerElemento.curso_campus,
+        primerElemento.curso_periodo,
+        primerElemento.curso_horario !== null ? primerElemento.curso_horario : '',
+        primerElemento.curso_tipo
+      );
   }
+  editarAsignacion(){
+    this.editar={
+      id_curso:this.asignarcurso.id_curso,
+      id_docente:this.asignarcurso.id_docente,
+      nrc_anterior:this.nrc_anterior,
+      cantidad_alumnos:this.asignarcurso.cantidad_alumnos,
+      nrc_curso:this.asignarcurso.nrc_curso,
+      periodo_curso:this.asignarcurso.periodo_curso,
+      campus_curso:this.asignarcurso.campus_curso,
+      modalidad_curso:this.asignarcurso.modalida_curso,
+    }
+    this.asignardocenteService.editarDocenteCurso(this.editar).subscribe(
+      (response:any)=>{this.dialogRef.close();}
+    )
 
+
+  }
   onNoClick(): void {
     this.dialogRef.close();
   }
