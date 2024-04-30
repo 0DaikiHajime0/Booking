@@ -65,7 +65,7 @@ export class LoginComponent implements OnInit {
       sessionStorage.setItem('usuario', JSON.stringify(this.usuario));
     } else {
       console.log('Web Storage is not supported in this environment.');
-    }    this.router.navigate(['/home']);
+    }    this.router.navigate(['/listar']);
   }
 
   private showSnackBar(message: string): void {
