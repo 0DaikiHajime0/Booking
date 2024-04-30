@@ -165,7 +165,7 @@ export class AsignarDocenteCurso {
   }
 
   asignarCurso() {
-    this.asignardocenteService.asignarDocenteCurso([this.asignarcurso]).subscribe(
+    this.asignardocenteService.asignarDocenteCurso(this.asignarcurso).subscribe(
       (response:any)=>{
       }
     )
