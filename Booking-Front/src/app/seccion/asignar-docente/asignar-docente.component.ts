@@ -57,7 +57,9 @@ export class AsignarDocenteComponent implements AfterViewInit {
     this.cursodata = new MatTableDataSource<Asignatura>();
   }
   openDialog(): void {
+    
     if (this.docenteSeleccionado !== 0) {
+      const id_docente =this.docenteSeleccionado
       this.asignardocenteService.listarCursonoAsignado().subscribe(
         (cursos: AsignaturanoAsignada[]) => {
           const dialogRef = this.dialog.open(AsignarDocenteCurso, {
@@ -65,7 +67,6 @@ export class AsignarDocenteComponent implements AfterViewInit {
               cursos: cursos,
               id_docente: this.docenteSeleccionado
 
-            }
           });
         }
       );

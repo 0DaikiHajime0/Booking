@@ -96,4 +96,7 @@ export class RecursoService {
     nuevoBloque(bloque:Bloques):Observable<Bloques>{
         return this.http.post<Bloques>(`${this.urlbloque}nuevoBloque`,bloque);
     }
+    editarLicencia(licencia:Licencia):Observable<Licencia>{
+        return this.http.post<Licencia>(`${this.url}editarLicencia`,licencia)
+    }
 }

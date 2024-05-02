@@ -77,11 +77,10 @@ nuevoUsuario(): void {
         try {
           const response = await this.usuarioService.nuevoUsuario(result);
           if (response instanceof HttpErrorResponse && response.error instanceof Error) {
-            // Si hay un error
             this.mostrarSnackbar('Error: ' + response.error.message, 'error');
           } else {
-            // Si la creación del usuario fue exitosa
             this.mostrarSnackbar('Usuario creado exitosamente', 'success');
+            this.getUsuarios();
           }
         } catch (error) {
           this.mostrarSnackbar('Error: ' + (error instanceof Error ? error.message : 'Error desconocido'), 'error');
@@ -109,7 +108,7 @@ habilitardeshabilitar(id:number){
     dialogRef.afterClosed().subscribe(
       result=>{
         if (result) {
-          if(result.usuario_estado=='Desactivado'){
+          if(result.usuario_estado=='Inactivo'){
             this.usuarioService.deshabilitarUsuario(result.usuario_id)
           }else{
             this.usuarioService.habilitarUsuario(result.usuario_id)
