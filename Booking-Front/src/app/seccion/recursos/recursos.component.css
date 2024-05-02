@@ -34,10 +34,8 @@
  .selected-row {
   background-color: #c2f2ff; 
 }
-.botones{
-  margin: 5px;
-}
+
 .botones-nuevo{
-  margin-top: 5px;
   margin-right: 5px;
+  margin-bottom: 10px;
 }

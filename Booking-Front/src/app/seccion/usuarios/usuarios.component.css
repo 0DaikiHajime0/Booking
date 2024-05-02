@@ -16,6 +16,9 @@
    width: 90%;
    margin: 0 auto
  }
+ .busqueda-botones{
+   margin-bottom:10px
+ }
  table{
     font-size: 1px;
  }

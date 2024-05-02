@@ -24,4 +24,15 @@ router.post('/editarbloque',
         }
     }
 )
+router.post('/nuevobloque',
+    async(req,res,next)=>{
+        bloque = req.body
+        try {
+            const result = await bloqueservice.nuevoBloque(bloque);
+            res.json(result)
+        } catch (error) {
+            next(error)
+        }
+    }    
+)
 module.exports=router

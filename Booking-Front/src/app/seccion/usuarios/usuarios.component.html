@@ -15,11 +15,11 @@
                 <input
                 matInput
                 (keyup)="aplicarFiltro($any($event.target).value)"
-                placeholder="Buscar"
+                placeholder="Buscar Usuarios"
                 #input
               />
             </mat-form-field>
-            <div class="botones">
+            <div class="busqueda-botones">
                 <button mat-raised-button (click)="nuevoUsuario()" color="primary">Crear Nuevo Usuario</button>
             </div>
         </div>
@@ -63,7 +63,7 @@
                         }
                         @else if(usuario.usuario_estado){
                             <button mat-button color="warn" (click)="habilitardeshabilitar(usuario.usuario_id)" aria-label="" matTooltip="Desactivar">
-                                Desactivado
+                                Inactivo
                               </button>
                         }
                         

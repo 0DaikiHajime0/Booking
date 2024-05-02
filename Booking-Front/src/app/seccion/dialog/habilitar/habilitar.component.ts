@@ -32,7 +32,7 @@ export class HabilitarComponent {
     estado!:string
     tipo!:string
     activo:string='Activo';
-    desactivado:string ='Desactivado'
+    inactivo:string ='Inactivo'
     constructor(
         public dialogRef: MatDialogRef<HabilitarComponent>,
         private usuarioService:UsuarioService,
@@ -51,7 +51,7 @@ export class HabilitarComponent {
    usuarioDeshabilitarHabilitar(){
     if(this.estado=='desactivar'){
         const usuarioestado = { ...this.info.usuario };
-        usuarioestado.usuario_estado = 'Desactivado';
+        usuarioestado.usuario_estado = 'Inactivo';
         return usuarioestado
     }else{
         const usuarioestado = { ...this.info.usuario };

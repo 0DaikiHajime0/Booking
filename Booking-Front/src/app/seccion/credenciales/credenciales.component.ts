@@ -12,6 +12,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatPaginator } from '@angular/material/paginator';
+import { s } from '@fullcalendar/core/internal-common';
 
 @Component({
   selector: 'app-credenciales',
@@ -21,7 +22,7 @@ import { MatPaginator } from '@angular/material/paginator';
 export class CredencialesComponent {
   recursos: Recurso[] = [];
   credenciales: Licencia[] = [];
-  columnasCredenciales:string[] = ['credencial_id','credencial_usuario','credencial_contrasena','credencial_key','credenciales_estado']
+  columnasCredenciales:string[] = ['credencial_id','credencial_usuario','credencial_contrasena','credencial_key','credenciales_estado','editar']
   dataSourceCredenciales!: MatTableDataSource<Licencia>
   recursoSeleccionado!:Recurso
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -44,7 +45,7 @@ export class CredencialesComponent {
       console.error('Error al obtener asignaturas:', error);
     }
     }
-    async agregarCredencial(){
+  async agregarCredencial(){
     const recurso = this.recursoSeleccionado;
     if(recurso){
       const dialogRef = this.dialog.open(NuevaCredencial,{
@@ -56,6 +57,23 @@ export class CredencialesComponent {
             await this.recursoService.guardarLicencia(result, recurso.recurso_id);
             this.credenciales = await this.recursoService.getLicencias(this.recursoSeleccionado.recurso_id);
             this.dataSourceCredenciales = new MatTableDataSource<Licencia>(this.credenciales);
+          }
+        }
+      )
+    }
+  }
+  async editarCredencial(licencia:Licencia){
+    const recurso = this.recursoSeleccionado;
+    if(licencia){
+      const dialogRef = this.dialog.open(NuevaCredencial,{
+        data:{licencia,recurso}
+      })
+      dialogRef.afterClosed().subscribe(
+        async result=>{
+          if(result){
+            this.recursoService.editarLicencia(result)
+            this.credenciales = await this.recursoService.getLicencias(this.recursoSeleccionado.recurso_id)
+            this.dataSourceCredenciales = new MatTableDataSource<Licencia>(this.credenciales)
           }
         }
       )
@@ -99,3 +117,4 @@ export class NuevaCredencial{
     this.dialogRef.close();
   }
 }
+//TODO

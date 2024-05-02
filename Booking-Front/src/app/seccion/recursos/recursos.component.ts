@@ -85,8 +85,8 @@ export class RecursosComponent {
             data: { recurso }
         });
         dialogRef.afterClosed().subscribe(result => {
-          this.recursoservice.editarRecurso(result);
             if (result) {
+              this.recursoservice.editarRecurso(result);
                 const index = this.recursos.findIndex(u => u.recurso_id === id);
                 if (index !== -1) {
                     this.recursos[index] = result;
