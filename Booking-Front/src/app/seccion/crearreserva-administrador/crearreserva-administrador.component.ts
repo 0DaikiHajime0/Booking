@@ -12,6 +12,16 @@ import { Recurso } from '../../models/Recurso';
 import { Bloques } from '../../models/Bloques';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import esLocale from '@fullcalendar/core/locales/es';
+import { MatIconModule } from '@angular/material/icon';
+import {
+  MatDialog,
+  MatDialogRef,
+  MatDialogActions,
+  MatDialogClose,
+  MatDialogTitle,
+  MatDialogContent,
+} from '@angular/material/dialog';
+import {MatButtonModule} from '@angular/material/button';
 
 @Component({
   selector: 'app-crearreserva-administrador',
@@ -41,6 +51,7 @@ export class CrearreservaAdministradorComponent implements OnInit {
   estatus: string = '';
   constructor
     (
+      public dialog: MatDialog,
       private router: Router,
       private crearReservaService: CrearReservaServiceService,
       private usuarioservice: UsuarioService,
@@ -169,7 +180,7 @@ export class CrearreservaAdministradorComponent implements OnInit {
             this.openSnackBar(mensaje, 'Cerrar');
             this.enviarCredenciales();
             setTimeout(() => {
-              this.router.navigate(['/listar']);
+              this.router.navigate(['/mostrarreserva-administrador']);
             }, 3000);
           } else {
             this.openSnackBar(mensaje, 'Cerrar');
@@ -223,4 +234,21 @@ export class CrearreservaAdministradorComponent implements OnInit {
     events: [
     ]
   };
+  openDialog(enterAnimationDuration: string, exitAnimationDuration: string): void {
+    this.dialog.open(DialogAnimationsExampleDialog, {
+      width: '250px',
+      enterAnimationDuration,
+      exitAnimationDuration,
+    });
+  }
+}
+@Component({
+  selector: 'dialog-animations-example-dialog',
+  templateUrl: 'reservageneral.html',
+  styleUrl: './reservageneral.css',
+  standalone: true,
+  imports: [MatButtonModule, MatDialogActions, MatDialogClose, MatDialogTitle, MatDialogContent,MatIconModule],
+})
+export class DialogAnimationsExampleDialog {
+  constructor(public dialogRef: MatDialogRef<DialogAnimationsExampleDialog>) {}
 }

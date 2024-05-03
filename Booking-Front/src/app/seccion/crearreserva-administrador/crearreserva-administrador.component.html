@@ -29,7 +29,7 @@
         </select>
       </div>
       <div class="input_cantidad">
-        <label>Cantidad de Alumnos: {{ cantidadAlumnos }}</label>
+        <label>Cantidad de Matriculados: {{ cantidadAlumnos }}</label>
       </div>
       <div class="input_reserva">
         <label for="Recurso">Recurso: </label>
@@ -41,6 +41,10 @@
       <div class="input_fecha">
         <label for="Fecha">Fecha: </label>
         <input class="fechita" type="date" id="Fecha" name="Fecha" (input)="obtenerFechaSeleccionada($event)">
+      </div>
+      <div>
+        <button mat-raised-button (click)="openDialog('0ms', '0ms')">Open dialog without animation</button>
+        <p><mat-slide-toggle>Reservar Todo el Día</mat-slide-toggle></p>
       </div>
       <div claas="input_Bloque">
         <div>

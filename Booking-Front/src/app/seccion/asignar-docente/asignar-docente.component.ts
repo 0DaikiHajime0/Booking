@@ -226,6 +226,7 @@ export class AsignarDocenteCurso {
 @Component({
   selector: 'dialog-overview-example-dialog',
   templateUrl: './editar.html',
+  styleUrls: ['./editar.css'],
   standalone: true,
   imports:[
     MatFormFieldModule,

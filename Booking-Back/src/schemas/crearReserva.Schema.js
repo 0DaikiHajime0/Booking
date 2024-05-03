@@ -45,7 +45,15 @@ const enviarCredencialesSchema = Joi.object({
 const listardisponibilidadCalendario = Joi.object({
   id_recurso: id_recurso.required()
 });
+
+const generarReservaGeneralShema = Joi.object({
+  id_usuario : id_usuario.required(),
+  id_recurso:id_recurso.required(),
+  fecha : fecha.required(),
+
+})
 module.exports = {
+  generarReservaGeneralShema,
   listardisponibilidadCalendario,
   enviarCredencialesSchema,
   crearReservaSchema,
