@@ -1,3 +1,4 @@
+import { RecursoService } from './../../services/recurso.service';
 import { Component, Inject, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogActions, MatDialogClose, MatDialogContent, MatDialogRef, MatDialogTitle } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
@@ -9,9 +10,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Recurso } from '../../models/Recurso';
-import { RecursoService } from '../../services/recurso.service';
 import { Asignatura } from '../../models/Asignatura';
 import { MatSort } from '@angular/material/sort';
+import {MatExpansionModule} from '@angular/material/expansion';
 
 
 @Component({
@@ -106,7 +107,6 @@ realizarFiltro(): void {
   this.asignaturasFiltradas = asignaturasUnicas.filter(asignatura => asignatura !== undefined) as Asignatura[];
   this.dataSourceAsignaturaFiltrada = new MatTableDataSource<Asignatura>(this.asignaturasFiltradas);
 }
-
 crearRecurso(){
   const recursos = this.recursos
   const dialogRef = this.dialog.open(CrearRecurso,{
@@ -139,7 +139,8 @@ crearRecurso(){
     MatDialogContent,
     MatDialogActions,
     MatDialogClose,
-    MatSelectModule
+    MatSelectModule,
+    
   ]
 })
 export class EditarRecurso{

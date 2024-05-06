@@ -20,11 +20,9 @@
       />
     </mat-form-field>
     <div class="botones">
-        <button mat-raised-button color="primary" class="botones-nuevo" (click)="crearRecurso()">Crear Nuevo Recurso</button>        <div *ngIf="asignaturas.length === 0 && recursoSeleccionado < 1">
-            <span>Selecciona un recurso para ver sus asignaturas asociadas</span>
-        </div>
+        <button mat-raised-button color="primary" class="botones-nuevo" (click)="crearRecurso()">Crear Nuevo Recurso</button>        
         <div *ngIf="asignaturas.length === 0 && recursoSeleccionado >= 1">
-            <span>No hay asignaturas asociadas a este recurso</span>
+            
         </div>
     </div>
 </div>
@@ -116,6 +114,12 @@
                 </mat-paginator>
             </div>
             <mat-progress-spinner class="load-asignaturas" *ngIf="cargando" [diameter]="50" mode="indeterminate"></mat-progress-spinner>
+            @if(asignaturas.length === 0 && recursoSeleccionado >= 1){
+                <p>No hay asignaturas asociadas a este recurso</p>
+            }
+            <div *ngIf="asignaturas.length === 0 && recursoSeleccionado < 1">
+                <span>Selecciona un recurso para ver sus asignaturas asociadas</span>
+            </div>
         </mat-tab>
         <mat-tab label="Asignaturas Totales">
             <div class="contenido-tabla">
