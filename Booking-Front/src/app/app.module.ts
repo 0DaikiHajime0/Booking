@@ -62,6 +62,7 @@ import { MostrarreservaAdministradorComponent } from './seccion/mostrarreserva-a
 import { AsignarDocenteComponent } from './seccion/asignar-docente/asignar-docente.component';
 import { CredencialesComponent } from './seccion/credenciales/credenciales.component';
 import { BloquesComponent } from './seccion/bloques/bloques.component';
+import { AsignaturasComponent } from './seccion/asignaturas/asignaturas.component';
 
 
 
@@ -80,6 +81,7 @@ import { BloquesComponent } from './seccion/bloques/bloques.component';
     AsignarDocenteComponent,
     CredencialesComponent,
     BloquesComponent,
+    AsignaturasComponent,
   ],
   imports: [
     MatNativeDateModule,

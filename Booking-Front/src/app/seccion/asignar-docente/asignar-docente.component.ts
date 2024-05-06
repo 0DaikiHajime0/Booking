@@ -66,10 +66,9 @@ export class AsignarDocenteComponent implements AfterViewInit {
             data: {
               cursos: cursos,
               id_docente: this.docenteSeleccionado
-
-          });
-        }
-      );
+            }
+        })
+      });
     } else {
       console.error("Error: No se ha seleccionado un Curso");
     }

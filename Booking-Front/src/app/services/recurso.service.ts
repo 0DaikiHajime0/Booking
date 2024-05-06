@@ -26,6 +26,18 @@ export class RecursoService {
             throw error
         }
     }
+    getAsignaturas():Observable<Asignatura[]>{
+        try {
+            const response = this.http.get<Asignatura[]>(`${this.url}obtenerasignaturas`)
+            if(response){
+                return response
+            }else{
+                throw new Error('No se recibio respuesta del servidor')
+            }
+        } catch (error) {
+            throw error
+        }
+    }
     async getAsignaturasByRecurso(recurso_id:number):Promise <Asignatura[]>{
         try {
             const response = await this.http.get<Asignatura[]>(`${this.url}mostrarasignaturasbyrecurso/${recurso_id}`).toPromise()
