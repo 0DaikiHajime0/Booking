@@ -57,5 +57,13 @@ class RecursoService{
         }
         return res
     }
+    async obtenerAsignaturas(){
+        const result = await mysqlLib.execute('CALL sp_obtener_asignaturas()')
+        const res  =  result[0][0]
+        if(res==null){
+            return 'no hay asignaturas'
+        }
+        return res;
+    }
 }
 module.exports = RecursoService;

@@ -1,3 +1,4 @@
+import { AsignaturasComponent } from './seccion/asignaturas/asignaturas.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './login/login.component';
@@ -26,6 +27,7 @@ const routes: Routes = [
   {path:'asignar-docente',component:AsignarDocenteComponent},
   {path:'credenciales', component:CredencialesComponent},
   {path:'bloques',component:BloquesComponent},
+  {path:'asignaturas',component:AsignaturasComponent},
   {
     path:'usuarios',component:UsuariosComponent
   },

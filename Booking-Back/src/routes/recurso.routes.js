@@ -69,4 +69,14 @@ router.post('/nuevaLicencia/:recurso_id',
         }
     }
 )
+router.get('/obtenerasignaturas',
+    async(req, res, next)=>{
+        try {
+            const result= await recursoservice.obtenerAsignaturas()
+            res.json(result)
+        } catch (error) {
+            next(error)
+        }
+    }
+)
 module.exports = router
