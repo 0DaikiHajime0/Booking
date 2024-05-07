@@ -79,4 +79,16 @@ router.get('/obtenerasignaturas',
         }
     }
 )
+router.post('/obtenerasignaturasbyasignatura',
+    async(req,res,next)=>{
+        const asignatura = req.body
+        try {
+            
+            const result = await recursoservice.obtenerasignaturasbyasignatura(asignatura)
+            res.json(result)
+        } catch (error) {
+            next(error)
+        }
+    }
+)
 module.exports = router

@@ -27,16 +27,10 @@ export class RecursoService {
         }
     }
     getAsignaturas():Observable<Asignatura[]>{
-        try {
-            const response = this.http.get<Asignatura[]>(`${this.url}obtenerasignaturas`)
-            if(response){
-                return response
-            }else{
-                throw new Error('No se recibio respuesta del servidor')
-            }
-        } catch (error) {
-            throw error
-        }
+        return this.http.get<Asignatura[]>(`${this.url}obtenerasignaturas`)
+    }
+    getAsignaturasbyAsignaturas(asignatura:Asignatura):Observable<Asignatura[]>{
+        return this.http.post<Asignatura[]>(`${this.url}obtenerasignaturasbyasignatura`,asignatura)
     }
     async getAsignaturasByRecurso(recurso_id:number):Promise <Asignatura[]>{
         try {
