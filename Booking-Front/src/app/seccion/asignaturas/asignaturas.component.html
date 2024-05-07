@@ -15,19 +15,17 @@
                 <mat-label>Buscar Cursos</mat-label>
                 <input matInput (keyup)="buscarCurso($any($event.target).value)">
             </mat-form-field>
-            <button mat-button class="container-buscador">
+            <button mat-button mat-flat-button class="container-boton" color="primary" (click)="nuevoCurso()">
                 Ingresar un nuevo curso
             </button>
               <mat-form-field class="container-buscador">
                 <mat-label>Buscar Asignaturas</mat-label>
                 <input matInput (keyup)="buscarAsignatura($any($event.target).value)">
               </mat-form-field>
-              <button mat-button>
-                Ingresar una nueva asignatura
-              </button>
-
+              
             
         </section>
+        
         <section class="container">
             <div class="container-tabla">
                 <table mat-table [dataSource]="dsAsignatura" class="container-tabla">
@@ -85,7 +83,7 @@
                         <td mat-cell *matCellDef="let asignatura">{{asignatura.nrc}}</td>
                     </ng-container>
                     <ng-container matColumnDef="curso_horario">
-                        <th mat-header-cell *matHeaderCellDef>HORARIO</th>
+                        <th mat-header-cell *matHeaderCellDef>Horario</th>
                         <td mat-cell *matCellDef="let asignatura">{{asignatura.curso_horario}}</td>
                     </ng-container>
                     <ng-container matColumnDef="curso_tipo">

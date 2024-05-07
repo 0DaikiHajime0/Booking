@@ -1,0 +1,17 @@
+<div class="cuadro-dialog">
+    <h1 mat-dialog-title>Nuevo Curso</h1>
+    <div mat-dialog-content>
+      <p>Nota: Al crear un nuevo curso, este mismo no debe existir y así mismo debes seleccionar al recurso o recursos a los que pertenece</p>
+      <mat-form-field class="container-buscador">
+        <mat-label>Ingresa nombre de curso:</mat-label>
+        <input matInput (keyup)="buscarCurso($any($event.target).value)">
+        @if(this.asignaturas.length>=1){
+          <p>Ese curso ya existe</p>
+        }
+    </mat-form-field>
+    <div mat-dialog-actions>
+      
+        <button mat-button (click)="cerrar()">Cancelar</button>
+        
+    </div>
+</div>
