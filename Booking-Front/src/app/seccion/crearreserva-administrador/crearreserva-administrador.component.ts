@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { CrearReservaServiceService } from '../../services/crear-reserva.service.service';
 import { CalendarOptions } from '@fullcalendar/core';
@@ -13,6 +13,8 @@ import { Bloques } from '../../models/Bloques';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import esLocale from '@fullcalendar/core/locales/es';
 import { MatIconModule } from '@angular/material/icon';
+import { MatSlideToggleChange } from '@angular/material/slide-toggle';
+
 import {
   MatDialog,
   MatDialogRef,
@@ -20,6 +22,7 @@ import {
   MatDialogClose,
   MatDialogTitle,
   MatDialogContent,
+  MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
 import {MatButtonModule} from '@angular/material/button';
 
@@ -204,7 +207,6 @@ export class CrearreservaAdministradorComponent implements OnInit {
 
     this.crearReservaService.enviarCredenciales(data).subscribe(
       response => {
-        console.log('Credenciales enviadas:', response);
       },
       error => {
         console.error('Error al enviar las credenciales:', error);
@@ -234,11 +236,29 @@ export class CrearreservaAdministradorComponent implements OnInit {
     events: [
     ]
   };
-  openDialog(enterAnimationDuration: string, exitAnimationDuration: string): void {
-    this.dialog.open(DialogAnimationsExampleDialog, {
-      width: '250px',
-      enterAnimationDuration,
-      exitAnimationDuration,
+  toggleChanged(event: MatSlideToggleChange) {
+    if (event.checked) {
+      this.openDialog(0, 0).then((result: boolean) => {
+          event.source.checked = false;
+      });
+    }
+  }
+
+  openDialog(enterAnimationDuration: number, exitAnimationDuration: number): Promise<boolean> {
+    return new Promise<boolean>((resolve, reject) => {
+      const dialogRef: MatDialogRef<DialogAnimationsExampleDialog> = this.dialog.open(DialogAnimationsExampleDialog, {
+        data:{
+          id_usuario: this.administrador.usuario_id,
+          id_recurso: this.selectedRecursoId,
+          fecha: this.selectedFecha
+        },
+        width: '250px',
+        enterAnimationDuration,
+        exitAnimationDuration,
+      });
+      dialogRef.afterClosed().subscribe(result => {
+        resolve(result);
+      });
     });
   }
 }
@@ -250,5 +270,40 @@ export class CrearreservaAdministradorComponent implements OnInit {
   imports: [MatButtonModule, MatDialogActions, MatDialogClose, MatDialogTitle, MatDialogContent,MatIconModule],
 })
 export class DialogAnimationsExampleDialog {
-  constructor(public dialogRef: MatDialogRef<DialogAnimationsExampleDialog>) {}
+  id_usuario = 0;
+  id_recurso = 0;
+  fecha = '';
+  @Output() aceptarClicked: EventEmitter<void> = new EventEmitter<void>();
+  constructor(
+    private crearReservaService: CrearReservaServiceService,
+    public dialogRef: MatDialogRef<DialogAnimationsExampleDialog>,
+  @Inject(MAT_DIALOG_DATA) public data: any
+  ) {
+    this.id_usuario = data.id_usuario;
+    this.id_recurso = data.id_recurso;
+    this.fecha = data.fecha;
+
+  }
+
+  reservaGeneral() {
+    const data = {
+      id_usuario: this.id_usuario,
+      id_recurso: Number(this.id_recurso),
+      fecha: this.fecha,
+    };
+    console.log(data)
+    this.crearReservaService.reservageneral(data).subscribe(
+      response => {
+      },
+      error => {
+        console.error('Error al reservar:', error);
+      }
+    );
+  }
+  onAceptarClick(): void {
+    this.reservaGeneral();
+    window.location.reload();
+    this.aceptarClicked.emit();
+    this.dialogRef.close();
+  }
 }

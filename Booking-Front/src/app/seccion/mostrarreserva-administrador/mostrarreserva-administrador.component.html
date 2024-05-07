@@ -64,7 +64,8 @@
             </mat-form-field>
         </div>
         <div class="mat-elevation-z8 tabla">
-          <table mat-table [dataSource]="dataSource" matSort>
+          <mat-spinner *ngIf="loading" class="spinner" ></mat-spinner>
+          <table mat-table [dataSource]="dataSource" matSort *ngIf="!loading">
 
             <ng-container matColumnDef="reserva_id">
               <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
@@ -138,6 +139,6 @@
       </section>
     </div>
 </mat-drawer-container>
-  
+
 
 

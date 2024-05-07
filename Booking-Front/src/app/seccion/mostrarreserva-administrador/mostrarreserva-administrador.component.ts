@@ -30,6 +30,7 @@ export class MostrarreservaAdministradorComponent implements AfterViewInit {
   mostrar: mostrarReservaAdmin[] = [];
   recurso: Recurso[] = [];
   bloques: Bloques[] = [];
+  loading: boolean = true;
 
 
   displayedColumns: string[] = ['reserva_id', 'nrc', 'curso_nombre', 'recurso_nombre', 'docente_nombre', 'tipo_autor', 'cantidad_reserva', 'bloque_nombre', 'bloque_rango', 'reserva_fecha', 'fecha_registro', 'reserva_estado'];
@@ -79,6 +80,7 @@ export class MostrarreservaAdministradorComponent implements AfterViewInit {
       })
   }
   listarReservas() {
+    this.loading = true;
     this.listar = {
       id_docente: null,
       id_recurso : this.selectedRecurso,
@@ -97,9 +99,11 @@ export class MostrarreservaAdministradorComponent implements AfterViewInit {
           reserva_fecha: this.formatDate(reserva.reserva_fecha),
           fecha_registro: this.formatDateTime(reserva.fecha_registro)
         }));
+        this.loading = false;
       },
       error => {
         console.error('Error al cargar las reservas: ', error);
+        this.loading = false;
       }
     );
   }

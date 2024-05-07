@@ -112,7 +112,7 @@ router.get('/listardocente',async (req, res, next) => {
   res.json(result[0]);
 });
 
-router.get('/reservageneral',async(req,res,next) =>{
+router.post('/reservageneral',async(req,res,next) =>{
   try {
     const { error, value } = generarReservaGeneralShema.validate(req.body);
     if (error) {
@@ -126,3 +126,4 @@ router.get('/reservageneral',async(req,res,next) =>{
 })
 
 module.exports = router;
+ 
