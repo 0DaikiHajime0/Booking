@@ -1,4 +1,4 @@
-<mat-drawer-container class="mat-drawer-container" >
+<mat-drawer-container class="mat-drawer-container">
     <mat-drawer #drawer class="sidenav" [opened]="false">
         <app-home></app-home>
     </mat-drawer>
@@ -7,6 +7,115 @@
             <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="menu">
             </mat-icon>
         </button>
-<section>
-    <p class="header">Asignaturas</p>
-</section>
+        <section>
+            <p class="header">Asignaturas</p>
+        </section>
+        <section class="container">
+            <mat-form-field class="container-buscador">
+                <mat-label>Buscar Cursos</mat-label>
+                <input matInput (keyup)="buscarCurso($any($event.target).value)">
+            </mat-form-field>
+            <button mat-button class="container-buscador">
+                Ingresar un nuevo curso
+            </button>
+              <mat-form-field class="container-buscador">
+                <mat-label>Buscar Asignaturas</mat-label>
+                <input matInput (keyup)="buscarAsignatura($any($event.target).value)">
+              </mat-form-field>
+              <button mat-button>
+                Ingresar una nueva asignatura
+              </button>
+
+            
+        </section>
+        <section class="container">
+            <div class="container-tabla">
+                <table mat-table [dataSource]="dsAsignatura" class="container-tabla">
+                    <ng-container matColumnDef="curso_id">
+                        <th mat-header-cell *matHeaderCellDef>ID</th>
+                        <td mat-cell *matCellDef="let asignatura" >{{asignatura.curso_id}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="curso_nombre">
+                        <th mat-header-cell *matHeaderCellDef>Nombre</th>
+                        <td mat-cell *matCellDef="let asignatura">
+                            <button class="boton-nombre" (click)="asignaturaSeleccionada(asignatura)">
+                                {{asignatura.curso_nombre}}
+                            </button>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="curso_estado">
+                        <th mat-header-cell *matHeaderCellDef>Estado</th>
+                        <td mat-cell *matCellDef="let asignatura">{{asignatura.curso_estado}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="curso_descripcion">
+                        <th mat-header-cell *matHeaderCellDef>Descripcion</th>
+                        <td mat-cell *matCellDef="let asignatura">{{asignatura.curso_descripcion}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="curso_plan">
+                        <th mat-header-cell *matHeaderCellDef>Plan</th>
+                        <td mat-cell *matCellDef="let asignatura">{{asignatura.curso_plan}}</td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="columnaAsignatura"></tr>
+                    <tr mat-row *matRowDef="let row; columns: columnaAsignatura;"></tr>
+                </table>
+                <mat-paginator #paginatorAsignatura="matPaginator"
+                    [length]="dsAsignatura.data.length"
+                    [pageSize]="10"
+                    [pageSizeOptions]="[5, 10, 25, 100]"
+                    aria-label="Select page">
+                </mat-paginator>
+            </div>
+            
+            @if(asignaturasbyasignatura)
+
+            {<div class="container-tabla">
+                <table mat-table [dataSource]="asignaturasbyasignatura">
+                    <ng-container matColumnDef="curso_id">
+                        <th mat-header-cell *matHeaderCellDef>ID</th>
+                        <td mat-cell *matCellDef="let asignatura" >{{asignatura.curso_id}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="curso_nombre">
+                        <th mat-header-cell *matHeaderCellDef>Nombre</th>
+                        <td mat-cell *matCellDef="let asignatura">
+                            {{asignaturaSelecciona.curso_nombre}}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="nrc">
+                        <th mat-header-cell *matHeaderCellDef>NRC</th>
+                        <td mat-cell *matCellDef="let asignatura">{{asignatura.nrc}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="curso_horario">
+                        <th mat-header-cell *matHeaderCellDef>HORARIO</th>
+                        <td mat-cell *matCellDef="let asignatura">{{asignatura.curso_horario}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="curso_tipo">
+                        <th mat-header-cell *matHeaderCellDef>Tipo</th>
+                        <td mat-cell *matCellDef="let asignatura">{{asignatura.curso_tipo}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="curso_campus">
+                        <th mat-header-cell *matHeaderCellDef>Campus</th>
+                        <td mat-cell *matCellDef="let asignatura">{{asignatura.curso_campus}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="curso_modalidad">
+                        <th mat-header-cell *matHeaderCellDef>Modalidad</th>
+                        <td mat-cell *matCellDef="let asignatura">{{asignatura.curso_modalidad}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="docente_curso_cantidad_alumnos">
+                        <th mat-header-cell *matHeaderCellDef>Matriculados</th>
+                        <td mat-cell *matCellDef="let asignatura">{{asignatura.docente_curso_cantidad_alumnos}}</td>
+                    </ng-container>
+    
+                    <tr mat-header-row *matHeaderRowDef="columnaAsignaturas"></tr>
+                    <tr mat-row *matRowDef="let row; columns: columnaAsignaturas;"></tr>
+                </table>
+                <mat-paginator #paginatorAsignaturasbyAsignatura="matPaginator"
+                    [length]="asignaturasbyasignatura.data.length"
+                    [pageSize]="5"
+                    [pageSizeOptions]="[5, 10, 25, 100]"
+                    aria-label="Select page">
+                </mat-paginator>
+            </div>
+               }
+        </section>
+    </div>
+</mat-drawer-container>
