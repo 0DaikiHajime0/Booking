@@ -100,6 +100,18 @@ class CrearReservaService {
       throw new Error('Error al ejecutar la consulta a la base de datos: ' + error.message);
     }
   }
+  async generarReservaGeneral(data){
+    try {
+      const params = [
+        data.id_usuario,
+        data.id_recurso,
+        data.fecha
+      ]
+      return await mysqlLib.execute('call sp_realizar_reserva_general(?,?,?);', params);
+    } catch (error) {
+      throw new Error('Error al ejecutar la consulta a la base de datos: ' + error.message);
+    }
+  }
 
   async generarArchivoExcel(credenciales) {
     try {

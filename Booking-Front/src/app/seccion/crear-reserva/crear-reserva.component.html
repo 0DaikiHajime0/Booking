@@ -22,7 +22,7 @@
         </select>
       </div>
       <div class="input_cantidad">
-        <label>Cantidad de Alumnos: {{ cantidadAlumnos }}</label>
+        <label>Cantidad de Matriculados: {{ cantidadAlumnos }}</label>
       </div>
       <div class="input_reserva">
         <label for="Recurso">Recurso: </label>
@@ -61,8 +61,8 @@
         <ng-template #noErrorMessage></ng-template>
       </div>
       <div class="botones">
-        <button type="button" (click)="reservar(); openSnackBar(message.value, action.value);" [disabled]="showErrorMessage || !selectedRecursoId || !selectedBloqueId || !selectedFecha || cantidadLicenciasDisponibles <= 0">Reservar</button>
-        <button type="button" [disabled]="!selectedRecursoId || !selectedBloqueId || !selectedFecha">Cancelar</button>
+        <button  mat-flat-button color="primary" type="button" (click)="reservar(); openSnackBar(message.value, action.value);" [disabled]="showErrorMessage || !selectedRecursoId || !selectedBloqueId || !selectedFecha || cantidadLicenciasDisponibles <= 0">Reservar</button>
+        <button  mat-stroked-button color="primary" type="button">Cancelar</button>
 
       </div>
     </div>

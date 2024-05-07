@@ -47,6 +47,9 @@ export class CrearReservaServiceService {
     return this.http.get<any[]>(`${this.url}listardocente`);
 
   }
+  reservageneral(datos:any):Observable<any>{
+    return this.http.post<any>(`${this.url}reservageneral/`,datos)
+  }
 }
 
 

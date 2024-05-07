@@ -1,6 +1,6 @@
 const express = require('express');
 const CrearReservaService = require('./../services/crearReserva.service');
-const {listardisponibilidadCalendario, crearReservaSchema,listarcursoSchema,listarrecursoSchema,filtrardisponibilidadSchema,enviarCredencialesSchema } = require('../schemas/crearReserva.Schema');
+const {generarReservaGeneralShema,listardisponibilidadCalendario, crearReservaSchema,listarcursoSchema,listarrecursoSchema,filtrardisponibilidadSchema,enviarCredencialesSchema } = require('../schemas/crearReserva.Schema');
 
 const router = express.Router();
 const service = new CrearReservaService();
@@ -112,5 +112,18 @@ router.get('/listardocente',async (req, res, next) => {
   res.json(result[0]);
 });
 
+router.post('/reservageneral',async(req,res,next) =>{
+  try {
+    const { error, value } = generarReservaGeneralShema.validate(req.body);
+    if (error) {
+      throw new Error(error.details[0].message);
+    }
+    const [result] = await service.generarReservaGeneral(value);
+    res.json(result[0][0]);
+  } catch (error) {
+    next(error);
+  }
+})
 
 module.exports = router;
+ 
