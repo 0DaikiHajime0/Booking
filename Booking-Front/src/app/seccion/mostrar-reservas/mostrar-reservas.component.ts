@@ -17,9 +17,10 @@ import { Console } from 'console';
 export class MostrarReservasComponent implements AfterViewInit {
   docente!: Usuario
   listar!: ListarReservas;
-   mostrar : mostrarReserva[] = [];
+  mostrar : mostrarReserva[] = [];
+  loading: boolean = true;
 
-   displayedColumns: string[] = ['nrc', 'curso_nombre','recurso_nombre', 'tipo_autor', 'cantidad_reserva', 'bloque_nombre', 'bloque_rango', 'reserva_fecha', 'fecha_registro'/*,'acciones'*/];
+  displayedColumns: string[] = ['nrc', 'curso_nombre','recurso_nombre', 'tipo_autor', 'cantidad_reserva', 'bloque_nombre', 'bloque_rango', 'reserva_fecha', 'fecha_registro'/*,'acciones'*/];
   dataSource: MatTableDataSource<mostrarReserva>;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -57,6 +58,7 @@ export class MostrarReservasComponent implements AfterViewInit {
     }
   }
   listarReservas() {
+    this.loading = true;
     this.listar = {
       id_docente:this.docente.usuario_id,
       id_bloques:null,
@@ -72,9 +74,11 @@ export class MostrarReservasComponent implements AfterViewInit {
           reserva_fecha: this.formatDate(reserva.reserva_fecha),
           fecha_registro: this.formatDateTime(reserva.fecha_registro)
         }));
+        this.loading = false;
       },
       error => {
         console.error('Error al cargar las reservas: ', error);
+        this.loading = false;
       }
     );
   }
