@@ -25,10 +25,13 @@
                     Por favor, ingrese sus apellidos completos
                 </mat-error>
             </mat-form-field>
-            <mat-form-field class="formulario-input">
-                <mat-label>Correo: </mat-label>
-                <input matInput disabled [value]="usuario.usuario_correo || ''">
-            </mat-form-field>
+            @if(this.usuario.usuario_correo){
+                <mat-form-field class="formulario-input">
+                    <mat-label>Correo: </mat-label>
+                    <input matInput disabled [value]="usuario.usuario_correo">
+                </mat-form-field>
+            }
+           
             <mat-form-field class="formulario-input">
                 <mat-label>Rol: </mat-label>
                 <input matInput disabled [value]="usuario.usuario_rol || ''">

@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { Usuario } from '../models/Usuario';
 import { Perfil } from '../models/Perfil';
 import { HttpErrorResponse } from '@angular/common/http';
+import { UsuarioGoogle } from '../models/UsuarioGoogle';
 @Injectable({
   providedIn: 'root'
 })
@@ -15,7 +16,10 @@ export class UsuarioService {
   verificarCorreo(correo: string): Observable<Usuario> {
     return this.http.get<Usuario>(`${this.url}verificar/${correo}`);
   }
-
+  getUsuarioGoogle():UsuarioGoogle{
+    const usuarioGoogleString = localStorage.getItem('user')||sessionStorage.getItem('user');
+    return usuarioGoogleString ? JSON.parse(usuarioGoogleString) : null;
+  }
   getUsuarioFromStorage(): Usuario {
     const userString = localStorage.getItem('usuario') || sessionStorage.getItem('usuario');
     return userString ? JSON.parse(userString) : null;

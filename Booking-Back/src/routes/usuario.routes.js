@@ -8,12 +8,22 @@ router.get('/verificar/:correo',
         try {
             const { correo } = req.params; 
             const result = await usuarioservice.verificarUsuario(correo);
+            if (!result) {
+                return res.status(404).json({ mensaje: "Usuario no encontrado" });
+            }
             res.json(result);
         } catch (error) {
-            next(error);
+            if (error.message === 'El usuario no se encuentra') {
+                return res.status(404).json({ mensaje: error.message });
+            } else if (error.message === 'Error en la consulta SQL') {
+                return res.status(500).json({ mensaje: error.message });
+            } else {
+                next(error);
+            }
         }
     }
 );
+
 router.post('/actualizarusuario',
     async (req, res, next) => {
         try {
