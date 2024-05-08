@@ -2,14 +2,21 @@ const mysqlLib = require('../../libs/mysql')
 class UsuarioService{
     constructor(){}
     
-    async verificarUsuario(correo){
-        const result = await mysqlLib.execute('CALL sp_usuario_verificarusuario(?, @usuario_encontrado)', [correo]);
-        const [usuario_encontrado] = result[0][0];
-        if (usuario_encontrado == null){
-            return null
+    async verificarUsuario(correo) {
+        try {
+            const result = await mysqlLib.execute('CALL sp_usuario_verificarusuario(?, @usuario_encontrado)', [correo]);
+            const [[usuario_encontrado]] = result[0];
+            
+            return usuario_encontrado;
+        } catch (error) {
+            if (error.code === 'PROCEDURE_USAGE_ERROR') {
+                throw new Error('El usuario no se encuentra');
+            } else {
+                throw error;
+            }
         }
-        return usuario_encontrado;
     }
+    
     async actualizarUsuario(usuario_nombres, usuario_apellidos, usuario_correo) {
         const params = [usuario_correo, usuario_nombres, usuario_apellidos];
     

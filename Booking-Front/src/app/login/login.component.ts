@@ -29,18 +29,27 @@ export class LoginComponent implements OnInit {
       this.isLoggedin = user != null;
       if (this.socialUser && this.socialUser.email) {
         this.correo = this.socialUser.email;
-        this.usuarioService.verificarCorreo(this.correo).subscribe((usuario) => {
-          this.usuario = usuario;
-          console.log(this.usuario)
-          if (usuario && usuario.usuario_correo !== null) {
-            this.handleLoginSuccess();
-          } else {
+        this.usuarioService.verificarCorreo(this.correo).subscribe(
+          (usuario) => {
+            this.usuario = usuario;
+            if (usuario && usuario.usuario_correo !== null) {
+              if(usuario.usuario_rol=='Administrador'){
+                console.log('Es un administrador')
+              }
+              else{
+                console.log('Es un docente')
+              }
+              this.handleLoginSuccess();
+            }
+          },
+          (error) => {
             this.showSnackBar('No se encontró su correo registrado, comuníquese con el administrador');
           }
-        });
+        );
       }
     });
     if (this.isLoggedin) {
+      
       this.router.navigate(['/home']);
     }
   }
