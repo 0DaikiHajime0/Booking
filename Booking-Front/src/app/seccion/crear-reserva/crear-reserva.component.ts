@@ -47,8 +47,12 @@ export class CrearReservaComponent implements OnInit {
     this.listarBloques();
   }
   obtenerDocente(): void {
-    this.docente = this.usuarioservice.getUsuarioFromStorage()
-    this.listarCurso(this.docente.usuario_id)
+    if(typeof localStorage !='undefined'){
+      this.docente = this.usuarioservice.getUsuarioFromStorage()
+      this.listarCurso(this.docente.usuario_id)
+    }
+   
+    
   }
   listarCurso(id: number) {
     this.crearReservaService.listarCurso(id).subscribe(
