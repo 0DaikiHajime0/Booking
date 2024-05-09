@@ -1,3 +1,7 @@
+:root {
+  --fc-primary-color: #6e27c5;
+  --fc-border-radius: 10px;
+}
 body{
   overflow: hidden;
 }
@@ -26,9 +30,7 @@ body{
 .body {
   display: flex;
   justify-content: space-between;
-  margin-left: 2rem;
-  margin-bottom: 2rem;
-  margin-right: 2rem;
+  margin: 2rem;
 }
 
 .Container-Reserva {
@@ -36,11 +38,17 @@ body{
   width: 20%;
   height: 90%;
   font-size: 1.4rem;
+  max-height: 8rem;
+}
+.Container_full_Calendar {
+  width: 80%;
+  margin-left: 1rem;
+  max-height: 8rem;
 }
 
 .Container {
   overflow: scroll;
-  max-height: 50rem ;
+  max-height: 45rem ;
   max-width: 33rem;
   margin-left: 2rem;
   margin-right: 2rem;
@@ -123,19 +131,25 @@ button {
 
 }
 
-.Container_full_Calendar {
-  width: 80%;
-  margin-left: 1rem;
-}
 .calendar{
   margin-right: 1rem;
   margin-left: 2rem;
   font-size: 1rem;
   height:49rem;
+  max-height: 45rem ;
+
 }
 .events-calendar{
   font-size: 1rem;
 }
-.oculto {
-  display: none;
+
+:host ::ng-deep .fc-button-primary {
+  background-color: #8e6dcf;
+  border-color: #8e6dcf;
+  border-radius: 45px;
+  color: #ffffff;
+}
+:host ::ng-deep .fc-button-primary:hover {
+  background-color: #6c4791;
+  border-color: #6c4791;
 }

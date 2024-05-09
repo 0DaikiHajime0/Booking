@@ -59,8 +59,8 @@ export class CrearReservaComponent implements OnInit {
       this.docente = this.usuarioservice.getUsuarioFromStorage()
       this.listarCurso(this.docente.usuario_id)
     }
-   
-    
+
+
   }
 
   listarCurso(id: number) {
@@ -221,6 +221,8 @@ export class CrearReservaComponent implements OnInit {
     initialView: 'timeGridWeek',
     weekends: true,
     locale: esLocale,
+    eventBackgroundColor: '#8e6dcf',
+    eventBorderColor: '#8e6dcf',
     events: []
   };
 }
