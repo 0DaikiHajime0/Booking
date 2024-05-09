@@ -13,24 +13,23 @@ import {MostrarreservaAdministradorComponent} from './seccion/mostrarreserva-adm
 import {AsignarDocenteComponent} from './seccion/asignar-docente/asignar-docente.component'
 import { CredencialesComponent } from './seccion/credenciales/credenciales.component';
 import { BloquesComponent } from './seccion/bloques/bloques.component';
-import { authGuardGuard } from './auth-guard.guard';
+import { Logged, LoggedAdmin } from './auth-guard.guard';
 import { NotfoundComponent } from './seccion/notfound/notfound.component';
 
 
 const routes: Routes = [
   {path:'login', component:LoginComponent},
-  {path:'listar', component:MostrarReservasComponent},
-
-  {path:'crear', component:CrearReservaComponent},
-  {path:'recursos', component:RecursosComponent},
-  {path:'crearreserva-administrador',component:CrearreservaAdministradorComponent,canActivate:[authGuardGuard]},
-  {path:'mostrarreserva-administrador',component:MostrarreservaAdministradorComponent,canActivate:[authGuardGuard]},
-  {path:'asignar-docente',component:AsignarDocenteComponent,canActivate:[authGuardGuard]},
-  {path:'credenciales', component:CredencialesComponent,canActivate:[authGuardGuard]},
-  {path:'bloques',component:BloquesComponent,canActivate:[authGuardGuard]},
-  {path:'asignaturas',component:AsignaturasComponent,canActivate:[authGuardGuard]},
+  {path:'listar', component:MostrarReservasComponent,canActivate:[Logged]},
+  {path:'crear', component:CrearReservaComponent,canActivate:[Logged]},
+  {path:'recursos', component:RecursosComponent,canActivate:[Logged]},
+  {path:'crearreserva-administrador',component:CrearreservaAdministradorComponent,canActivate:[LoggedAdmin]},
+  {path:'mostrarreserva-administrador',component:MostrarreservaAdministradorComponent,canActivate:[LoggedAdmin]},
+  {path:'asignar-docente',component:AsignarDocenteComponent,canActivate:[LoggedAdmin]},
+  {path:'credenciales', component:CredencialesComponent,canActivate:[LoggedAdmin]},
+  {path:'bloques',component:BloquesComponent,canActivate:[LoggedAdmin]},
+  {path:'asignaturas',component:AsignaturasComponent,canActivate:[LoggedAdmin]},
   {
-    path:'usuarios',component:UsuariosComponent,canActivate:[authGuardGuard]
+    path:'usuarios',component:UsuariosComponent,canActivate:[LoggedAdmin]
   },
   {
     path: '',
@@ -38,7 +37,7 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {
-    path:'perfil',component:PerfilComponent
+    path:'perfil',component:PerfilComponent,canActivate:[Logged]
   },
   {
     path:'404',component:NotfoundComponent
