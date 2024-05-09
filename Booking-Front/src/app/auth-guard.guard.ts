@@ -20,7 +20,7 @@ export const LoggedAdmin: CanActivateFn = async (route, state) => {
   const estaLogeado = loginService.getUsuarioFromStorage();
   if (estaLogeado) {
     const esAdmin = loginService.verificarAdmin();
-    if (esAdmin) {
+    if (await esAdmin) {
       return true; 
     } else {
       router.navigate(['/404']);
