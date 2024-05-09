@@ -1,4 +1,6 @@
 const mysqlLib = require('../../libs/mysql')
+const jwt = require('jsonwebtoken');
+
 class UsuarioService{
     constructor(){}
     
@@ -6,17 +8,29 @@ class UsuarioService{
         try {
             const result = await mysqlLib.execute('CALL sp_usuario_verificarusuario(?, @usuario_encontrado)', [correo]);
             const [[usuario_encontrado]] = result[0];
-            
-            return usuario_encontrado;
-        } catch (error) {
-            if (error.code === 'PROCEDURE_USAGE_ERROR') {
+            if (!usuario_encontrado) {
                 throw new Error('El usuario no se encuentra');
-            } else {
-                throw error;
             }
+            const token = jwt.sign({ usuario_encontrado }, 'srav', { expiresIn: '1h' }); 
+            return { usuario: usuario_encontrado, token };
+        } catch (error) {
+            throw error;
         }
     }
-    
+    async verificarRol(token){
+        try {
+            const decodedToken = jwt.verify(token,'srav');
+            const usuario_encontrado = decodedToken.usuario_encontrado
+            if(usuario_encontrado.usuario_rol=='Administrador'){
+                return true
+            }
+            else{
+                return false
+            }
+        } catch (error) {
+            throw error;
+        }
+    }
     async actualizarUsuario(usuario_nombres, usuario_apellidos, usuario_correo) {
         const params = [usuario_correo, usuario_nombres, usuario_apellidos];
     

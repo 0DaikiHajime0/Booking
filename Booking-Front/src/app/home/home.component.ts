@@ -11,37 +11,46 @@ import { Usuario } from '../models/Usuario';
 })
 export class HomeComponent {
   usuarioRecuperadoGoogle: UsuarioGoogle | null = null;
-  usuarioRecuperado!: Usuario
-  rol:string = ''
-  opcionSeleccionada:number = 5;
+  usuarioRecuperado: Usuario | null = null;
+  rol: string = '';
+  opcionSeleccionada: number = 5;
+
   constructor(
     private router: Router,
-    private loginService:UsuarioService
-  ){
+    private loginService: UsuarioService
+  ) {
     this.handleLoginSuccess();
+  }
+  ngAfterViewInit(): void{
+    
   }
   handleLoginSuccess(): void {
     if (typeof localStorage !== 'undefined') {
-      this.usuarioRecuperado=this.loginService.getUsuarioFromStorage();
-      this.usuarioRecuperadoGoogle = this.loginService.getUsuarioGoogle();
-      if(this.usuarioRecuperadoGoogle && this.usuarioRecuperado){
-        this.verificarRol();
+      this.verificarRol();
+    } else if (typeof sessionStorage !== 'undefined') {
+      this.verificarRol();
+    }
+    else {
+      console.log('Web Storage is not supported in this environment.');
+    }
+  }
+
+  verificarRol() {
+    this.usuarioRecuperado = this.loginService.getUsuarioFromStorage();
+    this.usuarioRecuperadoGoogle = this.loginService.getUsuarioGoogle();
+    
+    if (!this.usuarioRecuperado || !this.usuarioRecuperadoGoogle) {
+    } else {
+      if (this.usuarioRecuperado.usuario_rol === 'Docente') {
+        this.rol = 'docente';
+      } else if (this.usuarioRecuperado.usuario_rol === 'Administrador') {
+        this.rol = 'admin';
       }
     }
-  else {
-      console.log('Web Storage is not supported in this environment.');
-    }    
   }
-  verificarRol(){
-    if(this.usuarioRecuperado.usuario_rol='Docente'){
-      this.rol = 'docente'
-    }else if(this.usuarioRecuperado.usuario_rol='Administrador' ){
-      this.rol = 'admin'
-    }else{
-      this.logOut()
-    }
-  }
-  logOut():void{
+  
+
+  logOut(): void {
     if (typeof localStorage !== 'undefined') {
       localStorage.clear();
       this.router.navigate(['/login']);
@@ -49,8 +58,8 @@ export class HomeComponent {
       console.log('El localStorage no está disponible en este navegador.');
     }
   }
+
   cambioComponente(ruta: string) {
     this.router.navigate([ruta]);
   }
 }
-

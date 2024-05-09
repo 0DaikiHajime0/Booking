@@ -101,5 +101,16 @@ router.post('/nuevousuario',
         }
     }
 )
+router.post('/verifytok',
+    async(req,res,next)=>{
+        try {
+            const jwtoken = req.body.token;
+            const result = await usuarioservice.verificarRol(jwtoken);
+            res.json(result)
+        } catch (error) {
+            next(error)
+        }
+    }
+)
 
 module.exports = router;

@@ -63,6 +63,7 @@ import { AsignarDocenteComponent } from './seccion/asignar-docente/asignar-docen
 import { CredencialesComponent } from './seccion/credenciales/credenciales.component';
 import { BloquesComponent } from './seccion/bloques/bloques.component';
 import { AsignaturasComponent } from './seccion/asignaturas/asignaturas.component';
+import { NotfoundComponent } from './seccion/notfound/notfound.component';
 
 
 
@@ -82,6 +83,7 @@ import { AsignaturasComponent } from './seccion/asignaturas/asignaturas.componen
     CredencialesComponent,
     BloquesComponent,
     AsignaturasComponent,
+    NotfoundComponent,
   ],
   imports: [
     MatNativeDateModule,

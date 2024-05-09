@@ -13,6 +13,10 @@ import { Recurso } from '../../models/Recurso';
 import { Asignatura } from '../../models/Asignatura';
 import { MatSort } from '@angular/material/sort';
 import {MatExpansionModule} from '@angular/material/expansion';
+import { UsuarioService } from '../../services/login.service';
+import { Usuario } from '../../models/Usuario';
+import { UsuarioGoogle } from '../../models/UsuarioGoogle';
+import { Route } from '@angular/router';
 
 
 @Component({
@@ -37,12 +41,14 @@ export class RecursosComponent {
   @ViewChild('paginator2') paginator2!: MatPaginator;
   @ViewChild('sort2') sort2!: MatSort;
   recursoSeleccionado : number = 0
+  
   constructor(private recursoservice: RecursoService,
     public dialog: MatDialog,
-
+    private loginService: UsuarioService,
   ) {}
 
   ngOnInit() {
+    
     this.getRecursos();
 
   }
