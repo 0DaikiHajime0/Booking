@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { API_BASE_URL } from './constants';
 import { Recurso } from '../models/Recurso';
@@ -14,9 +14,14 @@ export class RecursoService {
     private url = API_BASE_URL + 'recurso/'
     private urlbloque =API_BASE_URL+ 'bloque/'
     constructor(private http: HttpClient) {}
+    private getHeaders(): HttpHeaders {
+        const token = localStorage.getItem('token');
+        const tokenWithoutQuotes = token?.replace(/^"(.*)"$/, '$1'); 
+        return new HttpHeaders().set('Authorization', `Bearer ${tokenWithoutQuotes}`);
+      }
     async getRecursos():Promise <Recurso[]>{
         try{
-            const response = await this.http.get<Recurso[]>(`${this.url}mostrarrecursos`).toPromise();
+            const response = await this.http.get<Recurso[]>(`${this.url}mostrarrecursos`,{ headers: this.getHeaders() }).toPromise();
             if(response){
                 return response;
             }else{
@@ -27,14 +32,14 @@ export class RecursoService {
         }
     }
     getAsignaturas():Observable<Asignatura[]>{
-        return this.http.get<Asignatura[]>(`${this.url}obtenerasignaturas`)
+        return this.http.get<Asignatura[]>(`${this.url}obtenerasignaturas`,{ headers: this.getHeaders() })
     }
     getAsignaturasbyAsignaturas(asignatura:Asignatura):Observable<Asignatura[]>{
-        return this.http.post<Asignatura[]>(`${this.url}obtenerasignaturasbyasignatura`,asignatura)
+        return this.http.post<Asignatura[]>(`${this.url}obtenerasignaturasbyasignatura`,asignatura,{ headers: this.getHeaders() })
     }
     async getAsignaturasByRecurso(recurso_id:number):Promise <Asignatura[]>{
         try {
-            const response = await this.http.get<Asignatura[]>(`${this.url}mostrarasignaturasbyrecurso/${recurso_id}`).toPromise()
+            const response = await this.http.get<Asignatura[]>(`${this.url}mostrarasignaturasbyrecurso/${recurso_id}`,{ headers: this.getHeaders() }).toPromise()
             if(response){
                 return response
             }
@@ -47,7 +52,7 @@ export class RecursoService {
     }
     async guardarRecurso(recurso:Recurso):Promise<Recurso>{
         try {
-            const response = await this.http.post<Recurso>(`${this.url}guardarRecurso/`,recurso).toPromise()
+            const response = await this.http.post<Recurso>(`${this.url}guardarRecurso/`,recurso,{ headers: this.getHeaders() }).toPromise()
             if(response){
                 return response
             }
@@ -60,7 +65,7 @@ export class RecursoService {
     }
     async editarRecurso(recurso:Recurso):Promise<Recurso>{
         try {
-            const response = await this.http.post<Recurso>(`${this.url}editarRecurso/`,recurso).toPromise()
+            const response = await this.http.post<Recurso>(`${this.url}editarRecurso/`,recurso,{ headers: this.getHeaders() }).toPromise()
             if(response){
                 return response
             }
@@ -73,7 +78,7 @@ export class RecursoService {
     }
     async getLicencias(recurso_id:number):Promise<Licencia[]>{
         try {
-            const response = await this.http.get<Licencia[]>(`${this.url}obtenerLicencias/${recurso_id}`).toPromise()
+            const response = await this.http.get<Licencia[]>(`${this.url}obtenerLicencias/${recurso_id}`,{ headers: this.getHeaders() }).toPromise()
             if(response){
                 return response
             }else{
@@ -85,7 +90,7 @@ export class RecursoService {
     }
     async guardarLicencia(licencia:Licencia,recurso_id:number):Promise<Licencia>{
         try {
-            const response = await this.http.post<Licencia>(`${this.url}nuevaLicencia/${recurso_id}`,licencia).toPromise()
+            const response = await this.http.post<Licencia>(`${this.url}nuevaLicencia/${recurso_id}`,licencia,{ headers: this.getHeaders() }).toPromise()
             if(response){
                 return response
             }else{
@@ -97,12 +102,12 @@ export class RecursoService {
 
     }
     editarBloque(bloque: Bloques): Observable<Bloques> {
-        return this.http.post<Bloques>(`${this.urlbloque}editarBloque`, bloque);
+        return this.http.post<Bloques>(`${this.urlbloque}editarBloque`, bloque,{ headers: this.getHeaders() });
     }
     nuevoBloque(bloque:Bloques):Observable<Bloques>{
-        return this.http.post<Bloques>(`${this.urlbloque}nuevoBloque`,bloque);
+        return this.http.post<Bloques>(`${this.urlbloque}nuevoBloque`,bloque,{ headers: this.getHeaders() });
     }
     editarLicencia(licencia:Licencia):Observable<Licencia>{
-        return this.http.post<Licencia>(`${this.url}editarLicencia`,licencia)
+        return this.http.post<Licencia>(`${this.url}editarLicencia`,licencia,{ headers: this.getHeaders() })
     }
 }
