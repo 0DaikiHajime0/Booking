@@ -100,10 +100,11 @@ async nuevoUsuario(usuario: Usuario) {
     throw error; // Lanza el error para que sea manejado en el componente
   }
 }
-verificarAdmin(){
+  async verificarAdmin(){
     let usuario:Usuario = new Usuario(0,'','','','','')
     usuario = this.getUsuarioFromStorage()
-    if(usuario.usuario_rol==='Administrador'){
+    const tokenAdmin = await this.verificarToken()
+    if(usuario.usuario_rol==='Administrador'&& tokenAdmin){
       return true
     }
     else{
@@ -112,14 +113,14 @@ verificarAdmin(){
   }
   async verificarToken() {
     if (typeof localStorage !== 'undefined') {
-      const token = localStorage.getItem('token');
-      if (token) {
+      const tokenStr = localStorage.getItem('token');
+      if (tokenStr) {
         try {
-          const response = await this.http.post(`${this.url}/verifytok`, { token }).toPromise();
+          const token = JSON.parse(tokenStr);
+          const response = await this.http.post(`${this.url}verifytok`, { token }).toPromise();
           return response;
         } catch (error) {
-          console.error('Error al verificar el token:', error);
-          throw error; 
+          return false;
         }
       } else {
         console.error('No se encontró ningún token en el almacenamiento local.');
@@ -130,6 +131,8 @@ verificarAdmin(){
       return false;
     }
   }
+  
+  
   
   
   
