@@ -14,8 +14,13 @@ import {Credencial} from '../models/Credenciales';
 })
 export class CrearReservaServiceService {
   private url = API_BASE_URL + 'reserva/';
+  private url2 = API_BASE_URL + 'asignar/';
 
   constructor(private http: HttpClient) { }
+
+  listarCursoAdmin(id: number): Observable<Asignatura[]> {
+    return this.http.get<Asignatura[]>(`${this.url2}listarcurso/${id}`);
+  }
 
   listarCurso(id: number): Observable<Asignatura[]> {
     return this.http.get<Asignatura[]>(`${this.url}listarcurso/${id}`);

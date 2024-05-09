@@ -74,8 +74,8 @@
         <ng-template #noErrorMessage></ng-template>
       </div>
       <div class="botones">
-        <button mat-flat-button color="primary" (click)="reservar(); openSnackBar(message.value, action.value);" [disabled]="showErrorMessage || !selectedRecursoId || !selectedBloqueId || !selectedFecha || cantidadLicenciasDisponibles <= 0">Reservar</button>
-        <button mat-stroked-button color="primary" [disabled]="!selectedRecursoId || !selectedBloqueId || !selectedFecha">Cancelar</button>
+        <button mat-flat-button color="primary" (click)="reservar(); openSnackBar(message.value, action.value);" [disabled]="selectedDocented==0|| selectedAsignaturaId == 0||showErrorMessage || !selectedRecursoId || !selectedBloqueId || !selectedFecha || cantidadLicenciasDisponibles <= 0">Reservar</button>
+        <button mat-stroked-button color="primary">Cancelar</button>
 
       </div>
     </div>

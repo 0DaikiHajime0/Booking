@@ -8,6 +8,8 @@ export class Asignar{
   periodo_curso: string;
   horario_curso: string | null;
   tipo_curso: string;
+  curso_inicio:string;
+  curso_fin:string;
   constructor(
       cantidad_alumnos:number,
       id_curso:number,
@@ -18,6 +20,8 @@ export class Asignar{
       periodo_curso: string,
       horario_curso: string,
       tipo_curso: string,
+      curso_inicio:string,
+      curso_fin:string,
   ){
       this.cantidad_alumnos = cantidad_alumnos;
       this.id_curso = id_curso;
@@ -28,5 +32,7 @@ export class Asignar{
       this.periodo_curso = periodo_curso;
       this.horario_curso = horario_curso;
       this.tipo_curso = tipo_curso;
+      this.curso_inicio = curso_inicio;
+      this.curso_fin = curso_fin;
   }
 }
