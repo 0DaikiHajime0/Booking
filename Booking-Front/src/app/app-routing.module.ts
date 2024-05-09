@@ -20,7 +20,7 @@ import { NotfoundComponent } from './seccion/notfound/notfound.component';
 const routes: Routes = [
   {path:'login', component:LoginComponent},
   {path:'listar', component:MostrarReservasComponent},
-  {path:'home', component:HomeComponent},
+
   {path:'crear', component:CrearReservaComponent},
   {path:'recursos', component:RecursosComponent},
   {path:'crearreserva-administrador',component:CrearreservaAdministradorComponent,canActivate:[authGuardGuard]},
