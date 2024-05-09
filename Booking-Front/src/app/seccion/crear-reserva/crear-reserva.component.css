@@ -22,9 +22,7 @@ body{
 .body {
   display: flex;
   justify-content: space-between;
-  margin-left: 2rem;
-  margin-bottom: 2rem;
-  margin-right: 2rem;
+  margin: 2rem;
 }
 
 .Container-Reserva {
@@ -38,6 +36,7 @@ body{
   overflow: scroll;
   max-height: 50rem ;
   max-width: 33rem;
+  max-height: 45rem ;
   margin-left: 2rem;
   margin-right: 2rem;
   padding-top: 1rem;
@@ -133,6 +132,7 @@ button {
   margin-left: 2rem;
   font-size: 1rem;
   height:49rem;
+  max-height: 45rem ;
 }
 .events-calendar{
   font-size: 1rem;
@@ -140,3 +140,15 @@ button {
 .oculto {
   display: none;
 }
+
+:host ::ng-deep .fc-button-primary {
+  background-color: #8e6dcf;
+  border-color: #8e6dcf;
+  border-radius: 45px;
+  color: #ffffff;
+}
+:host ::ng-deep .fc-button-primary:hover {
+  background-color: #6c4791;
+  border-color: #6c4791;
+}
+

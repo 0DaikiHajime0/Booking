@@ -237,6 +237,8 @@ export class CrearreservaAdministradorComponent implements OnInit {
     initialView: 'timeGridWeek',
     weekends: true,
     locale: esLocale,
+    eventBackgroundColor: '#8e6dcf',
+    eventBorderColor: '#8e6dcf',
     events: [
     ]
   };

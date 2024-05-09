@@ -61,7 +61,7 @@
         <ng-template #noErrorMessage></ng-template>
       </div>
       <div class="botones">
-        <button  mat-flat-button color="primary" type="button" (click)="reservar(); openSnackBar('Reserva Exitoso!, Puede descargar las reservas','Cerrar');" [disabled]="showErrorMessage || !selectedRecursoId || !selectedBloqueId || !selectedFecha || cantidadLicenciasDisponibles <= 0">Reservar</button>
+        <button  mat-flat-button color="primary" type="button" (click)="reservar(); openSnackBar('Reserva Exitoso!','Aceptar');" [disabled]="showErrorMessage || !selectedRecursoId || !selectedBloqueId || !selectedFecha || cantidadLicenciasDisponibles <= 0">Reservar</button>
         <button  mat-stroked-button color="primary" type="button">Cancelar</button>
 
       </div>
@@ -74,20 +74,5 @@
           <i class="events-calendar">{{arg.event.title}}</i>
         </ng-template>
       </full-calendar>
-    <div class="calendar">
-    </div>
   </div>
 </section>
-
-
-<mat-form-field>
-  <mat-label>Message</mat-label>
-  <input matInput value="Reserva Exitoso!, Puede descargar las reservas" #message>
-</mat-form-field>
-
-<mat-form-field>
-  <mat-label>Action</mat-label>
-  <input matInput value="Descargar" #action>
-</mat-form-field>
-</div>
-</mat-drawer-container>
