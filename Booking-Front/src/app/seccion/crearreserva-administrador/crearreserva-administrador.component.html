@@ -74,7 +74,7 @@
         <ng-template #noErrorMessage></ng-template>
       </div>
       <div class="botones">
-        <button mat-flat-button color="primary" (click)="reservar();" [disabled]="showErrorMessage || !selectedRecursoId || !selectedBloqueId || !selectedFecha || cantidadLicenciasDisponibles <= 0">Reservar</button>
+        <button mat-flat-button color="primary" (click)="reservar(); openSnackBar('Reserva Exitoso!, Puede descargar las reservas', 'Aceptar')" [disabled]="showErrorMessage || !selectedRecursoId || !selectedBloqueId || !selectedFecha || cantidadLicenciasDisponibles <= 0">Reservar</button>
         <button mat-stroked-button color="primary" [disabled]="!selectedRecursoId || !selectedBloqueId || !selectedFecha">Cancelar</button>
 
       </div>
