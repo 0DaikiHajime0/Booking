@@ -18,8 +18,9 @@ class CrearReservaService {
         data.id_recurso,
         data.fecha,
         data.id_bloque,
-        data.reserva_cant];
-      return await mysqlLib.execute('call sp_realizar_reserva(?,?,?,?,?,?,?,?);', params);
+        data.reserva_cant,
+        data.nrc]
+      return await mysqlLib.execute('call sp_realizar_reserva(?,?,?,?,?,?,?,?,?);', params);
     } catch (error) {
       throw new Error('Error al ejecutar la consulta a la base de datos: ' + error.message);
     }
@@ -71,10 +72,11 @@ class CrearReservaService {
       data.id_recurso,
       data.id_bloque,
       fechaFormateada,
+      data.nrc,
     ];
     try {
-      const [credencialesResult] = await mysqlLib.execute('call sp_listar_credenciales_reservadas(?,?,?,?,?);', params);
-      const [FechaResult] = await mysqlLib.execute('call listar_fecha_horario_reserva(?,?,?,?,?);', params);
+      const [credencialesResult] = await mysqlLib.execute('call sp_listar_credenciales_reservadas(?,?,?,?,?,?);', params);
+      const [FechaResult] = await mysqlLib.execute('call listar_fecha_horario_reserva(?,?,?,?,?,?);', params);
       const [mensaje] = await mysqlLib.execute("SELECT 'Revise su correo' AS mensaje;");
 
 

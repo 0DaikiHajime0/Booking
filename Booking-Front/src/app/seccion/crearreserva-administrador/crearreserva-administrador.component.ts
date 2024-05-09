@@ -45,6 +45,7 @@ export class CrearreservaAdministradorComponent implements OnInit {
   selectedBloqueId: number = 0;
   selectedFecha: string = '';
   selectedAsignaturaId: number = 0;
+  selectedNrc : string = ''
   selectCantidadreservas: number = 0;
   disponibilidad!: Disponibilidad;
   reserva!: Reserva;
@@ -82,15 +83,17 @@ export class CrearreservaAdministradorComponent implements OnInit {
     const docente_id = event?.target?.value;
     if (docente_id) {
       this.selectedDocented = docente_id;
-      this.crearReservaService.listarCurso(docente_id).subscribe(
+      this.crearReservaService.listarCursoAdmin(docente_id).subscribe(
         (cursos: Asignatura[]) => {
           this.cursos = cursos;
-          this.selectedAsignaturaId = cursos[0]?.curso_id;
+          this.selectedAsignaturaId = Number(cursos[0]?.curso_id);
+          this.selectedNrc = cursos[0].nrc;
           this.selectedEmailDocenteId = docente_id;
           this.selectedEmailDocenteId = this.docentes.find(docente => docente.usuario_id == docente_id)?.usuario_correo || '';
         }
       );
     }
+
   }
   listarRecurso(event: any) {
     const cursoId = event.target.value;
@@ -172,7 +175,8 @@ export class CrearreservaAdministradorComponent implements OnInit {
         id_recurso: Number(this.selectedRecursoId),
         fecha: this.selectedFecha,
         id_bloque: this.selectedBloqueId,
-        reserva_cant: this.selectCantidadreservas
+        reserva_cant: this.selectCantidadreservas,
+        nrc: this.selectedNrc
       };
       this.crearReservaService.crearReserva(this.reserva).subscribe(
         (response: any) => {
@@ -203,8 +207,8 @@ export class CrearreservaAdministradorComponent implements OnInit {
       id_bloque: this.selectedBloqueId,
       fecha: this.selectedFecha,
       docente_correo: this.selectedEmailDocenteId,
+      nrc:this.selectedNrc
     };
-
     this.crearReservaService.enviarCredenciales(data).subscribe(
       response => {
       },

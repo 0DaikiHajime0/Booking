@@ -3,6 +3,15 @@ const mysqlLib = require('./../../libs/mysql');
 class  AsignarDocenteService{
   constructor(){}
 
+  async findCurso(id) {
+    try {
+      const [curso] = await mysqlLib.execute('call sp_listar_curso_x_docente_admin(?);', [id]);
+      return curso
+    } catch (error) {
+      throw new Error('Error al ejecutar la consulta a la base de datos: ' + error.message);
+    }
+  }
+
   async asignarDocente(data) {
     try {
       const params = [
@@ -40,8 +49,10 @@ class  AsignarDocenteService{
         data.periodo_curso,
         data.campus_curso,
         data.modalidad_curso,
+        data.curso_inicio,
+        data.curso_fin
       ];
-      return await mysqlLib.execute('call sp_actualizar_docente_curso (?,?,?,?,?,?,?,?);',params)
+      return await mysqlLib.execute('call sp_actualizar_docente_curso (?,?,?,?,?,?,?,?,?,?);',params)
 
     }
     catch(error){

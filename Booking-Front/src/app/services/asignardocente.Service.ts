@@ -22,7 +22,7 @@ export class AsignarDocenteService{
   }
 
   listarCurso(id: number): Observable<Asignatura[]> {
-    return this.http.get<Asignatura[]>(`${this.url}listarcurso/${id}`);
+    return this.http.get<Asignatura[]>(`${this.url2}listarcurso/${id}`);
   }
 
   listarCursonoAsignado(): Observable<AsignaturanoAsignada[]> {

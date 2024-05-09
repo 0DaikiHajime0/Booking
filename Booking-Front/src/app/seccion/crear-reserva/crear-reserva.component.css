@@ -63,6 +63,11 @@ select {
   height: 2.5rem;
   width: 100%;
 }
+
+.selectmaterials{
+  margin-top: 1rem;
+  width: 100%;
+}
 select option {
   padding: 2.5rem;
 }
