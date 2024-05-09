@@ -57,7 +57,7 @@ export class AsignarDocenteComponent implements AfterViewInit {
     this.cursodata = new MatTableDataSource<Asignatura>();
   }
   openDialog(): void {
-    
+
     if (this.docenteSeleccionado !== 0) {
       const id_docente =this.docenteSeleccionado
       this.asignardocenteService.listarCursonoAsignado().subscribe(
@@ -167,7 +167,7 @@ export class AsignarDocenteComponent implements AfterViewInit {
   ]
 })
 export class AsignarDocenteCurso {
-  asignarcurso: Asignar = new Asignar (0, 0, 0, '', '', '','', '', '');
+  asignarcurso: Asignar = new Asignar (0, 0, 0, '', '', '','', '', '','','');
   asignadutarasaasignar: AsignaturanoAsignada[] = [];
   asignar! :Asignar;
   id_docente: number;
@@ -263,7 +263,9 @@ export class EditarDocenteCurso {
         primerElemento.curso_campus,
         primerElemento.curso_periodo,
         primerElemento.curso_horario !== null ? primerElemento.curso_horario : '',
-        primerElemento.curso_tipo
+        primerElemento.curso_tipo,
+        this.formatearFecha(primerElemento.curso_inicio),
+        this.formatearFecha(primerElemento.curso_fin)
       );
   }
   editarAsignacion(){
@@ -276,6 +278,8 @@ export class EditarDocenteCurso {
         periodo_curso: this.asignarcurso.periodo_curso,
         campus_curso: this.asignarcurso.campus_curso,
         modalidad_curso: this.asignarcurso.modalida_curso,
+        curso_inicio : this.formatearFecha(this.asignarcurso.curso_inicio),
+        curso_fin: this.formatearFecha(this.asignarcurso.curso_fin)
     };
 
     this.asignardocenteService.editarDocenteCurso(this.editar).subscribe(
@@ -307,4 +311,10 @@ export class EditarDocenteCurso {
   onNoClick(): void {
     this.dialogRef.close();
   }
+  formatearFecha(fecha: string): string {
+    const fechaDate: Date = new Date(fecha);
+    const fechaFormateada = fechaDate.toISOString().split('T')[0];
+    return fechaFormateada;
+  }
 }
+

@@ -8,6 +8,7 @@ const campus_curso= Joi.string().min(4).allow(null);
 const periodo_curso= Joi.string().min(4).allow(null);
 const horario_curso = Joi.string().min(4).allow(null);
 const tipo_curso= Joi.string().min(4).allow(null);
+const fecha = Joi.string().max(10).min(10);
 
 const asignarDocenteSchema = Joi.object({
 
@@ -21,9 +22,6 @@ const asignarDocenteSchema = Joi.object({
      horario_curso:horario_curso,
      tipo_curso:tipo_curso,
 })
-const CursosNoAsignadosSchema = Joi.object({
-  id: Joi.number().required(),
-})
 const EditarAsignacionSchema = Joi.object({
     id_curso: id_curso.required(),
      id_docente: id_docente.required(),
@@ -32,9 +30,11 @@ const EditarAsignacionSchema = Joi.object({
      nrc_curso: nrc_curso.required(),
      periodo_curso: periodo_curso.required(),
      campus_curso: campus_curso.required(),
-     modalidad_curso: modalida_curso.required()
+     modalidad_curso: modalida_curso.required(),
+     curso_inicio: fecha.required(),
+     curso_fin: fecha.required()
 
 })
-module.exports = {asignarDocenteSchema,CursosNoAsignadosSchema,EditarAsignacionSchema}
+module.exports = {asignarDocenteSchema,EditarAsignacionSchema}
 
 

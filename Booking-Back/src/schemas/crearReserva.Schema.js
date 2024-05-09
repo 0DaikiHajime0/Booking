@@ -10,6 +10,7 @@ const reserva_cant = Joi.number().integer();
 const fecha_inicio = Joi.string().max(10).min(10);
 const fecha_fin = Joi.string().max(10).min(10);
 const docente_correo = Joi.string().max(50);
+const nrc = Joi.string().max(12).min(1);
 
 const crearReservaSchema = Joi.object({
   id_usuario: id_usuario.required(),
@@ -20,6 +21,7 @@ const crearReservaSchema = Joi.object({
   fecha: fecha.required(),
   id_bloque: id_bloque.required(),
   reserva_cant: reserva_cant.required(),
+  nrc:nrc.required(),
 });
 
 const listarcursoSchema = Joi.object({
@@ -41,6 +43,7 @@ const enviarCredencialesSchema = Joi.object({
   id_bloque: id_bloque.required(),
   fecha: fecha.required(),
   docente_correo: docente_correo.required(),
+  nrc:nrc.required(),
 });
 const listardisponibilidadCalendario = Joi.object({
   id_recurso: id_recurso.required()

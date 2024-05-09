@@ -7,6 +7,7 @@ export class Reserva{
   fecha:string;
   id_bloque:number;
   reserva_cant:number;
+  nrc:string;
 
   constructor(
     id_usuario:number,
@@ -16,7 +17,8 @@ export class Reserva{
     id_recurso:number,
     fecha:string,
     id_bloque:number,
-    reserva_cant:number
+    reserva_cant:number,
+    nrc:string
   ){
     this.id_usuario = id_usuario;
     this.rol = rol;
@@ -26,5 +28,6 @@ export class Reserva{
     this.fecha = fecha;
     this.id_bloque = id_bloque;
     this.reserva_cant = reserva_cant;
+    this.nrc = nrc;
   }
 }

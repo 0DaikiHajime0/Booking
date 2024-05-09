@@ -10,6 +10,8 @@ export class ListarAsignarturaAsignada{
   curso_horario:string | null;
   curso_tipo: string;
   curso_docente_estado: string;
+  curso_inicio:string;
+  curso_fin:string;
   constructor(
     docente_curso_id: number,
     docente_curso_cantidad_alumnos: number,
@@ -22,6 +24,8 @@ export class ListarAsignarturaAsignada{
     curso_horario:string,
     curso_tipo: string,
     curso_docente_estado: string,
+    curso_inicio:string,
+    curso_fin:string,
   ){
     this.docente_curso_id = docente_curso_id;
     this.docente_curso_cantidad_alumnos = docente_curso_cantidad_alumnos;
@@ -33,6 +37,8 @@ export class ListarAsignarturaAsignada{
     this.curso_periodo = curso_periodo;
     this.curso_horario = curso_horario;
     this.curso_tipo = curso_tipo;
-    this.curso_docente_estado = curso_docente_estado
+    this.curso_docente_estado = curso_docente_estado;
+    this.curso_inicio = curso_inicio;
+    this.curso_fin = curso_fin;
   }
 }
