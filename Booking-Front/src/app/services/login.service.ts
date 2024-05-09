@@ -33,7 +33,7 @@ export class UsuarioService {
   }
 
   guardarInfoPerfil(perfil: Perfil): Observable<any> {
-    return this.http.post<any>(`${this.url}actualizarusuario`, perfil);
+    return this.http.post<any>(`${this.url}actualizarusuario`, perfil,{ headers: this.getHeaders() });
   }
   async getUsuarioInfo(correo:string): Promise<Usuario> {
     try {
@@ -58,7 +58,7 @@ export class UsuarioService {
   }
  async editarUsuario(id_usuario:number,usuario: Usuario): Promise<Usuario> {
     try {
-      const response = await this.http.put<Usuario>(`${this.url}editarusuario/${id_usuario}`, usuario).toPromise();
+      const response = await this.http.put<Usuario>(`${this.url}editarusuario/${id_usuario}`, usuario,{ headers: this.getHeaders() }).toPromise();
       if (response) {
         return response;
       } else {
@@ -70,7 +70,7 @@ export class UsuarioService {
   }
   async deshabilitarUsuario(usuario_id:number){
     try {
-      const response  = await this.http.get(`${this.url}deshabilitarusuario/${usuario_id}`).toPromise();
+      const response  = await this.http.get(`${this.url}deshabilitarusuario/${usuario_id}`,{ headers: this.getHeaders() }).toPromise();
       if(response){
         return response
       }
@@ -85,7 +85,7 @@ export class UsuarioService {
   }
   async habilitarUsuario(usuario_id:number){
     try {
-      const response  = await this.http.get(`${this.url}habilitarusuario/${usuario_id}`).toPromise();
+      const response  = await this.http.get(`${this.url}habilitarusuario/${usuario_id}`,{ headers: this.getHeaders() }).toPromise();
       if(response){
         return response
       }
@@ -101,7 +101,7 @@ export class UsuarioService {
   
 async nuevoUsuario(usuario: Usuario) {
   try {
-    const response = await this.http.post(`${this.url}/nuevousuario`, usuario).toPromise();
+    const response = await this.http.post(`${this.url}/nuevousuario`, usuario,{ headers: this.getHeaders() }).toPromise();
     return response;
   } catch (error) {
     throw error; // Lanza el error para que sea manejado en el componente
