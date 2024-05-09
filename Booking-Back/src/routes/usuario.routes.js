@@ -3,26 +3,7 @@ const UsuarioService = require('../services/usuario.service');
 const router = express.Router();
 const usuarioservice = new UsuarioService();
 
-router.get('/verificar/:correo',
-    async (req, res, next) => {
-        try {
-            const { correo } = req.params; 
-            const result = await usuarioservice.verificarUsuario(correo);
-            if (!result) {
-                return res.status(404).json({ mensaje: "Usuario no encontrado" });
-            }
-            res.json(result);
-        } catch (error) {
-            if (error.message === 'El usuario no se encuentra') {
-                return res.status(404).json({ mensaje: error.message });
-            } else if (error.message === 'Error en la consulta SQL') {
-                return res.status(500).json({ mensaje: error.message });
-            } else {
-                next(error);
-            }
-        }
-    }
-);
+
 
 router.post('/actualizarusuario',
     async (req, res, next) => {
@@ -45,17 +26,7 @@ router.get('/mostrarusuarios',
         }
     }    
 )
-router.get('/obtenerusuario/:correo',
-    async(req,res,next) =>{
-        try {
-            const correo = req.params.correo;
-            const [result] = await usuarioservice.obtenerUsuario(correo)
-            res.json(result)
-        } catch (error) {
-            next(error)
-        }
-    }
-)
+
 router.put('/editarusuario/:usuario_id',
     async (req, res, next) => {
         try {
@@ -95,17 +66,6 @@ router.post('/nuevousuario',
         try {
             const usuario = req.body;
             const result = await usuarioservice.nuevoUsuario(usuario);
-            res.json(result)
-        } catch (error) {
-            next(error)
-        }
-    }
-)
-router.post('/verifytok',
-    async(req,res,next)=>{
-        try {
-            const jwtoken = req.body.token;
-            const result = await usuarioservice.verificarRol(jwtoken);
             res.json(result)
         } catch (error) {
             next(error)

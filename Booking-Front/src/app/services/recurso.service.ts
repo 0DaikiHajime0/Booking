@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { API_BASE_URL } from './constants';
 import { Recurso } from '../models/Recurso';
@@ -14,6 +14,10 @@ export class RecursoService {
     private url = API_BASE_URL + 'recurso/'
     private urlbloque =API_BASE_URL+ 'bloque/'
     constructor(private http: HttpClient) {}
+    private getHeaders(): HttpHeaders {
+    const token = localStorage.getItem('token');
+    return new HttpHeaders().set('Authorization', `Bearer ${token}`);
+  }
     async getRecursos():Promise <Recurso[]>{
         try{
             const response = await this.http.get<Recurso[]>(`${this.url}mostrarrecursos`).toPromise();

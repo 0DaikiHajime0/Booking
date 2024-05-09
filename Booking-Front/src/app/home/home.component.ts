@@ -14,7 +14,7 @@ export class HomeComponent {
   usuarioRecuperado: Usuario | null = null;
   rol: string = '';
   opcionSeleccionada: number = 5;
-
+  verificado:boolean=false
   constructor(
     private router: Router,
     private loginService: UsuarioService
@@ -35,17 +35,18 @@ export class HomeComponent {
     }
   }
 
-  verificarRol() {
+  async verificarRol() {
     this.usuarioRecuperado = this.loginService.getUsuarioFromStorage();
     this.usuarioRecuperadoGoogle = this.loginService.getUsuarioGoogle();
     
     if (!this.usuarioRecuperado || !this.usuarioRecuperadoGoogle) {
     } else {
-      if (this.usuarioRecuperado.usuario_rol === 'Docente') {
+      if(await this.loginService.verificarToken()){
+        this.rol='admin'
+      }else{
         this.rol = 'docente';
-      } else if (this.usuarioRecuperado.usuario_rol === 'Administrador') {
-        this.rol = 'admin';
       }
+      
     }
   }
   

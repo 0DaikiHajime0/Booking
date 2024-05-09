@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Usuario } from '../models/Usuario';
@@ -10,11 +10,18 @@ import { UsuarioGoogle } from '../models/UsuarioGoogle';
 })
 export class UsuarioService {
   url = 'http://localhost:3000/api/v1/usuario/';
-
+  url2 = 'http://localhost:3000/api/v1/auth/'
   constructor(private http: HttpClient) {}
 
+  private getHeaders(): HttpHeaders {
+    const token = localStorage.getItem('token');
+    const tokenWithoutQuotes = token?.replace(/^"(.*)"$/, '$1'); 
+    return new HttpHeaders().set('Authorization', `Bearer ${tokenWithoutQuotes}`);
+  }
+  
+
   verificarCorreo(correo: string): Observable<any> {
-    return this.http.get<any>(`${this.url}verificar/${correo}`);
+    return this.http.get<any>(`${this.url2}verificar/${correo}`);
   }
   getUsuarioGoogle():UsuarioGoogle{
     const usuarioGoogleString = localStorage.getItem('user')||sessionStorage.getItem('user');
@@ -30,7 +37,7 @@ export class UsuarioService {
   }
   async getUsuarioInfo(correo:string): Promise<Usuario> {
     try {
-      const response = await this.http.get<Usuario>(`${this.url}obtenerusuario/${correo}`).toPromise();
+      const response = await this.http.get<Usuario>(`${this.url2}obtenerusuario/${correo}`).toPromise();
       if (response) {
         return response;
       } else {
@@ -43,7 +50,7 @@ export class UsuarioService {
   
   async getUsuarios(): Promise<Usuario[]> {
     try {
-      const response = await this.http.get<Usuario[]>(`${this.url}mostrarusuarios`).toPromise();
+      const response = await this.http.get<Usuario[]>(`${this.url}mostrarusuarios`,{ headers: this.getHeaders() }).toPromise();
       return response || [];
     } catch (error) {
       throw error;
@@ -117,9 +124,10 @@ async nuevoUsuario(usuario: Usuario) {
       if (tokenStr) {
         try {
           const token = JSON.parse(tokenStr);
-          const response = await this.http.post(`${this.url}verifytok`, { token }).toPromise();
-          return response;
+          const response = await this.http.post(`${this.url2}verifytok`, { token }).toPromise();
+          return response as boolean;
         } catch (error) {
+          console.error('Error al verificar el token:', error);
           return false;
         }
       } else {
@@ -132,8 +140,4 @@ async nuevoUsuario(usuario: Usuario) {
     }
   }
   
-  
-  
-  
-  
-}
+  }
