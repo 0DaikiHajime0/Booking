@@ -13,8 +13,8 @@ export class UsuarioService {
 
   constructor(private http: HttpClient) {}
 
-  verificarCorreo(correo: string): Observable<Usuario> {
-    return this.http.get<Usuario>(`${this.url}verificar/${correo}`);
+  verificarCorreo(correo: string): Observable<any> {
+    return this.http.get<any>(`${this.url}verificar/${correo}`);
   }
   getUsuarioGoogle():UsuarioGoogle{
     const usuarioGoogleString = localStorage.getItem('user')||sessionStorage.getItem('user');
@@ -100,4 +100,37 @@ async nuevoUsuario(usuario: Usuario) {
     throw error; // Lanza el error para que sea manejado en el componente
   }
 }
+verificarAdmin(){
+    let usuario:Usuario = new Usuario(0,'','','','','')
+    usuario = this.getUsuarioFromStorage()
+    if(usuario.usuario_rol==='Administrador'){
+      return true
+    }
+    else{
+      return false
+    }
+  }
+  async verificarToken() {
+    if (typeof localStorage !== 'undefined') {
+      const token = localStorage.getItem('token');
+      if (token) {
+        try {
+          const response = await this.http.post(`${this.url}/verifytok`, { token }).toPromise();
+          return response;
+        } catch (error) {
+          console.error('Error al verificar el token:', error);
+          throw error; 
+        }
+      } else {
+        console.error('No se encontró ningún token en el almacenamiento local.');
+        return false;
+      }
+    } else {
+      console.error('El objeto localStorage no está disponible en este entorno.');
+      return false;
+    }
+  }
+  
+  
+  
 }

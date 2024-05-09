@@ -21,7 +21,9 @@ export class HomeComponent {
   ) {
     this.handleLoginSuccess();
   }
-
+  ngAfterViewInit(): void{
+    
+  }
   handleLoginSuccess(): void {
     if (typeof localStorage !== 'undefined') {
       this.verificarRol();
@@ -38,7 +40,6 @@ export class HomeComponent {
     this.usuarioRecuperadoGoogle = this.loginService.getUsuarioGoogle();
     
     if (!this.usuarioRecuperado || !this.usuarioRecuperadoGoogle) {
-      this.logOut();
     } else {
       if (this.usuarioRecuperado.usuario_rol === 'Docente') {
         this.rol = 'docente';

@@ -13,7 +13,8 @@ import {MostrarreservaAdministradorComponent} from './seccion/mostrarreserva-adm
 import {AsignarDocenteComponent} from './seccion/asignar-docente/asignar-docente.component'
 import { CredencialesComponent } from './seccion/credenciales/credenciales.component';
 import { BloquesComponent } from './seccion/bloques/bloques.component';
-
+import { authGuardGuard } from './auth-guard.guard';
+import { NotfoundComponent } from './seccion/notfound/notfound.component';
 
 
 const routes: Routes = [
@@ -22,14 +23,14 @@ const routes: Routes = [
   {path:'home', component:HomeComponent},
   {path:'crear', component:CrearReservaComponent},
   {path:'recursos', component:RecursosComponent},
-  {path:'crearreserva-administrador',component:CrearreservaAdministradorComponent},
-  {path:'mostrarreserva-administrador',component:MostrarreservaAdministradorComponent},
-  {path:'asignar-docente',component:AsignarDocenteComponent},
-  {path:'credenciales', component:CredencialesComponent},
-  {path:'bloques',component:BloquesComponent},
-  {path:'asignaturas',component:AsignaturasComponent},
+  {path:'crearreserva-administrador',component:CrearreservaAdministradorComponent,canActivate:[authGuardGuard]},
+  {path:'mostrarreserva-administrador',component:MostrarreservaAdministradorComponent,canActivate:[authGuardGuard]},
+  {path:'asignar-docente',component:AsignarDocenteComponent,canActivate:[authGuardGuard]},
+  {path:'credenciales', component:CredencialesComponent,canActivate:[authGuardGuard]},
+  {path:'bloques',component:BloquesComponent,canActivate:[authGuardGuard]},
+  {path:'asignaturas',component:AsignaturasComponent,canActivate:[authGuardGuard]},
   {
-    path:'usuarios',component:UsuariosComponent
+    path:'usuarios',component:UsuariosComponent,canActivate:[authGuardGuard]
   },
   {
     path: '',
@@ -38,10 +39,14 @@ const routes: Routes = [
   },
   {
     path:'perfil',component:PerfilComponent
+  },
+  {
+    path:'404',component:NotfoundComponent
+  },
+  {
+    path:'**',
+    component: NotfoundComponent
   }
-
-
-
 ];
 
 @NgModule({

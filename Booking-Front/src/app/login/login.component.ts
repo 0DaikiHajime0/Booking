@@ -15,7 +15,7 @@ export class LoginComponent implements OnInit {
   isLoggedin: boolean = false;
   usuario: Usuario | null = null;
   correo: string = '';
-
+  token:string='';
   constructor(
     private socialAuthService: SocialAuthService,
     private router: Router,
@@ -24,33 +24,30 @@ export class LoginComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.socialAuthService.authState.subscribe((user) => {
-      this.socialUser = user;
-      this.isLoggedin = user != null;
-      if (this.socialUser && this.socialUser.email) {
-        this.correo = this.socialUser.email;
-        this.usuarioService.verificarCorreo(this.correo).subscribe(
-          (usuario) => {
-            this.usuario = usuario;
-            if (usuario && usuario.usuario_correo !== null) {
-              if(usuario.usuario_rol=='Administrador'){
-                console.log('Es un administrador')
-              }
-              else{
-                console.log('Es un docente')
-              }
-              this.handleLoginSuccess();
+    if(typeof localStorage !== 'undefined'){
+        if(localStorage.getItem('usuario')){
+          this.logOut();  
+        }else{
+          this.socialAuthService.authState.subscribe((user) => {
+            this.socialUser = user;
+            this.isLoggedin = user != null;
+            if (this.socialUser && this.socialUser.email) {
+              this.correo = this.socialUser.email;
+              this.usuarioService.verificarCorreo(this.correo).subscribe(
+                (result) => {
+                  if(result){
+                    this.usuario = result.usuario;
+                    this.token = result.token
+                    this.handleLoginSuccess();
+                  }
+                },
+                (error) => {
+                  this.showSnackBar('No se encontró su correo registrado, comuníquese con el administrador');
+                }
+              );
             }
-          },
-          (error) => {
-            this.showSnackBar('No se encontró su correo registrado, comuníquese con el administrador');
-          }
-        );
-      }
-    });
-    if (this.isLoggedin) {
-      
-      this.router.navigate(['/home']);
+          });
+        }       
     }
   }
 
@@ -67,11 +64,12 @@ export class LoginComponent implements OnInit {
     if (typeof localStorage !== 'undefined') {
       localStorage.setItem('isLoggedin', JSON.stringify(true));
       localStorage.setItem('user', JSON.stringify(this.socialUser));
-      localStorage.setItem('usuario', JSON.stringify(this.usuario));
+      localStorage.setItem('usuario',JSON.stringify(this.usuario))
+      localStorage.setItem('token',JSON.stringify(this.token))
+      this.router.navigate(['/listar']);
     } else if (typeof sessionStorage !== 'undefined') {
       sessionStorage.setItem('isLoggedin', JSON.stringify(true));
       sessionStorage.setItem('user', JSON.stringify(this.socialUser));
-      sessionStorage.setItem('usuario', JSON.stringify(this.usuario));
     } else {
       console.log('Web Storage is not supported in this environment.');
     }    this.router.navigate(['/listar']);
@@ -86,8 +84,14 @@ export class LoginComponent implements OnInit {
   private clearLocalStorage(): void {
     if (typeof localStorage !== 'undefined') {
       localStorage.removeItem('isLoggedin');
+      localStorage.removeItem('usuario')
+      localStorage.removeItem('user')
+      localStorage.removeItem('token')
     } else if (typeof sessionStorage !== 'undefined') {
       sessionStorage.removeItem('isLoggedin');
+      sessionStorage.removeItem('usuario')
+      sessionStorage.removeItem('user')
+      sessionStorage.removeItem('token')
     } else {
       console.log('Web Storage is not supported in this environment.');
     }
