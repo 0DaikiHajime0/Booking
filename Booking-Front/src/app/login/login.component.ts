@@ -25,9 +25,9 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     if(typeof localStorage !== 'undefined'){
-        if(localStorage.getItem('usuario')){
+        if(!localStorage.getItem('usuario')){
           this.logOut();  
-        }else{
+        }
           this.socialAuthService.authState.subscribe((user) => {
             this.socialUser = user;
             this.isLoggedin = user != null;
@@ -48,7 +48,6 @@ export class LoginComponent implements OnInit {
             }
           });
         }       
-    }
   }
 
   loginWithGoogle(): void {
