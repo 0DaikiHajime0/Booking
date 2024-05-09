@@ -227,8 +227,6 @@ export class CrearreservaAdministradorComponent implements OnInit {
     }
   }
   openSnackBar(message: string, action: string) {
-    message = "Reserva Exitoso!, Puede descargar las reservas";
-    action = "Aceptar"
     this.listarHorarioCalendar(this.selectedRecursoId);
     this._snackBar.open(message, action, {
       duration: 3000,
