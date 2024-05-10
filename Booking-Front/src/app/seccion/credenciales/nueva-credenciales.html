@@ -1,0 +1,45 @@
+<div class="cuadro-dialog">
+    <h1 mat-dialog-title>Nuevas Credenciales</h1>
+    <div mat-dialog-content>
+        <div class="cuadro-dialog-first">
+            
+        </div>
+        <div class="cuadro-dialog-first">
+
+        </div>
+        <h2>Selecciona los tipos de licencias a subir</h2>
+        <mat-checkbox class="example-margin" [(ngModel)]="usuariostring">Usuario</mat-checkbox>
+        <mat-checkbox class="example-margin" [(ngModel)]="passstring">Contraseña</mat-checkbox>
+        <mat-checkbox class="example-margin" [(ngModel)]="clavestring">Clave</mat-checkbox>
+        <mat-divider></mat-divider>
+        <mat-divider inset vertical></mat-divider>
+
+        <h3>El formato del csv debe ser el siguiente</h3>
+        <mat-form-field>
+            <mat-label>Estado</mat-label>
+            <mat-select>
+              <mat-option value="option">Activo</mat-option>
+              <mat-option value="option">Incativo</mat-option>
+            </mat-select>
+            <mat-hint align="end">Here's the dropdown arrow ^</mat-hint>
+          </mat-form-field>
+        <input type="file" class="file-upload" (change)="subircsv($event)" accept=".csv">
+        <mat-label>Recurso: {{ recurso.recurso_nombre }}</mat-label> 
+        <mat-form-field>
+            <mat-label>Usuario</mat-label>
+            <input matInput [(ngModel)]="credencial.credencial_usuario" type="text">
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Contraseña</mat-label>
+            <input matInput [(ngModel)]="credencial.credencial_contrasena" type="password">
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Clave</mat-label>
+            <input matInput [(ngModel)]="credencial.credencial_key" type="text">
+        </mat-form-field>
+    </div>
+    <div mat-dialog-actions>
+        <button mat-button [mat-dialog-close]="credencial">Guardar</button>
+        <button mat-button (click)="cerrar()">Cancelar</button>
+    </div>
+</div>

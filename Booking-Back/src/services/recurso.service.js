@@ -73,5 +73,8 @@ class RecursoService{
         }
         return res
     }
+    nuevasLicencias(){
+        
+    }
 }
 module.exports = RecursoService;

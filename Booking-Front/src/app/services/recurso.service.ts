@@ -110,4 +110,7 @@ export class RecursoService {
     editarLicencia(licencia:Licencia):Observable<Licencia>{
         return this.http.post<Licencia>(`${this.url}editarLicencia`,licencia,{ headers: this.getHeaders() })
     }
+    enviarcsvCredenciales(file:any){
+        return this.http.post(`${this.url}subircsvcredenciales`,file,{ headers: this.getHeaders() })
+    }
 }

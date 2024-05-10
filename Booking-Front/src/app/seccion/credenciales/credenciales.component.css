@@ -45,3 +45,6 @@
   .boton-agregar{
     width: 100%;
   }
+  .cuadro-dialog{
+    flex: content;
+  }
