@@ -44,10 +44,10 @@ export class HomeComponent {
     } else {
       if(await this.loginService.verificarToken()){
         this.rol='admin'
-        this.cambioComponente('/mostrarreserva-administrador')
+        
       }else{
         this.rol = 'docente';
-        this.cambioComponente('/listar')
+        
       }
       
     }
