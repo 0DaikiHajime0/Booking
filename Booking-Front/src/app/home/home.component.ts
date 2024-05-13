@@ -47,6 +47,7 @@ export class HomeComponent {
         this.cambioComponente('/mostrarreserva-administrador')
       }else{
         this.rol = 'docente';
+        this.cambioComponente('/listar')
       }
       
     }
