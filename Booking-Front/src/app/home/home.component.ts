@@ -13,13 +13,13 @@ export class HomeComponent {
   usuarioRecuperadoGoogle: UsuarioGoogle | null = null;
   usuarioRecuperado: Usuario | null = null;
   rol: string = '';
-  opcionSeleccionada: number = 5;
   verificado:boolean=false
   constructor(
     private router: Router,
     private loginService: UsuarioService
   ) {
     this.handleLoginSuccess();
+    
   }
   ngAfterViewInit(): void{
     
@@ -27,6 +27,7 @@ export class HomeComponent {
   handleLoginSuccess(): void {
     if (typeof localStorage !== 'undefined') {
       this.verificarRol();
+
     } else if (typeof sessionStorage !== 'undefined') {
       this.verificarRol();
     }
@@ -43,8 +44,10 @@ export class HomeComponent {
     } else {
       if(await this.loginService.verificarToken()){
         this.rol='admin'
+        this.cambioComponente('/mostrarreserva-administrador')
       }else{
         this.rol = 'docente';
+        this.cambioComponente('/listar')
       }
       
     }

@@ -13,6 +13,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatPaginator } from '@angular/material/paginator';
 import { s } from '@fullcalendar/core/internal-common';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatDividerModule} from '@angular/material/divider';
 
 @Component({
   selector: 'app-credenciales',
@@ -62,6 +64,16 @@ export class CredencialesComponent {
       )
     }
   }
+  async agregarCredenciales(){
+    const recurso = this.recursoSeleccionado;
+    console.log(recurso)
+    if(this.recursoSeleccionado){
+      const dialogRef = this.dialog.open(NuevoGrupoCredenciales,{
+        data:{recurso}
+      })
+    }
+  }
+  
   async editarCredencial(licencia:Licencia){
     const recurso = this.recursoSeleccionado;
     if(licencia){
@@ -117,4 +129,52 @@ export class NuevaCredencial{
     this.dialogRef.close();
   }
 }
-//TODO
+@Component({
+  selector: 'app-nueva-credenciales',
+  templateUrl: './nueva-credenciales.html',
+  styleUrls:['../credenciales/credenciales.component.css'],
+
+  standalone: true,
+  imports: [
+    MatFormFieldModule,
+    MatInputModule,
+    FormsModule,
+    MatButtonModule,
+    MatDialogTitle,
+    MatDialogContent,
+    MatDialogActions,
+    MatDialogClose,
+    MatSelectModule,
+    MatCheckboxModule,
+    MatDividerModule
+  ],
+})
+export class NuevoGrupoCredenciales{
+  recurso!: Recurso; 
+  credencial = {
+    credenciales_id: 0,
+    credencial_contrasena: '',
+    credencial_key: '',
+    credencial_usuario: '',
+    credenciales_estado: ''
+  };
+  usuariostring = false;
+  passstring = false;
+  clavestring = false;
+  constructor(
+    public dialogRef: MatDialogRef<NuevoGrupoCredenciales>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private recursoService:RecursoService
+  ){
+    this.recurso = data.recurso;
+  }
+  cerrar(): void {
+    this.dialogRef.close();
+  }
+  subircsv(event:any){
+    const file = event.target.files[0]
+    const formData = new FormData()
+    formData.append('file',file)
+    this.recursoService.enviarcsvCredenciales(formData)
+  }
+}

@@ -1,8 +1,12 @@
 const express = require('express')
 const RecursoService = require('../services/recurso.service')
 const router = express.Router()
-const recursoservice = new RecursoService();
+const multer = require('multer');
+const csv = require('csv-parser');
+const fs = require('fs');
 
+const recursoservice = new RecursoService();
+const upload = multer({ dest: 'uploads/' });
 router.get('/mostrarrecursos',
     async(req,res,next)=>{
         try {
@@ -89,6 +93,24 @@ router.post('/obtenerasignaturasbyasignatura',
         } catch (error) {
             next(error)
         }
+    }
+)
+router.post('/subircsvcredenciales',upload.single('file'),
+    (req,res)=>{
+        const file = file.path
+        if (!file) {
+            return res.status(400).json({ error: 'No se ha proporcionado ningún archivo CSV' });
+          }
+        const results = [];
+        fs.createReadStream(file.path)
+            .pipe(csv())
+            .on('data', (data) => results.push(data))
+            .on('end', () => {
+            // Aquí puedes procesar los datos del CSV (en results)
+            // Insertarlos en tu base de datos, etc.
+            console.log(results);
+            res.status(200).json({ message: 'CSV subido y procesado con éxito' });
+            });
     }
 )
 module.exports = router
