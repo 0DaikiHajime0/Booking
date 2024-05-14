@@ -48,3 +48,27 @@
   .cuadro-dialog{
     flex: content;
   }
+  .textarea{
+    width: 90%;
+    margin:5px
+  }
+.file-upload {
+  display: none;
+}
+
+.custom-file-upload {
+  background-color: #4CAF50; 
+  margin-top: 10px;
+  margin-bottom: 10px;
+  color: white; /* Color del texto */
+  padding: 10px ; /* Espaciado interno */
+  border: none; /* Borde */
+  border-radius: 5px; /* Borde redondeado */
+  cursor: pointer;
+  width: 90%; /* Cursor al pasar sobre él */
+}
+
+/* Cambiar el estilo del botón al pasar el cursor sobre él */
+.custom-file-upload:hover {
+  background-color: #45a049; /* Cambio de color de fondo */
+}

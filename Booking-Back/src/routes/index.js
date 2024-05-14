@@ -7,6 +7,7 @@ const asignarDocente = require('./asignarDocente.routes')
 const bloqueRoute = require('./bloque.routes')
 const verificarToken = require('../../middlewares/auth')
 const authRoute =require('../routes/auth.routes')
+const descargaRoute = require('../routes/descarga.routes')
 function routerApi(app){
   const route = express.Router();
   app.use(express.json());
@@ -18,6 +19,7 @@ function routerApi(app){
   route.use('/reserva', crearReservaRoute);
   route.use('/recurso',recursoRoute);
   route.use('/asignar',asignarDocente);
-  route.use('/bloque',bloqueRoute)
+  route.use('/bloque',bloqueRoute);
+  route.use('/credenciales',descargaRoute)
 }
 module.exports = routerApi;

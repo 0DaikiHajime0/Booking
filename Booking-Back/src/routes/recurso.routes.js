@@ -95,22 +95,40 @@ router.post('/obtenerasignaturasbyasignatura',
         }
     }
 )
-router.post('/subircsvcredenciales',upload.single('file'),
-    (req,res)=>{
-        const file = file.path
-        if (!file) {
-            return res.status(400).json({ error: 'No se ha proporcionado ningún archivo CSV' });
-          }
-        const results = [];
-        fs.createReadStream(file.path)
-            .pipe(csv())
-            .on('data', (data) => results.push(data))
-            .on('end', () => {
-            // Aquí puedes procesar los datos del CSV (en results)
-            // Insertarlos en tu base de datos, etc.
-            console.log(results);
-            res.status(200).json({ message: 'CSV subido y procesado con éxito' });
-            });
+router.post('/subircsvcredenciales/:recurso_id', upload.single('file'), (req, res) => {
+    const recurso_id = req.params.recurso_id
+    const file = req.file;
+    if (!file) {
+        return res.status(400).json({ error: 'No se ha proporcionado ningún archivo CSV' });
     }
-)
+    const results = [];
+    fs.readFile(file.path, 'utf8', (err, data) => {
+        if (err) {
+            return res.status(500).json({ error: 'Error al leer el archivo CSV' });
+        }
+
+        const lines = data.split(/\r?\n/);
+        for (let i = 1; i < lines.length; i++) {
+            const line = lines[i];
+            const [usuario, clave, credencial, estado] = line.split(/\s*[;,]\s*/);
+            if (usuario !== undefined && clave !== undefined && credencial !== undefined) {
+                recursoservice.nuevasLicencias(recurso_id, usuario, clave, credencial, estado)
+                    .then((result) => {
+                        if (result == null) {
+                            return 'no hay respuesta';
+                        }
+                        results.push({ Usuario: usuario, Contraseña: clave, Credencial: credencial, Estado: estado });
+                    })
+                    .catch((error) => {
+                        console.error('Error en la solicitud:', error);
+                    });
+            }
+        }
+        res.status(200).json(results);
+    });
+});
+
+
+
+
 module.exports = router

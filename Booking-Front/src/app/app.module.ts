@@ -64,7 +64,8 @@ import { CredencialesComponent } from './seccion/credenciales/credenciales.compo
 import { BloquesComponent } from './seccion/bloques/bloques.component';
 import { AsignaturasComponent } from './seccion/asignaturas/asignaturas.component';
 import { NotfoundComponent } from './seccion/notfound/notfound.component';
-
+import assert from 'assert';
+import { parse } from 'csv-parse';
 
 
 @NgModule({
@@ -114,7 +115,7 @@ import { NotfoundComponent } from './seccion/notfound/notfound.component';
     MatProgressSpinnerModule,
     MatSortModule,
     MatTabsModule,
-    MatDatepickerModule
+    MatDatepickerModule,
   ],
   providers: [
     provideClientHydration(),
