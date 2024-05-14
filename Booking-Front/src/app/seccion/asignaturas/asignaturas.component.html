@@ -11,19 +11,24 @@
             <p class="header">Asignaturas</p>
         </section>
         <section class="container">
-            <mat-form-field class="container-buscador">
-                <mat-label>Buscar Cursos</mat-label>
-                <input matInput (keyup)="buscarCurso($any($event.target).value)">
-            </mat-form-field>
-            <button mat-button mat-flat-button class="container-boton" color="primary" (click)="nuevoCurso()">
-                Ingresar un nuevo curso
-            </button>
-              <mat-form-field class="container-buscador">
-                <mat-label>Buscar Asignaturas</mat-label>
-                <input matInput (keyup)="buscarAsignatura($any($event.target).value)">
-              </mat-form-field>
-              
-            
+            <div class="container-buscador">
+                <mat-form-field class="buscador">
+                    <mat-label>Buscar Cursos</mat-label>
+                    <input matInput (keyup)="buscarCurso($any($event.target).value)">
+                </mat-form-field>
+                <button mat-button mat-flat-button color="primary" (click)="nuevoCurso()">
+                    Ingresar un nuevo curso
+                </button>
+            </div>
+            <div class="container-buscador">
+                <mat-form-field class="buscador">
+                    <mat-label>Buscar Asignaturas</mat-label>
+                    <input matInput (keyup)="buscarAsignatura($any($event.target).value)">
+                  </mat-form-field>
+                  <button mat-button mat-flat-button color="primary" (click)="nuevoCurso()">
+                    Ingresar una nueva asignatura
+                </button>
+            </div>
         </section>
         
         <section class="container">

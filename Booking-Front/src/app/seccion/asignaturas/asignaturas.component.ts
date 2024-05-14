@@ -79,6 +79,7 @@ export class AsignaturasComponent {
 })
 export class NuevoCurso {
   asignaturas!:Asignatura[]
+  advertencia:string=''
   constructor(
     public dialogRef: MatDialogRef<NuevoCurso>,
     @Inject(MAT_DIALOG_DATA) public data:any,
@@ -95,8 +96,15 @@ export class NuevoCurso {
     this.asignaturas = this.asignaturas.filter(asignatura => {
       return asignatura.curso_nombre.toLowerCase().includes(valor);
     });
+    
   }
-  
+  verificarCurso(){
+    if(this.asignaturas.length>=1){
+      this.advertencia = `Una asignatura ya tiene ese nombre` + this.asignaturas
+    }else{
+      this.advertencia = ``
+    }
+  }
   
   cerrar(): void {
     this.dialogRef.close();
