@@ -43,12 +43,11 @@ export class HomeComponent {
     if (!this.usuarioRecuperado || !this.usuarioRecuperadoGoogle) {
       this.logOut()
     } else {
+      this.rol = 'docente';
       if(await this.loginService.verificarToken()){
         this.rol='admin'
-        
       }else{
-        this.rol = 'docente';
-        
+        this.logOut()
       }
       
     }
