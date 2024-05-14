@@ -62,5 +62,6 @@ class UsuarioService{
             return null
         }
     }
+    
 }
 module.exports = UsuarioService;

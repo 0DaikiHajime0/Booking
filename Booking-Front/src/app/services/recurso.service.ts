@@ -13,6 +13,7 @@ import { Observable } from 'rxjs';
 export class RecursoService {
     private url = API_BASE_URL + 'recurso/'
     private urlbloque =API_BASE_URL+ 'bloque/'
+    private urlcredenciales = API_BASE_URL +'credenciales/'
     constructor(private http: HttpClient) {}
     private getHeaders(): HttpHeaders {
         const token = localStorage.getItem('token');
@@ -110,7 +111,11 @@ export class RecursoService {
     editarLicencia(licencia:Licencia):Observable<Licencia>{
         return this.http.post<Licencia>(`${this.url}editarLicencia`,licencia,{ headers: this.getHeaders() })
     }
-    enviarcsvCredenciales(file:any){
-        return this.http.post(`${this.url}subircsvcredenciales`,file,{ headers: this.getHeaders() })
-    }
+    enviarcsvCredenciales(file: any, recurso_id:number): Observable<any> {
+        return this.http.post(`${this.url}subircsvcredenciales/${recurso_id}`, file, { headers: this.getHeaders() });
+      }
+      descargarCsv() {
+        return this.http.get(`${this.urlcredenciales}/credcaseone`, { responseType: 'blob', headers: this.getHeaders() });
+      }
+      
 }

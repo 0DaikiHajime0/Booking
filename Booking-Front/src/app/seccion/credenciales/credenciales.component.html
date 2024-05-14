@@ -15,6 +15,7 @@
             <input
             matInput
             placeholder="Buscar Credenciales"
+            (keyup)="CredencialFilter($event)"
             #input
           />
         </mat-form-field>
@@ -38,6 +39,7 @@
                 <button mat-raised-button color="primary" class="boton-agregar" (click)="agregarCredencial()">
                     Agregar Credencial
                 </button>
+                <p></p>
                 <button mat-raised-button color="primary" class="boton-agregar" (click)="agregarCredenciales()">
                   Agregar Varias Credenciales
                 </button>

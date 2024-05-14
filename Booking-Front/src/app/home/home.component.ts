@@ -41,6 +41,7 @@ export class HomeComponent {
     this.usuarioRecuperadoGoogle = this.loginService.getUsuarioGoogle();
     
     if (!this.usuarioRecuperado || !this.usuarioRecuperadoGoogle) {
+      this.logOut()
     } else {
       if(await this.loginService.verificarToken()){
         this.rol='admin'
