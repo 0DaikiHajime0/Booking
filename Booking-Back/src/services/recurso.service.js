@@ -73,5 +73,20 @@ class RecursoService{
         }
         return res
     }
+    async nuevasLicencias(recurso_id, usuario, clave, credencial, estado) {
+        return mysqlLib.execute('CALL sp_nueva_licencia(?,?,?,?,?)', [recurso_id, usuario, clave, credencial, estado])
+            .then(result => {
+                if (result && result[0] && result[0][0]) {
+                    return result[0][0];
+                } else {
+                    return null;
+                }
+            })
+            .catch(error => {
+                console.error('Error al ejecutar la consulta:', error);
+                throw error; 
+            });
+    }
+     
 }
 module.exports = RecursoService;
