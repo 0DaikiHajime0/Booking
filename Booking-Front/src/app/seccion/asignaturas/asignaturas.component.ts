@@ -8,6 +8,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogClose, MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { Recurso } from '../../models/Recurso';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
 
 @Component({
   selector: 'app-asignaturas',
@@ -60,11 +63,17 @@ export class AsignaturasComponent {
   }
   nuevoCurso(){
     const dialogRef = this.dialog.open(NuevoCurso)
+    dialogRef.afterClosed().subscribe(result=>{
+      if(result){
+        
+      }
+    })
   }
 }
 @Component({
   selector: 'app-nuevo-curso',
   templateUrl: 'nuevo-curso.html',
+  styleUrls:['../usuarios/editar-usuario.css'],
   standalone: true,
   imports: [
     MatFormFieldModule,
@@ -75,37 +84,52 @@ export class AsignaturasComponent {
     MatDialogContent,
     MatDialogActions,
     MatDialogClose,
+    MatSelectModule,
+    MatAutocompleteModule
   ],
 })
 export class NuevoCurso {
-  asignaturas!:Asignatura[]
-  advertencia:string=''
+  asignaturas!: Asignatura[];
+  advertencia: string = '';
+  nuevoCurso: Asignatura = new Asignatura(0,0,'','Activo','',0,'','','','','','','',''); // Inicializa nuevoCurso
+  recursos!:Recurso[]
+  selectedRecurso!:Recurso
   constructor(
     public dialogRef: MatDialogRef<NuevoCurso>,
-    @Inject(MAT_DIALOG_DATA) public data:any,
-    private recursoService:RecursoService
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private recursoService: RecursoService
   ) {
-    recursoService.getAsignaturas().subscribe(
-      result=>{
-        this.asignaturas = result
+    this.nuevoCurso.curso_estado = 'Activo';
+
+    this.recursoService.getAsignaturas().subscribe(
+      result => {
+        this.asignaturas = result;
       }
-    )
+    );
+    this.recursoService.getRecursos().then(recursos => {
+      this.recursos = recursos;
+    }); 
   }
+
   buscarCurso(valor: string) {
-    valor = valor.trim().toLowerCase();
-    this.asignaturas = this.asignaturas.filter(asignatura => {
-      return asignatura.curso_nombre.toLowerCase().includes(valor);
-    });
-    
+    this.verificarAsignatura(valor.trim().toLowerCase());
   }
-  verificarCurso(){
-    if(this.asignaturas.length>=1){
-      this.advertencia = `Una asignatura ya tiene ese nombre` + this.asignaturas
-    }else{
-      this.advertencia = ``
+  recursoSeleccionado(event: any){
+    this.selectedRecurso = event.option.value.recurso_nombre;
+  }
+  verificarAsignatura(nombreCurso: string) {
+    if (nombreCurso) {
+      const existeCurso = this.asignaturas.some(asignatura =>
+        asignatura.curso_nombre.toLowerCase().trim() === nombreCurso
+      );
+      if (existeCurso) {
+        this.advertencia = `Una asignatura ya tiene ese nombre`;
+      } else {
+        this.advertencia = '';
+      }
     }
   }
-  
+
   cerrar(): void {
     this.dialogRef.close();
   }
