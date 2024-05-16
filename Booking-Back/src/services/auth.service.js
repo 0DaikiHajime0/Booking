@@ -8,7 +8,7 @@ class AuthService{
             if (!usuario_encontrado) {
                 throw new Error('El usuario no se encuentra');
             }
-            const token = jwt.sign({ usuario_encontrado }, 'srav', { expiresIn: '1h' }); 
+            const token = jwt.sign({ usuario_encontrado }, 'srav', { expiresIn: '2h' }); 
             return { usuario: usuario_encontrado, token };
         } catch (error) {
             throw error;
