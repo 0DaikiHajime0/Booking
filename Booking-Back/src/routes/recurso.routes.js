@@ -127,7 +127,17 @@ router.post('/subircsvcredenciales/:recurso_id', upload.single('file'), (req, re
         res.status(200).json(results);
     });
 });
-
+router.post('/nuevocurso',
+    async(req,res,next)=>{
+        const objeto = req.body
+        try {
+            const result = await recursoservice.nuevoCurso(objeto)
+            res.json(result)
+        } catch (error) {
+            next(error)
+        }
+    }
+)
 
 
 

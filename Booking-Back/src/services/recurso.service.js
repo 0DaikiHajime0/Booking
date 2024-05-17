@@ -87,6 +87,29 @@ class RecursoService{
                 throw error; 
             });
     }
-     
+    async nuevoCurso(objeto) {
+        try {
+            const result = await mysqlLib.execute('CALL sp_nuevo_curso(?, ?, ?, ?, ?, ?)', [
+                objeto.curso.curso_codigo,
+                objeto.curso.curso_nombre,
+                objeto.curso.curso_estado,
+                objeto.curso.curso_descripcion,
+                objeto.curso.curso_plan,
+                objeto.recurso.recurso_id
+            ]);
+            
+            const res = result[0][0];
+            
+            if (!res) {
+                return 'n';
+            }
+            
+            return res;
+        } catch (error) {
+            console.error('Error al ejecutar el procedimiento almacenado:', error);
+            throw error;
+        }
+    }
+    
 }
 module.exports = RecursoService;

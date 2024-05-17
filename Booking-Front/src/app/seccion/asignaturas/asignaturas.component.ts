@@ -10,7 +10,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { Recurso } from '../../models/Recurso';
-import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {MatAutocompleteModule, MatAutocompleteSelectedEvent} from '@angular/material/autocomplete';
 
 @Component({
   selector: 'app-asignaturas',
@@ -61,14 +61,25 @@ export class AsignaturasComponent {
     valor = valor.trim().toLowerCase();
     this.asignaturasbyasignatura.filter=valor
   }
-  nuevoCurso(){
-    const dialogRef = this.dialog.open(NuevoCurso)
-    dialogRef.afterClosed().subscribe(result=>{
-      if(result){
-        
+  nuevoCurso() {
+    const dialogRef = this.dialog.open(NuevoCurso);
+    
+    dialogRef.afterClosed().subscribe(async result => {
+      if (result) {
+        console.log('Datos recibidos del diálogo:', result);
+        (await this.serviceAsignatura.guardarCurso(result)).subscribe({
+          next: (response) => {
+            console.log('Curso guardado exitosamente:', response);
+          },
+          error: (error) => {
+            console.error('Error al guardar el curso:', error);
+          }
+        });
+      } else {
+        console.log('El diálogo fue cerrado sin datos');
       }
-    })
-  }
+    });
+  }  
 }
 @Component({
   selector: 'app-nuevo-curso',
@@ -91,16 +102,15 @@ export class AsignaturasComponent {
 export class NuevoCurso {
   asignaturas!: Asignatura[];
   advertencia: string = '';
-  nuevoCurso: Asignatura = new Asignatura(0,0,'','Activo','',0,'','','','','','','',''); // Inicializa nuevoCurso
+  nuevoCurso: Asignatura = new Asignatura(0,0,'','Activo','',0,'','','','','','','',''); 
   recursos!:Recurso[]
-  selectedRecurso!:Recurso
+  selectedRecurso:Recurso=new Recurso(0,'','','',0)
   constructor(
     public dialogRef: MatDialogRef<NuevoCurso>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private recursoService: RecursoService
   ) {
     this.nuevoCurso.curso_estado = 'Activo';
-
     this.recursoService.getAsignaturas().subscribe(
       result => {
         this.asignaturas = result;
@@ -113,9 +123,6 @@ export class NuevoCurso {
 
   buscarCurso(valor: string) {
     this.verificarAsignatura(valor.trim().toLowerCase());
-  }
-  recursoSeleccionado(event: any){
-    this.selectedRecurso = event.option.value.recurso_nombre;
   }
   verificarAsignatura(nombreCurso: string) {
     if (nombreCurso) {

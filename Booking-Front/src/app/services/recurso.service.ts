@@ -117,5 +117,8 @@ export class RecursoService {
       descargarCsv() {
         return this.http.get(`${this.urlcredenciales}/credcaseone`, { responseType: 'blob', headers: this.getHeaders() });
       }
+      async guardarCurso(any:any){
+        return this.http.post(`${this.url}/nuevocurso/`,any,{ headers: this.getHeaders() })
+      }
       
 }
