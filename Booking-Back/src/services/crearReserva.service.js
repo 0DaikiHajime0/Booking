@@ -65,7 +65,7 @@ class CrearReservaService {
 
   async enviarcredencial(data) {
     const fechaFormateada = new Date(data.fecha).toISOString().split('T')[0];
-    const correoDocente = data.docente_correo
+    const correoDocente = data.docente_correo;
     const params = [
       data.id_docente,
       data.id_asignatura,
@@ -74,27 +74,42 @@ class CrearReservaService {
       fechaFormateada,
       data.nrc,
     ];
+    const docenteparams = [
+      data.id_recurso,
+      data.id_docente,
+    ];
+  
     try {
       const [credencialesResult] = await mysqlLib.execute('call sp_listar_credenciales_reservadas(?,?,?,?,?,?);', params);
       const [FechaResult] = await mysqlLib.execute('call listar_fecha_horario_reserva(?,?,?,?,?,?);', params);
       const [mensaje] = await mysqlLib.execute("SELECT 'Revise su correo' AS mensaje;");
-
+      const [Docente] = await mysqlLib.execute("call sp_listar_credencial_docente_recurso(?,?)", docenteparams);
 
       if (!credencialesResult || credencialesResult.length === 0 || !FechaResult || FechaResult.length === 0) {
-        throw new Error('No se encontraron credenciales');
+        throw new Error('No se encontraron credenciales o fechas de reserva');
       }
-      const credencialesHTML = credencialesResult[0].map(credencial => `<tr><td class="correo">${credencial.credencial_usuario}</td><td class="contraseña">${credencial.credencial_contrasena}</td></tr>`).join('');
-      const fechaHTML = FechaResult[0].map(fecha => {
+      let credencialesHTML = '';
+      if (Array.isArray(Docente) && Docente.length > 0) {
+        const credencialesDocente = Docente.map(credencial => 
+          `<tr><td class="correo">${credencial.credencial_usuario}</td><td class="contraseña">${credencial.credencial_contrasena}</td></tr>`
+        ).join('');
+        credencialesHTML = `${credencialesDocente}`;
+      }
+  
+      credencialesHTML += credencialesResult.map(credencial => 
+        `<tr><td class="correo">${credencial.credencial_usuario}</td><td class="contraseña">${credencial.credencial_contrasena}</td></tr>`
+      ).join('');
+      const fechaHTML = FechaResult.map(fecha => {
         const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
         const fechaFormateada = new Date(fecha.reserva_fecha).toLocaleDateString('es-ES', options);
         return `<p>-Fecha: ${fechaFormateada}<br>-Horario: ${fecha.bloque_rango}</p>`;
-    }).join('');
+      }).join('');
       const mailOptions = {
         from: 'lab.recursosvirt@continental.edu.pe',
         to: correoDocente,
         subject: 'Credenciales de acceso a Algetec',
         text: 'Credenciales de acceso a Algetec',
-        html: `${htmlContent} ${fechaHTML}${intermedio}${credencialesHTML}${footer}`
+        html: `${htmlContent} ${fechaHTML}${intermedio}${credencialesHTML}${footer}`,
       };
       await transporter.sendMail(mailOptions);
       return mensaje[0];
@@ -102,6 +117,8 @@ class CrearReservaService {
       throw new Error('Error al ejecutar la consulta a la base de datos: ' + error.message);
     }
   }
+  
+  
   async generarReservaGeneral(data){
     try {
       const params = [
