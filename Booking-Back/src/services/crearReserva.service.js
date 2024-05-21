@@ -1,7 +1,7 @@
 const boom = require('@hapi/boom');
 const mysqlLib = require('./../../libs/mysql');
 const transporter = require('./../../libs/mailConfig');
-const { htmlContent,intermedio ,footer } = require('./../shared/EmailSend')
+const { htmlContent,mensaje, intermedio,MensajeIntermedio, footer } = require('./../shared/EmailSend')
 const excel = require('exceljs');
 
 
@@ -67,58 +67,123 @@ class CrearReservaService {
     const fechaFormateada = new Date(data.fecha).toISOString().split('T')[0];
     const correoDocente = data.docente_correo;
     const params = [
-      data.id_docente,
-      data.id_asignatura,
-      data.id_recurso,
-      data.id_bloque,
-      fechaFormateada,
-      data.nrc,
+        data.id_docente,
+        data.id_asignatura,
+        data.id_recurso,
+        data.id_bloque,
+        fechaFormateada,
+        data.nrc,
     ];
     const docenteparams = [
-      data.id_recurso,
-      data.id_docente,
+        data.id_recurso,
+        data.id_docente,
     ];
-  
-    try {
-      const [credencialesResult] = await mysqlLib.execute('call sp_listar_credenciales_reservadas(?,?,?,?,?,?);', params);
-      const [FechaResult] = await mysqlLib.execute('call listar_fecha_horario_reserva(?,?,?,?,?,?);', params);
-      const [mensaje] = await mysqlLib.execute("SELECT 'Revise su correo' AS mensaje;");
-      const [Docente] = await mysqlLib.execute("call sp_listar_credencial_docente_recurso(?,?)", docenteparams);
+    const recursoparams = data.id_recurso
 
-      if (!credencialesResult || credencialesResult.length === 0 || !FechaResult || FechaResult.length === 0) {
-        throw new Error('No se encontraron credenciales o fechas de reserva');
-      }
-      let credencialesHTML = '';
-      if (Array.isArray(Docente) && Docente.length > 0) {
-        const credencialesDocente = Docente.map(credencial => 
-          `<tr><td class="correo">${credencial.credencial_usuario}</td><td class="contraseña">${credencial.credencial_contrasena}</td></tr>`
-        ).join('');
-        credencialesHTML = `${credencialesDocente}`;
-      }
-  
-      credencialesHTML += credencialesResult.map(credencial => 
-        `<tr><td class="correo">${credencial.credencial_usuario}</td><td class="contraseña">${credencial.credencial_contrasena}</td></tr>`
-      ).join('');
-      const fechaHTML = FechaResult.map(fecha => {
-        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-        const fechaFormateada = new Date(fecha.reserva_fecha).toLocaleDateString('es-ES', options);
-        return `<p>-Fecha: ${fechaFormateada}<br>-Horario: ${fecha.bloque_rango}</p>`;
-      }).join('');
-      const mailOptions = {
-        from: 'lab.recursosvirt@continental.edu.pe',
-        to: correoDocente,
-        subject: 'Credenciales de acceso a Algetec',
-        text: 'Credenciales de acceso a Algetec',
-        html: `${htmlContent} ${fechaHTML}${intermedio}${credencialesHTML}${footer}`,
-      };
-      await transporter.sendMail(mailOptions);
-      return mensaje[0];
+    try {
+        const [credencialesResult] = await mysqlLib.execute('call sp_listar_credenciales_reservadas(?,?,?,?,?,?);', params);
+        const [FechaResult] = await mysqlLib.execute('call listar_fecha_horario_reserva(?,?,?,?,?,?);', params);
+        const [mensaje] = await mysqlLib.execute("SELECT 'Revise su correo' AS mensaje;");
+        const [credencialDocente] = await mysqlLib.execute('call sp_listar_credencial_docente_recurso(?,?)', docenteparams);
+        const [RecursoResult] = await mysqlLib.execute('call booking.sp_listar_recursos_by_id(?)',[recursoparams])
+
+        if (!credencialesResult || credencialesResult.length === 0 || !FechaResult || FechaResult.length === 0) {
+            throw new Error('No se encontraron credenciales');
+        }
+
+        let credencialesHTML = '';
+        let credencialesDocenteHTML = '';
+        let contenidoHTML = '';
+        let InicioTabla = '';
+        let RecursoNombre = '';
+
+        RecursoNombre = RecursoResult[0].map(recurso => `${recurso.recurso_nombre}
+            `).join('');
+
+        if (credencialDocente && credencialDocente[0] && credencialDocente[0].length > 0 && credencialDocente[0][0].result === 1) {
+          
+          InicioTabla = `
+          <h3>Credencial:</h3>
+          <table>
+            <tr>
+                <th>Código de activación</th>
+            </tr>`;
+
+          credencialesHTML = credencialesResult[0].map(credencial => `
+          <tr>
+              <td class="contraseña">${credencial.credencial_contrasena}</td>
+          </tr>
+          </table>
+      `).join('');
+        } else {
+            InicioTabla = `<table>
+            <tr>
+                <th>Correo</th>
+                <th>Contraseña</th>
+            </tr>`;
+            
+            credencialesHTML = credencialesResult[0].map(credencial => `
+                <tr>
+                    <td class="correo">${credencial.credencial_usuario}</td>
+                    <td class="contraseña">${credencial.credencial_contrasena}</td>
+                </tr>
+                </table>
+            `).join('');
+
+            credencialesDocenteHTML = `
+                <h3>Credenciales del Docente:</h3>
+                <table>
+                    <tr>
+                        <th>Correo</th>
+                        <th>Contraseña</th>
+                    </tr>
+                    ${credencialDocente[0].map(credencial => `
+                        <tr>
+                            <td class="correo">${credencial.credencial_usuario}</td>
+                            <td class="contraseña">${credencial.credencial_contrasena}</td>
+                        </tr>
+                    `).join('')}
+                </table>
+                <h3>Credenciales de los Estudiantes:</h3>
+            `;
+        }
+
+        const fechaHTML = FechaResult[0].map(fecha => {
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const fechaFormateada = new Date(fecha.reserva_fecha).toLocaleDateString('es-ES', options);
+            return `<p>-Fecha: ${fechaFormateada}<br>-Horario: ${fecha.bloque_rango}</p>`;
+        }).join('');
+
+        contenidoHTML = `
+            ${htmlContent}
+            ${RecursoNombre}
+            ${mensaje}
+            ${fechaHTML}
+            ${intermedio}
+            ${RecursoNombre}
+            ${MensajeIntermedio}
+            ${credencialesDocenteHTML}
+            ${InicioTabla}
+            ${credencialesHTML}
+            ${footer}
+        `;
+
+        const mailOptions = {
+            from: 'lab.recursosvirt@continental.edu.pe',
+            to: correoDocente,
+            subject: 'Credenciales de acceso a '+'',
+            text: 'Credenciales de acceso a '+'',
+            html: contenidoHTML
+        };
+
+        await transporter.sendMail(mailOptions);
+        return mensaje[0];
+
     } catch (error) {
-      throw new Error('Error al ejecutar la consulta a la base de datos: ' + error.message);
+        throw new Error('Error al ejecutar la consulta a la base de datos: ' + error.message);
     }
   }
-  
-  
+
   async generarReservaGeneral(data){
     try {
       const params = [
