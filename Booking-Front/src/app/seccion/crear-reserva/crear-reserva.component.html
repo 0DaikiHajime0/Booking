@@ -40,13 +40,14 @@
           <label for="Bloque">Bloque: </label>
           <select id="Bloque" name="Bloque" (change)="horarioBloques($event)">
             <option value="" disabled selected  >Seleccione un bloque</option>
-            <option *ngFor="let bloque of bloques" [value]="bloque.bloque_id">{{ bloque.bloque_nombre }}</option>
+            <option *ngFor="let bloque of bloques" [value]="bloque.bloque_id">{{bloque.bloque_rango}} {{ bloque.bloque_nombre }}</option>
           </select>
         </div>
+        <!--
         <div>
           <label >Horario: </label>
           <label>{{ horarioSeleccionado}}</label>
-        </div>
+        </div>-->
       </div>
       <div class="cantidad_licencias">
         <label id="cantidad_licencia">Cantidad de licencias disponibles: {{ cantidadLicenciasDisponibles }}</label>
@@ -62,8 +63,6 @@
       </div>
       <div class="botones">
         <button  mat-flat-button color="primary" type="button" (click)="reservar(); openSnackBar('Reserva Exitoso!','Aceptar');" [disabled]="showErrorMessage || !selectedRecursoId || !selectedBloqueId || !selectedFecha || cantidadLicenciasDisponibles <= 0">Reservar</button>
-        <button  mat-stroked-button color="primary" type="button">Cancelar</button>
-
       </div>
     </div>
   </div>

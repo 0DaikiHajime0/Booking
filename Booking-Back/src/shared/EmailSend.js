@@ -56,40 +56,37 @@ const htmlContent = `
             color: #333;
             background-color: #f0f0f0;
         }
-        .Firma{
-
-          margin-top: 20px;
+        .Firma {
+            margin-top: 20px;
         }
-        .Firma p{
-          margin-top: -10px;
-
+        .Firma p {
+            margin-top: -10px;
+            color: #000000;
         }
     </style>
 </head>
 <body>
-  <h1>Bienvenido a Algetec</h1>
-  <p>Estimado Docente,</p>
-    <p>Nos complace informarle que su reserva ha sido confirmada.</p>
+    <h1>Bienvenido a 
 `;
-const intermedio = `<p>Agradecemos su preferencia y quedamos a su disposición para cualquier consulta adicional,a continuación, encontrará la información de acceso a su cuenta en Algetec:</p>
-<div class="container">
-<div>
-  <p>Lista de Credenciales de Algetec: </p>
-</div>
-    <table>
-        <tr>
-            <th>Correo</th>
-            <th>Contraseña</th>
-        </tr>`
+const mensajemediado = `</h1>
+<p>Estimado Docente,</p>
+<p>Nos complace informarle que su reserva ha sido confirmada.</p>`
+
+const intermedio = `<p>Agradecemos su preferencia y quedamos a su disposición para cualquier consulta adicional. A continuación, encontrará la información de acceso a su cuenta en `;
+const MensajeIntermedio = `:</p>
+<div class="container">`
 const footer = `
-</table>
+        </table>
         <p>Por favor, guarde esta información de manera segura y no la comparta con nadie.</p>
-      <p>Gracias por utilizar nuestros servicios.</p>
+        <p>Gracias por utilizar nuestros servicios.</p>
     </div>
 <div class="Firma">
-<img src="https://conecta.continental.edu.pe/wp-content/uploads/2024/crea-tu-propia-historia.gif" alt="Gif">
-<p style="font-weight: bold; font-size: 18px;">Recursos Académicos Virtuales</>
-<p>Laboratorios y Talleres <br> +51 945 605752</p>
-</div>`;
+    <img src="https://conecta.continental.edu.pe/wp-content/uploads/2024/crea-tu-propia-historia.gif" alt="Gif">
+    <p style="font-weight: bold; font-size: 18px;">Recursos Académicos Virtuales</p>
+    <p>Laboratorios y Talleres <br> +51 945 605752</p>
+</div>
+</body>
+</html>
+`;
 
-module.exports = {htmlContent,intermedio,footer};
+module.exports = { htmlContent,mensajemediado, intermedio,MensajeIntermedio, footer };

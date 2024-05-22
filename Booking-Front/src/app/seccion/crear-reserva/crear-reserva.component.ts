@@ -161,6 +161,7 @@ export class CrearReservaComponent implements OnInit {
         reserva_cant: this.selectCantidadreservas,
         nrc:this.selectedNrc
       };
+
       this.crearReservaService.crearReserva(this.reserva).subscribe(
         (response: any) => {
           const mensaje = response?.Mensaje;
@@ -193,10 +194,13 @@ export class CrearReservaComponent implements OnInit {
       docente_correo: this.docente.usuario_correo,
       nrc:this.selectedNrc
     };
+
+    console.log(data);
+/*
     this.crearReservaService.enviarCredenciales(data).subscribe(
       response => {},
       error => {}
-    );
+    );*/
   }
 
   validarcantidad(): void {
