@@ -21,6 +21,8 @@ const asignarDocenteSchema = Joi.object({
      periodo_curso:periodo_curso.required(),
      horario_curso:horario_curso,
      tipo_curso:tipo_curso,
+     curso_inicio: fecha.required(),
+     curso_fin: fecha.required()
 })
 const EditarAsignacionSchema = Joi.object({
     id_curso: id_curso.required(),

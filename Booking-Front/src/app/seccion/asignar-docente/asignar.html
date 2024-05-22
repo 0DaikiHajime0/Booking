@@ -29,6 +29,17 @@
     <mat-label>Nrc</mat-label>
     <input matInput [(ngModel)]="asignarcurso.nrc_curso">
   </mat-form-field>
+
+  <p>Ingrese EL Inicio y Fin:</p>
+  <mat-form-field [formGroup]="range">
+    <mat-date-range-input [rangePicker]="picker">
+      <input matStartDate formControlName="start" placeholder="Inicio">
+      <input matEndDate formControlName="end" placeholder="Fin">
+    </mat-date-range-input>
+    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-date-range-picker #picker></mat-date-range-picker>
+  </mat-form-field>
+
   <p>Ingrese la Modalidad: </p>
   <mat-form-field>
     <mat-label>Modalidad</mat-label>

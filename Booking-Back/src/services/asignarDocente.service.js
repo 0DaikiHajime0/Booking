@@ -24,8 +24,10 @@ class  AsignarDocenteService{
         data.periodo_curso || null,
         data.horario_curso || null,
         data.tipo_curso || null,
+        data.curso_inicio || null,
+        data.curso_fin || null,
       ];
-      return await mysqlLib.execute('call sp_asignar_docente_curso(?,?,?,?,?,?,?,?,?);', params);
+      return await mysqlLib.execute('call sp_asignar_docente_curso(?,?,?,?,?,?,?,?,?,?,?);', params);
     } catch (error) {
       throw new Error('Error al ejecutar la consulta a la base de datos: ' + error.message);
     }
