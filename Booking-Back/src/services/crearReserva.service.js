@@ -1,7 +1,7 @@
 const boom = require('@hapi/boom');
 const mysqlLib = require('./../../libs/mysql');
 const transporter = require('./../../libs/mailConfig');
-const { htmlContent,mensaje, intermedio,MensajeIntermedio, footer } = require('./../shared/EmailSend')
+const { htmlContent,mensajemediado, intermedio,MensajeIntermedio, footer } = require('./../shared/EmailSend')
 const excel = require('exceljs');
 
 
@@ -78,14 +78,14 @@ class CrearReservaService {
         data.id_recurso,
         data.id_docente,
     ];
-    const recursoparams = data.id_recurso
+    const recursoparams = [data.id_recurso]
 
     try {
         const [credencialesResult] = await mysqlLib.execute('call sp_listar_credenciales_reservadas(?,?,?,?,?,?);', params);
         const [FechaResult] = await mysqlLib.execute('call listar_fecha_horario_reserva(?,?,?,?,?,?);', params);
         const [mensaje] = await mysqlLib.execute("SELECT 'Revise su correo' AS mensaje;");
         const [credencialDocente] = await mysqlLib.execute('call sp_listar_credencial_docente_recurso(?,?)', docenteparams);
-        const [RecursoResult] = await mysqlLib.execute('call booking.sp_listar_recursos_by_id(?)',[recursoparams])
+        const [RecursoResult] = await mysqlLib.execute('call sp_listar_recursos_by_id(?)',recursoparams);
 
         if (!credencialesResult || credencialesResult.length === 0 || !FechaResult || FechaResult.length === 0) {
             throw new Error('No se encontraron credenciales');
@@ -127,7 +127,6 @@ class CrearReservaService {
                     <td class="correo">${credencial.credencial_usuario}</td>
                     <td class="contraseña">${credencial.credencial_contrasena}</td>
                 </tr>
-                </table>
             `).join('');
 
             credencialesDocenteHTML = `
@@ -157,7 +156,9 @@ class CrearReservaService {
         contenidoHTML = `
             ${htmlContent}
             ${RecursoNombre}
-            ${mensaje}
+            ${`</h1>
+            <p>Estimado Docente,</p>
+            <p>Nos complace informarle que su reserva ha sido confirmada.</p>`}
             ${fechaHTML}
             ${intermedio}
             ${RecursoNombre}
@@ -171,8 +172,8 @@ class CrearReservaService {
         const mailOptions = {
             from: 'lab.recursosvirt@continental.edu.pe',
             to: correoDocente,
-            subject: 'Credenciales de acceso a '+'',
-            text: 'Credenciales de acceso a '+'',
+            subject: 'Credenciales de acceso a '+RecursoNombre,
+            text: 'Credenciales de acceso a '+RecursoNombre,
             html: contenidoHTML
         };
 

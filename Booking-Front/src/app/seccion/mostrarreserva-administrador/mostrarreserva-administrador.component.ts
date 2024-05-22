@@ -68,7 +68,6 @@ export class MostrarreservaAdministradorComponent implements AfterViewInit {
   listarRecurso() {
     this.ListarReservaService.listarRecursosAdmin().subscribe(
       (recursos: Recurso[]) => {
-        console.log(recursos);
         this.recurso = recursos;
       }
     );
@@ -91,7 +90,6 @@ export class MostrarreservaAdministradorComponent implements AfterViewInit {
       fechaRegistroFin: this.selectedFechaRegistroFin?.toISOString().split('T')[0],
       estado_reserva: this.selectedEstado,
     };
-    console.log(this.selectedFechaReservaInicio?.toISOString().split('T')[0], this.selectedFechaReservaFin?.toISOString().split('T')[0]);
     this.ListarReservaService.listarReservaAdmin(this.listar).subscribe(
       (reservas: mostrarReservaAdmin[]) => {
         this.dataSource.data = reservas.map(reserva => ({

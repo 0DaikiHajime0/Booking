@@ -68,7 +68,7 @@ const htmlContent = `
 <body>
     <h1>Bienvenido a 
 `;
-const mensaje = `</h1>
+const mensajemediado = `</h1>
 <p>Estimado Docente,</p>
 <p>Nos complace informarle que su reserva ha sido confirmada.</p>`
 
@@ -76,6 +76,7 @@ const intermedio = `<p>Agradecemos su preferencia y quedamos a su disposición p
 const MensajeIntermedio = `:</p>
 <div class="container">`
 const footer = `
+        </table>
         <p>Por favor, guarde esta información de manera segura y no la comparta con nadie.</p>
         <p>Gracias por utilizar nuestros servicios.</p>
     </div>
@@ -88,4 +89,4 @@ const footer = `
 </html>
 `;
 
-module.exports = { htmlContent,mensaje, intermedio,MensajeIntermedio, footer };
+module.exports = { htmlContent,mensajemediado, intermedio,MensajeIntermedio, footer };
