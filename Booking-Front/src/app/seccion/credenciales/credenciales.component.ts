@@ -103,10 +103,9 @@ export class CredencialesComponent {
       })
       dialogRef.afterClosed().subscribe(
         async result=>{
-          if(result){
+          
             this.credenciales = await this.recursoService.getLicencias(this.recursoSeleccionado.recurso_id);
             this.dataSourceCredenciales = new MatTableDataSource<Licencia>(this.credenciales);
-          }
         }
       )
     }

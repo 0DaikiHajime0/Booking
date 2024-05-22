@@ -94,8 +94,8 @@ class RecursoService{
         }
         return res
     }
-    async nuevasLicencias(recurso_id, usuario, clave, credencial, estado) {
-        return mysqlLib.execute('CALL sp_nueva_licencia(?,?,?,?,?)', [recurso_id, usuario, clave, credencial, estado])
+    async nuevasLicencias(recurso_id, usuario, clave, estado, tipo) {
+        return mysqlLib.execute('CALL sp_nueva_licencia(?,?,?,?,?)', [recurso_id, usuario, clave, estado, tipo])
             .then(result => {
                 if (result && result[0] && result[0][0]) {
                     return result[0][0];

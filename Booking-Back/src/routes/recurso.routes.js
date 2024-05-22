@@ -109,14 +109,14 @@ router.post('/subircsvcredenciales/:recurso_id', upload.single('file'), (req, re
         const lines = data.split(/\r?\n/);
         for (let i = 1; i < lines.length; i++) {
             const line = lines[i];
-            const [usuario, clave, credencial, estado] = line.split(/\s*[;,]\s*/);
-            if (usuario !== undefined && clave !== undefined && credencial !== undefined) {
-                recursoservice.nuevasLicencias(recurso_id, usuario, clave, credencial, estado)
+            const [usuario, clave, estado,tipo] = line.split(/\s*[;,]\s*/);
+            if (usuario !== undefined && clave !== undefined) {
+                recursoservice.nuevasLicencias(recurso_id, usuario, clave, estado, tipo)
                     .then((result) => {
                         if (result == null) {
                             return 'no hay respuesta';
                         }
-                        results.push({ Usuario: usuario, Contraseña: clave, Credencial: credencial, Estado: estado });
+                        results.push({ Usuario: usuario, Contraseña: clave, Estado: estado, Tipo: tipo });
                     })
                     .catch((error) => {
                         console.error('Error en la solicitud:', error);
