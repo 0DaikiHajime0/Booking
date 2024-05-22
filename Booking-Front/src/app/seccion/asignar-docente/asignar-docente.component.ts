@@ -11,6 +11,9 @@ import { Asignar } from '../../models/Asignar'
 import {ListarAsignarturaAsignada} from '../../models/ListarAsignaturaAsignada'
 import {EditarAsignacion} from '../../models/EditarAsignacion'
 import { MatSnackBar } from '@angular/material/snack-bar';
+import {JsonPipe} from '@angular/common';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {provideNativeDateAdapter} from '@angular/material/core';
 
 
 import {
@@ -23,7 +26,7 @@ import {
 } from '@angular/material/dialog';
 
 import { MatButtonModule } from '@angular/material/button';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 
@@ -57,9 +60,8 @@ export class AsignarDocenteComponent implements AfterViewInit {
     this.cursodata = new MatTableDataSource<Asignatura>();
   }
   openDialog(): void {
-
     if (this.docenteSeleccionado !== 0) {
-      const id_docente =this.docenteSeleccionado
+      const id_docente = this.docenteSeleccionado;
       this.asignardocenteService.listarCursonoAsignado().subscribe(
         (cursos: AsignaturanoAsignada[]) => {
           const dialogRef = this.dialog.open(AsignarDocenteCurso, {
@@ -67,8 +69,13 @@ export class AsignarDocenteComponent implements AfterViewInit {
               cursos: cursos,
               id_docente: this.docenteSeleccionado
             }
-        })
-      });
+          });
+  
+          dialogRef.afterClosed().subscribe(() => {
+            this.listarCurso(id_docente);
+          });
+        }
+      );
     } else {
       console.error("Error: No se ha seleccionado un Curso");
     }
@@ -82,6 +89,10 @@ export class AsignarDocenteComponent implements AfterViewInit {
           data: {
             asignacion: this.listarAsignacion
           }
+        });
+
+        dialogRef.afterClosed().subscribe(() => {
+          this.listarCurso(this.CursoSeleccionado);
         });
       }
     );
@@ -164,6 +175,11 @@ export class AsignarDocenteComponent implements AfterViewInit {
     MatDialogClose,
     MatSelectModule,
     ReactiveFormsModule,
+    MatFormFieldModule,
+    MatDatepickerModule,
+    FormsModule,
+    ReactiveFormsModule,
+    JsonPipe
   ]
 })
 export class AsignarDocenteCurso {
@@ -172,6 +188,14 @@ export class AsignarDocenteCurso {
   asignar! :Asignar;
   id_docente: number;
   asignarCursoRef: Function;
+  
+
+  range = new FormGroup({
+    start: new FormControl<Date | null>(null),
+    
+    end: new FormControl<Date | null>(null),
+  });
+
 
   constructor(
     private snackBar: MatSnackBar,
@@ -183,11 +207,24 @@ export class AsignarDocenteCurso {
     this.id_docente = data.id_docente;
     this.asignarCursoRef = data.asignarCursoRef;
   }
+  
 
   asignarCurso() {
+
+    const { start, end } = this.range.value;
+    if (!start || !end) {
+      this.snackBar.open('Por favor seleccione una fecha de inicio y fin', 'Cerrar', {
+        duration: 3000
+      });
+      return;
+    }
+
     this.asignarcurso.id_docente = this.id_docente;
     this.asignarcurso.horario_curso = null;
     this.asignarcurso.cantidad_alumnos = Number(this.asignarcurso.cantidad_alumnos);
+    this.asignarcurso.curso_inicio = start.toISOString().split('T')[0];
+    this.asignarcurso.curso_fin = end.toISOString().split('T')[0];
+
     console.log(this.asignarcurso);
 
     this.asignardocenteService.asignarDocenteCurso(this.asignarcurso).subscribe(
