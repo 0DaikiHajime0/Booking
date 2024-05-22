@@ -194,13 +194,11 @@ export class CrearReservaComponent implements OnInit {
       docente_correo: this.docente.usuario_correo,
       nrc:this.selectedNrc
     };
-
-    console.log(data);
-/*
+    
     this.crearReservaService.enviarCredenciales(data).subscribe(
       response => {},
       error => {}
-    );*/
+    );
   }
 
   validarcantidad(): void {
