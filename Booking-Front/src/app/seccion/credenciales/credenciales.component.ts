@@ -15,8 +15,7 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatDividerModule} from '@angular/material/divider';
 import { Usuario } from '../../models/Usuario';
 import { UsuarioService } from '../../services/login.service';
-import { DataSource } from '@angular/cdk/collections';
-import { markAsUntransferable } from 'worker_threads';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
   selector: 'app-credenciales',
@@ -26,7 +25,7 @@ import { markAsUntransferable } from 'worker_threads';
 export class CredencialesComponent {
   recursos: Recurso[] = [];
   credenciales: Licencia[] = [];
-  columnasCredenciales:string[] = ['credencial_id','credencial_usuario','credencial_tipo','credencial_contrasena','credencial_key','credenciales_estado','editar','asignar']
+  columnasCredenciales:string[] = ['credencial_id','credencial_usuario','credencial_tipo','credencial_contrasena','credenciales_estado','editar','asignar']
   dataSourceCredenciales!: MatTableDataSource<Licencia>
   recursoSeleccionado!:Recurso
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -62,7 +61,8 @@ export class CredencialesComponent {
       dialogRef.afterClosed().subscribe(
         async result=>{
           if(result){
-            await this.recursoService.guardarLicencia(result, recurso.recurso_id);
+            console.log(result)
+            await this.recursoService.guardarLicencia(result);
             this.credenciales = await this.recursoService.getLicencias(this.recursoSeleccionado.recurso_id);
             this.dataSourceCredenciales = new MatTableDataSource<Licencia>(this.credenciales);
           }
@@ -114,13 +114,13 @@ export class CredencialesComponent {
   async editarCredencial(licencia:Licencia){
     const recurso = this.recursoSeleccionado;
     if(licencia){
-      const dialogRef = this.dialog.open(NuevaCredencial,{
+      const dialogRef = this.dialog.open(EditarCredencial,{
         data:{licencia,recurso}
       })
       dialogRef.afterClosed().subscribe(
         async result=>{
           if(result){
-            this.recursoService.editarLicencia(result)
+            this.recursoService.editarLicencia(result).subscribe()
             this.credenciales = await this.recursoService.getLicencias(this.recursoSeleccionado.recurso_id)
             this.dataSourceCredenciales = new MatTableDataSource<Licencia>(this.credenciales)
           }
@@ -143,28 +143,33 @@ export class CredencialesComponent {
     MatDialogContent,
     MatDialogActions,
     MatDialogClose,
-    MatSelectModule
+    MatSelectModule,
+    MatIcon
   ],
 })
 export class NuevaCredencial{
   recurso!: Recurso; 
-  credencial = {
+  credencial:Licencia = {
     credenciales_id: 0,
     credencial_contrasena: '',
-    credencial_key: '',
     credencial_usuario: '',
     credenciales_estado: '',
-    credenciales_tipo:''
+    credencial_tipo:'',
+    recurso_id:0
   };
-
+  hide = true;
   constructor(
     public dialogRef: MatDialogRef<NuevaCredencial>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ){
     this.recurso = data.recurso;
+    this.credencial.recurso_id=this.recurso.recurso_id
   }
   cerrar(): void {
     this.dialogRef.close();
+  }
+  togglePasswordVisibility() {
+    this.hide = !this.hide;
   }
 }
 interface checkeado{
@@ -271,7 +276,6 @@ export class NuevoGrupoCredenciales{
   credencial = {
     credenciales_id: 0,
     credencial_contrasena: '',
-    credencial_key: '',
     credencial_usuario: '',
     credenciales_estado: ''
   };
@@ -366,5 +370,49 @@ export class NuevoGrupoCredenciales{
           }
         );
     }
+  }
+}
+@Component({
+  selector: 'app-editar-credencial',
+  templateUrl: './editar-credencial.html',
+  standalone: true,
+  styleUrls:['../usuarios/editar-usuario.css'],
+  imports: [
+    MatFormFieldModule,
+    MatInputModule,
+    FormsModule,
+    MatButtonModule,
+    MatDialogTitle,
+    MatDialogContent,
+    MatDialogActions,
+    MatDialogClose,
+    MatSelectModule,
+    MatTableModule,
+    MatPaginator,
+    MatPaginatorModule,
+    MatCheckboxModule,
+    MatIcon
+  ],
+})
+export class EditarCredencial implements AfterViewInit {
+  credencial!:Licencia;
+  recurso!:Recurso
+  hide = true;
+ constructor(
+    public dialogRef: MatDialogRef<EditarCredencial>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private usuarioService: UsuarioService
+  ) {
+    this.credencial = {...data.licencia}
+    this.recurso = data.recurso
+  }
+  ngAfterViewInit(): void {
+    console.log(this.credencial,this.recurso)
+    }
+    togglePasswordVisibility() {
+      this.hide = !this.hide;
+    }
+  cerrar(): void {
+    this.dialogRef.close();
   }
 }

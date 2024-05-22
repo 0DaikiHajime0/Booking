@@ -61,12 +61,11 @@ router.get('/obtenerLicencias/:recurso_id',
         }
     }
 )
-router.post('/nuevaLicencia/:recurso_id',
+router.post('/nuevaLicencia',
     async(req,res,next)=>{
-        const recurso_id = req.params.recurso_id
         const licencia = req.body
         try {
-            const result = await recursoservice.nuevaLicencia(recurso_id,licencia)
+            const result = await recursoservice.nuevaLicencia(licencia)
             res.json(result)
         } catch (error) {
             next(error)
@@ -150,5 +149,15 @@ router.post('/asignarlicencias',
         }
     }
 )
+router.post('/editarLicencia', async (req, res, next) => {
+    const licencia = req.body;
+    try {
+      const result = await recursoservice.editarLicencia(licencia);
+      res.json(result);
+    } catch (error) {
+      next(error);
+    }
+  });
+  
 
 module.exports = router
