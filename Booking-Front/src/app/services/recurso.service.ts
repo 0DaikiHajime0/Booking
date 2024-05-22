@@ -120,5 +120,9 @@ export class RecursoService {
       async guardarCurso(any:any){
         return this.http.post(`${this.url}/nuevocurso/`,any,{ headers: this.getHeaders() })
       }
+      asignarCredenciales(data: any): Observable<any> {
+        return this.http.post(`${this.url}/asignarlicencias/`, data, { headers: this.getHeaders() });
+      }
+      
       
 }

@@ -139,6 +139,16 @@ router.post('/nuevocurso',
     }
 )
 
-
+router.post('/asignarlicencias',
+    async(req,res,next)=>{
+        const asignaciones = req.body
+        try {
+            const result = await recursoservice.asignarLicencias(asignaciones)
+            res.json(result)
+        } catch (error) {
+            next(error)
+        }
+    }
+)
 
 module.exports = router
