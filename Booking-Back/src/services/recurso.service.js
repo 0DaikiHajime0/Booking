@@ -110,6 +110,43 @@ class RecursoService{
             throw error;
         }
     }
+async asignarLicencias(asignaciones) {
+    const results = [];
+    const errors = [];
+
+    for (let i = 0; i < asignaciones.docente.length; i++) {
+        try {
+            const result = await mysqlLib.execute('CALL sp_asignar_licencia(?, ?)', [
+                asignaciones.licencia.credenciales_id,
+                asignaciones.docente[i].usuario_id
+                
+            ]);
+            const res = result[0][0];
+            if (!res) {
+                errors.push({
+                    usuario_id: asignaciones.docente[i].usuario_id,
+                    message: 'No se pudo asignar la licencia'
+                });
+            } else {
+                results.push(res);
+            }
+        } catch (error) {
+            console.error('Error al asignar la licencia para el usuario con ID ' + asignaciones.docente[i].usuario_id + ':', error);
+            errors.push({
+                usuario_id: asignaciones.docente[i].usuario_id,
+                message: error.message
+            });
+        }
+    }
+
+    return {
+        success: errors.length === 0,
+        results,
+        errors
+    };
+}
+
+    
     
 }
 module.exports = RecursoService;

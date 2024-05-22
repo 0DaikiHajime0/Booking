@@ -1,21 +1,22 @@
-import { Component, Inject, ViewChild } from '@angular/core';
-import { MatTableDataSource } from '@angular/material/table';
+import { AfterViewInit, Component, Inject, ViewChild } from '@angular/core';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { Recurso } from '../../models/Recurso';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Licencia } from '../../models/Licencias';
 import { RecursoService } from '../../services/recurso.service';
-import { Dialog } from '@angular/cdk/dialog';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogActions, MatDialogClose, MatDialogContent, MatDialogRef, MatDialogTitle } from '@angular/material/dialog';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { MatPaginator } from '@angular/material/paginator';
-import { s } from '@fullcalendar/core/internal-common';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatDividerModule} from '@angular/material/divider';
-import { parse } from 'csv-parse';
+import { Usuario } from '../../models/Usuario';
+import { UsuarioService } from '../../services/login.service';
+import { DataSource } from '@angular/cdk/collections';
+import { markAsUntransferable } from 'worker_threads';
 
 @Component({
   selector: 'app-credenciales',
@@ -25,7 +26,7 @@ import { parse } from 'csv-parse';
 export class CredencialesComponent {
   recursos: Recurso[] = [];
   credenciales: Licencia[] = [];
-  columnasCredenciales:string[] = ['credencial_id','credencial_usuario','credencial_contrasena','credencial_key','credenciales_estado','editar']
+  columnasCredenciales:string[] = ['credencial_id','credencial_usuario','credencial_tipo','credencial_contrasena','credencial_key','credenciales_estado','editar','asignar']
   dataSourceCredenciales!: MatTableDataSource<Licencia>
   recursoSeleccionado!:Recurso
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -69,9 +70,33 @@ export class CredencialesComponent {
       )
     }
   }
+  asignarCredencialDocente(credencial:Licencia){
+    const licencia = credencial
+    const dialogRef = this.dialog.open(AsignarCredencialDocente,
+      {
+        data:{licencia}
+      }
+    )
+    dialogRef.afterClosed().subscribe(
+      result=>{
+        if(result){
+          this.recursoService.asignarCredenciales(result).subscribe(
+        response => {
+          console.log('Credenciales asignadas con éxito', response);
+        },
+        error => {
+          console.error('Error al asignar credenciales', error);
+        }
+      );
+        }
+        else{
+        }
+      }
+    )
+    
+  }
   async agregarCredenciales(){
     const recurso = this.recursoSeleccionado;
-    console.log(recurso)
     if(this.recursoSeleccionado){
       const dialogRef = this.dialog.open(NuevoGrupoCredenciales,{
         data:{recurso}
@@ -86,7 +111,6 @@ export class CredencialesComponent {
       )
     }
   }
-  
   async editarCredencial(licencia:Licencia){
     const recurso = this.recursoSeleccionado;
     if(licencia){
@@ -129,7 +153,8 @@ export class NuevaCredencial{
     credencial_contrasena: '',
     credencial_key: '',
     credencial_usuario: '',
-    credenciales_estado: ''
+    credenciales_estado: '',
+    credenciales_tipo:''
   };
 
   constructor(
@@ -138,6 +163,83 @@ export class NuevaCredencial{
   ){
     this.recurso = data.recurso;
   }
+  cerrar(): void {
+    this.dialogRef.close();
+  }
+}
+interface checkeado{
+  value:boolean;
+  order:number
+}
+@Component({
+  selector: 'app-asignar-credencial',
+  templateUrl: './asignar-credencial.html',
+  standalone: true,
+  styleUrls:['./asignar-credencial.css'],
+  imports: [
+    MatFormFieldModule,
+    MatInputModule,
+    FormsModule,
+    MatButtonModule,
+    MatDialogTitle,
+    MatDialogContent,
+    MatDialogActions,
+    MatDialogClose,
+    MatSelectModule,
+    MatTableModule,
+    MatPaginator,
+    MatPaginatorModule,
+    MatCheckboxModule
+  ],
+})
+export class AsignarCredencialDocente implements AfterViewInit {
+  licencia!: Licencia;
+  docentes: Usuario[] = [];
+  dataSourceDocentes = new MatTableDataSource<Usuario>();
+  DocentesAsignados: Usuario[] = [];
+  dataSourceDocentesAsignados = new MatTableDataSource<Usuario>();
+  checked: { [key: number]: boolean } = {};
+
+  columnaDocentesAsignados = ['usuario_id', 'usuario_nombres', 'usuario_apellidos', 'usuario_correo'];
+  ColumnaDocentes = ['usuario_id', 'usuario_nombres', 'usuario_apellidos', 'usuario_correo', 'usuario_rol', 'usuario_estado', 'checkbox'];
+
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+
+  constructor(
+    public dialogRef: MatDialogRef<AsignarCredencialDocente>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private usuarioService: UsuarioService
+  ) {
+    this.licencia = data.licencia;
+    this.listarDocentes();
+  }
+
+  ngAfterViewInit() {
+    this.dataSourceDocentes.paginator = this.paginator;
+  }
+
+  async listarDocentes() {
+    this.docentes = await this.usuarioService.getUsuarios();
+    this.dataSourceDocentes.data = this.docentes;
+  }
+
+  nuevoDocente(event: any, usuario: Usuario) {
+    if (event.checked) {
+      if (!this.DocentesAsignados.some(docente => docente.usuario_id === usuario.usuario_id)) {
+        this.DocentesAsignados.push(usuario);
+        this.dataSourceDocentesAsignados.data = this.DocentesAsignados;
+      }
+    } else {
+      this.DocentesAsignados = this.DocentesAsignados.filter(docente => docente.usuario_id !== usuario.usuario_id);
+      this.dataSourceDocentesAsignados.data = this.DocentesAsignados;
+    }
+  }
+
+  CredencialFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSourceDocentes.filter = filterValue.trim().toLowerCase();
+  }
+
   cerrar(): void {
     this.dialogRef.close();
   }

@@ -39,7 +39,7 @@
     <div mat-dialog-actions>
         <button mat-button 
         [mat-dialog-close]="{ curso: nuevoCurso, recurso: selectedRecurso }" 
-        [disabled]="!nuevoCurso?.curso_nombre || advertencia != '' || !selectedRecurso?.recurso_nombre">
+        [disabled]="!nuevoCurso.curso_nombre || advertencia != '' || !selectedRecurso.recurso_nombre">
   Guardar
 </button>
         <button mat-button (click)="cerrar()">Cancelar</button>
