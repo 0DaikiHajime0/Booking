@@ -89,9 +89,9 @@ export class RecursoService {
             throw error
         }
     }
-    async guardarLicencia(licencia:Licencia,recurso_id:number):Promise<Licencia>{
+    async guardarLicencia(licencia:Licencia):Promise<Licencia>{
         try {
-            const response = await this.http.post<Licencia>(`${this.url}nuevaLicencia/${recurso_id}`,licencia,{ headers: this.getHeaders() }).toPromise()
+            const response = await this.http.post<Licencia>(`${this.url}nuevaLicencia/`,licencia,{ headers: this.getHeaders() }).toPromise()
             if(response){
                 return response
             }else{
@@ -108,14 +108,22 @@ export class RecursoService {
     nuevoBloque(bloque:Bloques):Observable<Bloques>{
         return this.http.post<Bloques>(`${this.urlbloque}nuevoBloque`,bloque,{ headers: this.getHeaders() });
     }
-    editarLicencia(licencia:Licencia):Observable<Licencia>{
-        return this.http.post<Licencia>(`${this.url}editarLicencia`,licencia,{ headers: this.getHeaders() })
-    }
+    editarLicencia(licencia: Licencia): Observable<any> {
+        return this.http.post(`${this.url}/editarLicencia`, licencia, { headers: this.getHeaders() });
+      }
+      
     enviarcsvCredenciales(file: any, recurso_id:number): Observable<any> {
         return this.http.post(`${this.url}subircsvcredenciales/${recurso_id}`, file, { headers: this.getHeaders() });
       }
       descargarCsv() {
         return this.http.get(`${this.urlcredenciales}/credcaseone`, { responseType: 'blob', headers: this.getHeaders() });
       }
+      async guardarCurso(any:any){
+        return this.http.post(`${this.url}/nuevocurso/`,any,{ headers: this.getHeaders() })
+      }
+      asignarCredenciales(data: any): Observable<any> {
+        return this.http.post(`${this.url}/asignarlicencias/`, data, { headers: this.getHeaders() });
+      }
+      
       
 }

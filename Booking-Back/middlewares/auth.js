@@ -5,8 +5,15 @@ function verificarToken(req, res, next) {
     /*if (!token) return res.status(401).json({ message: 'Token no proporcionado' });*/
     const tokenParts = token.split(' ');
     const tokenReal = tokenParts[1];
+    
     jwt.verify(tokenReal, 'srav', (err, decoded) => {
-        if (err) return res.status(403).json({ message: `Token inválido ${tokenReal}` });
+        if (err) {
+            if (err.name === 'TokenExpiredError') {
+                return res.status(401).json({ message: 'Token caducado' });
+            } else {
+                return res.status(403).json({ message: `Token inválido ${tokenReal}` });
+            }
+        }
         
         req.usuario = decoded.usuario;
         next();

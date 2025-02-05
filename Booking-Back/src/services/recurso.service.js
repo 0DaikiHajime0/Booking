@@ -42,14 +42,14 @@ class RecursoService{
         }
         return licencias
     }
-    async nuevaLicencia(recurso_id,licencia){
+    async nuevaLicencia(licencia){
         const result = await mysqlLib.execute('CALL sp_nueva_licencia(?,?,?,?,?)',
         [
-            recurso_id,
+            licencia.recurso_id,
             licencia.credencial_usuario,
             licencia.credencial_contrasena,
-            licencia.credencial_key,
-            licencia.credenciales_estado
+            licencia.credenciales_estado,
+            licencia.credencial_tipo
         ])
         const res = result[0][0]
         if(res==null){
@@ -57,6 +57,27 @@ class RecursoService{
         }
         return res
     }
+    async editarLicencia(licencia) {
+        try {
+          const result = await mysqlLib.execute('CALL sp_editar_licencia(?,?,?,?,?,?)', [
+            licencia.credenciales_id,
+            licencia.credencial_usuario,
+            licencia.credencial_contrasena,
+            licencia.credencial_tipo,
+            licencia.recurso_id,
+            licencia.credenciales_estado
+          ]);
+          if (result && result[0] && result[0][0]) {
+            return result[0][0];
+          } else {
+            return 'No se encontró la licencia actualizada.';
+          }
+        } catch (error) {
+          console.error('Error al ejecutar el procedimiento almacenado:', error);
+          throw error;
+        }
+      }
+      
     async obtenerAsignaturas(){
         const result = await mysqlLib.execute('CALL sp_obtener_asignaturas()')
         const res  =  result[0][0]
@@ -73,8 +94,8 @@ class RecursoService{
         }
         return res
     }
-    async nuevasLicencias(recurso_id, usuario, clave, credencial, estado) {
-        return mysqlLib.execute('CALL sp_nueva_licencia(?,?,?,?,?)', [recurso_id, usuario, clave, credencial, estado])
+    async nuevasLicencias(recurso_id, usuario, clave, estado, tipo) {
+        return mysqlLib.execute('CALL sp_nueva_licencia(?,?,?,?,?)', [recurso_id, usuario, clave, estado, tipo])
             .then(result => {
                 if (result && result[0] && result[0][0]) {
                     return result[0][0];
@@ -87,6 +108,66 @@ class RecursoService{
                 throw error; 
             });
     }
-     
+    async nuevoCurso(objeto) {
+        try {
+            const result = await mysqlLib.execute('CALL sp_nuevo_curso(?, ?, ?, ?, ?, ?)', [
+                objeto.curso.curso_codigo,
+                objeto.curso.curso_nombre,
+                objeto.curso.curso_estado,
+                objeto.curso.curso_descripcion,
+                objeto.curso.curso_plan,
+                objeto.recurso.recurso_id
+            ]);
+            
+            const res = result[0][0];
+            
+            if (!res) {
+                return 'n';
+            }
+            
+            return res;
+        } catch (error) {
+            console.error('Error al ejecutar el procedimiento almacenado:', error);
+            throw error;
+        }
+    }
+async asignarLicencias(asignaciones) {
+    const results = [];
+    const errors = [];
+
+    for (let i = 0; i < asignaciones.docente.length; i++) {
+        try {
+            const result = await mysqlLib.execute('CALL sp_asignar_licencia(?, ?)', [
+                asignaciones.licencia.credenciales_id,
+                asignaciones.docente[i].usuario_id
+                
+            ]);
+            const res = result[0][0];
+            if (!res) {
+                errors.push({
+                    usuario_id: asignaciones.docente[i].usuario_id,
+                    message: 'No se pudo asignar la licencia'
+                });
+            } else {
+                results.push(res);
+            }
+        } catch (error) {
+            console.error('Error al asignar la licencia para el usuario con ID ' + asignaciones.docente[i].usuario_id + ':', error);
+            errors.push({
+                usuario_id: asignaciones.docente[i].usuario_id,
+                message: error.message
+            });
+        }
+    }
+
+    return {
+        success: errors.length === 0,
+        results,
+        errors
+    };
+}
+
+    
+    
 }
 module.exports = RecursoService;

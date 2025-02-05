@@ -20,10 +20,10 @@
     cursor: pointer;
  }
  .container-buscador{
-   width: 45%;
+   width: 50%;
  }
- .container-boton{
-   width: 10%;
+ .buscador{
+   width: 70%;
  }
 *{
     font-size: 13px;
