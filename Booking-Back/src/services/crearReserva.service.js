@@ -22,7 +22,7 @@ class CrearReservaService {
         data.nrc]
       return await mysqlLib.execute('call sp_realizar_reserva(?,?,?,?,?,?,?,?,?);', params);
     } catch (error) {
-      throw new Error('Error al ejecutar la consulta a la base de datos: ' + error.message);
+      throw new Error('Error (create) al ejecutar la consulta a la base de datos: ' + error.message);
     }
   }
   async findCurso(id) {
@@ -30,7 +30,7 @@ class CrearReservaService {
       const [curso] = await mysqlLib.execute('call sp_listar_curso_x_docente(?);', [id]);
       return curso
     } catch (error) {
-      throw new Error('Error al ejecutar la consulta a la base de datos: ' + error.message);
+      throw new Error('Error (findCurso) al ejecutar la consulta a la base de datos: ' + error.message);
     }
   }
   async findRecurso(id) {
@@ -38,7 +38,7 @@ class CrearReservaService {
       const [recursos] = await mysqlLib.execute('call sp_listar_recurso_x_curso(?);', [id]);
       return recursos
     } catch (error) {
-      throw new Error('Error al ejecutar la consulta a la base de datos: ' + error.message);
+      throw new Error('Error (findRecurso) al ejecutar la consulta a la base de datos: ' + error.message);
     }
   }
   async findBloque() {
@@ -46,7 +46,7 @@ class CrearReservaService {
       const [bloques] = await mysqlLib.execute('call booking.sp_listar_bloques();');
       return bloques
     } catch (error) {
-      throw new Error('Error al ejecutar la consulta a la base de datos: ' + error.message);
+      throw new Error('Error (findBloque) al ejecutar la consulta a la base de datos: ' + error.message);
     }
   }
   async findDisplonibilidad(data) {
@@ -59,7 +59,7 @@ class CrearReservaService {
       const [result] = await mysqlLib.execute('select booking.ft_devolver_cantidad_credenciales_disponible(?,?,?) as cantidad_disponible;', params);
       return result[0];
     } catch (error) {
-      throw new Error('Error al ejecutar la consulta a la base de datos: ' + error.message);
+      throw new Error('Error (findDisplonibilidad) al ejecutar la consulta a la base de datos: ' + error.message);
     }
   }
 
@@ -181,7 +181,7 @@ class CrearReservaService {
         return mensaje[0];
 
     } catch (error) {
-        throw new Error('Error al ejecutar la consulta a la base de datos: ' + error.message);
+        throw new Error('Error (enviarcredencial) al ejecutar la consulta a la base de datos: ' + error.message);
     }
   }
 
@@ -194,7 +194,7 @@ class CrearReservaService {
       ]
       return await mysqlLib.execute('call sp_realizar_reserva_general(?,?,?);', params);
     } catch (error) {
-      throw new Error('Error al ejecutar la consulta a la base de datos: ' + error.message);
+      throw new Error('Error (generarReservaGeneral) al ejecutar la consulta a la base de datos: ' + error.message);
     }
   }
 
@@ -237,16 +237,16 @@ class CrearReservaService {
     try {
       return await mysqlLib.execute('call sp_obtener_licencias_disponibles_calendario(?);', [id_recurso]);
     } catch (error) {
-      throw new Error('Error al ejecutar la consulta a la base de datos: ' + error.message);
+      throw new Error('Error (listardisponibilidadCalendario) al ejecutar la consulta a la base de datos: ' + error.message);
     }
 }
 // ----------------------------- admin
 
-listarDocente() {
+async listarDocente() {
   try {
     return mysqlLib.execute('CALL sp_listar_docente()'); // Corrección en el nombre de la función y la sintaxis de la llamada
   } catch (error) {
-    throw new Error('Error al ejecutar la consulta a la base de datos: ' + error.message);
+    throw new Error('Error (listarDocente) al ejecutar la consulta a la base de datos: ' + error.message);
   }
 }
 
