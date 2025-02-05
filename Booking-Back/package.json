@@ -32,6 +32,6 @@
     "mysql2": "^3.9.4",
     "nodemailer": "^6.9.13",
     "swagger-jsdoc": "^6.2.8",
-    "swagger-ui-express": "^5.0.0"
+    "swagger-ui-express": "^5.0.1"
   }
 }

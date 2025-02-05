@@ -8,12 +8,16 @@ const bloqueRoute = require('./bloque.routes')
 const verificarToken = require('../../middlewares/auth')
 const authRoute =require('../routes/auth.routes')
 const descargaRoute = require('../routes/descarga.routes')
+const swaggerUI = require('swagger-ui-express') // swagger para documentación
+const specs = require("../swagger/swagger.js") // swagger para documentación
+
 function routerApi(app){
   
   const route = express.Router();
 
   app.use(express.json());
   app.use('/api/v1', route);
+  app.use("/api-docs",swaggerUI.serve,swaggerUI.setup(specs));// swagger para documentación
   route.use('/auth',authRoute);
   route.use(verificarToken);
   route.use('/usuario',usuarioRoute);
