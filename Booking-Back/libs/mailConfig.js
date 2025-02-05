@@ -1,15 +1,19 @@
 const nodemailer = require('nodemailer');
 
-const transporterOptions  = {
-  host: 'smtp.gmail.com',
-  port: 587,
-  secure: false,
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
   auth: {
-      user: 'lab.recursosvirt@continental.edu.pe',
-      pass: 'gppq zozh qokj vtzv'
+    user: 'lab.recursosvirt@continental.edu.pe',
+    pass: 'vgxh bgvr saac eviy'
   }
-};
+});
 
-const transporter = nodemailer.createTransport(transporterOptions);
+transporter.verify((error, success) => {
+  if (error) {
+    console.error("Error en la conexión SMTP:", error);
+  } else {
+    console.log("Conexión SMTP exitosa, listo para enviar correos.");
+  }
+});
 
 module.exports = transporter;

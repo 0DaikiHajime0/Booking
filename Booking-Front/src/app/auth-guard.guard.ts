@@ -7,7 +7,7 @@ export const Logged: CanActivateFn = async (route, state) => {
   const router = inject(Router);
   const estaLogeado = loginService.getUsuarioFromStorage();
   if (estaLogeado) {
-    return true
+    return true;
   } else {
     router.navigate(['/login']);
     return false;
@@ -19,9 +19,9 @@ export const LoggedAdmin: CanActivateFn = async (route, state) => {
   const router = inject(Router);
   const estaLogeado = loginService.getUsuarioFromStorage();
   if (estaLogeado) {
-    const esAdmin = loginService.verificarAdmin();
-    if (await esAdmin) {
-      return true; 
+    const esAdmin = await loginService.verificarAdmin();
+    if (esAdmin) {
+      return true;
     } else {
       router.navigate(['/404']);
       return false;
