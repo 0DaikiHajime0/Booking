@@ -4,7 +4,93 @@ const {generarReservaGeneralShema,listardisponibilidadCalendario, crearReservaSc
 
 const router = express.Router();
 const service = new CrearReservaService();
+// Crear Reserva
+/**
+ * 
+ * @openapi
+ * components:
+ *   schemas:
+ *     crearreserva:
+ *       type: object
+ *       properties:
+ *         id_usuario:
+ *           type: integer
+ *           description: ID del USuario
+ *         rol:
+ *           type: string
+ *           description: Rol
+ *         id_docente:
+ *           type: integer
+ *           description: ID Docente
+ *         id_asignatura:
+ *           type: integer
+ *           description: ID Asignatura
+ *         id_recurso:
+ *           type: integer
+ *           description: ID Recurso
+ *         fecha:
+ *           type: string
+ *           format: date
+ *           description: fecha
+ *         id_bloque:
+ *           type: integer
+ *           description: ID Bloque
+ *         reserva_cant:
+ *           type: integer
+ *           description: Cantidad de reserva 
+ *         nrc:
+ *           type: string
+ *           description: NRC del Curso 
+ *       requires:
+ *         - id_usuario
+ *         - rol
+ *         - id_docente
+ *         - id_asignatura
+ *         - fecha
+ *         - id_bloque
+ *         - reserva_cant
+ *         - nrc
+ *       example:
+ *         id_usuario: 1
+ *         rol: "Administrador"
+ *         id_docente: 2
+ *         id_asignatura: 3
+ *         id_recurso: 4
+ *         fecha: "2024-05-31"
+ *         id_bloque: 1
+ *         reserva_cant: 5
+ *         nrc: "NRC12345"
+ */
 
+/**
+ * @openapi
+ *   /api/v1/reserva/disponibilidad:
+ *     post:
+ *       summary: Disponibilidad
+ *       description: Bloques de tiempo disponibles para ese recurso en la fecha especificada.
+ *       tags:
+ *         - Crear Reserva
+ *       parameters:
+ *         - in: path
+ *           name: id 
+ *           schema:
+ *             type: integer
+ *           required: true
+ *           description: ID del recurso
+ *       responses:
+ *         200:
+ *           description: Bloques de tiempo disponible
+ *           content:
+ *             application/json:
+ *               schema:
+ *                 type: array
+ *                 items:
+ *                   $ref: '#/components/schemas/crearreserva'
+ *         400:
+ *           description: Error en la validación del ID.
+ *         500:
+ *           description: Error interno del servidor.
+ */
 router.post('/disponibilidad', async (req, res, next) => {
   try{
     const { error, value } = filtrardisponibilidadSchema.validate(req.body);
@@ -18,6 +104,29 @@ router.post('/disponibilidad', async (req, res, next) => {
   }
 });
 
+/**
+ * @openapi
+ *   /api/v1/reserva/crear:
+ *     post:
+ *       summary: Realizar reservas 
+ *       description: Realizar reservas de recursos educativos
+ *       tags:
+ *         - Crear Reserva
+ *       requestBody:
+ *         required: true
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               $ref: '#/components/schemas/crearreserva'
+ *       responses:
+ *         200:
+ *           description: Reserva de bloque exitoso.
+ *         400:
+ *           description: Error en la validación del ID.
+ *         500:
+ *           description: Error interno del servidor.
+ */
 router.post('/crear', async (req, res, next) => {
   try {
     const { error, value } = crearReservaSchema.validate(req.body);
@@ -31,6 +140,35 @@ router.post('/crear', async (req, res, next) => {
   }
 });
 
+/**
+ * @openapi
+ *   /api/v1/reserva/listarcurso/{id}:
+ *     get:
+ *       summary: Listar cursos por ID
+ *       description: Listar cursos por ID
+ *       tags:
+ *         - Crear Reserva
+ *       parameters:
+ *         - in: path
+ *           name: id
+ *           schema:
+ *             type: integer
+ *           required: true
+ *           description: ID del curso
+ *       responses:
+ *         200:
+ *           description: Lista de cursos obtenido exitosamente
+ *           content:
+ *             application/json:
+ *               schema:
+ *                 type: array
+ *                 items:
+ *                   $ref: '#/components/schemas/crearreserva'
+ *         400:
+ *           description: Error en la validación del ID.
+ *         500:
+ *           description: Error interno del servidor.
+ */
 router.get('/listarcurso/:id', async (req, res, next) => {
   try {
     const { id } = req.params;
@@ -45,6 +183,35 @@ router.get('/listarcurso/:id', async (req, res, next) => {
   }
 });
 
+/**
+ * @openapi
+ *   /api/v1/reserva/listarrecurso/{id}:
+ *     get:
+ *       summary: Listar Recursos por ID
+ *       description: Listar Recursos por ID
+ *       tags:
+ *         - Crear Reserva
+ *       parameters:
+ *         - in: path
+ *           name: id
+ *           schema:
+ *             type: integer
+ *           required: true
+ *           description: ID del Recurso
+ *       responses:
+ *         200:
+ *           description: Lista de Recursos obtenido exitosamente
+ *           content:
+ *             application/json:
+ *               schema:
+ *                 type: array
+ *                 items:
+ *                   $ref: '#/components/schemas/crearreserva'
+ *         400:
+ *           description: Error en la validación del ID.
+ *         500:
+ *           description: Error interno del servidor.
+ */
 router.get('/listarrecurso/:id', async (req, res, next) => {
   try {
     const { id } = req.params;
@@ -58,6 +225,27 @@ router.get('/listarrecurso/:id', async (req, res, next) => {
     next(error);
   }
 });
+
+/**
+ * @openapi
+ *   /api/v1/reserva/listarbloque:
+ *     get:
+ *       summary: Listar bloques
+ *       description: Retorna una lista de bloques disponibles en el sistema.
+ *       tags:
+ *         - Bloques
+ *       responses:
+ *         200:
+ *           description: Información del Recurso obtenido exitosamente.
+ *           content:
+ *             application/json:
+ *               schema:
+ *                 type: array
+ *                 items:
+ *                   $ref: '#/components/schemas/bloques'
+ *         500:
+ *           description: Error interno del servidor.
+ */
 router.get('/listarbloque', async (req, res, next) => {
   try {
     const [result] = await service.findBloque();
@@ -66,6 +254,7 @@ router.get('/listarbloque', async (req, res, next) => {
     next(error);
   }
 });
+
 
 router.post('/enviarcredenciales',async (req, res, next) => {
   try {
@@ -79,6 +268,7 @@ router.post('/enviarcredenciales',async (req, res, next) => {
     next(error);
   }
 });
+
 router.post('/descargarcredenciales', async (req, res, next) => {
   try {
     const { error, value } = listarCredencialesSchema.validate(req.body);
@@ -94,6 +284,36 @@ router.post('/descargarcredenciales', async (req, res, next) => {
     next(error);
   }
 });
+
+/**
+ * @openapi
+ *   /api/v1/reserva/listardisponibilidadcalendar/{id_recurso}:
+ *     get:
+ *       summary: Obtener la cantidad de licencias 
+ *       description: Obtener la cantidad de licencias disponibles para un recurso en un calendario
+ *       tags:
+ *         - Crear Reserva
+ *       parameters:
+ *         - in: path
+ *           name: id
+ *           schema:
+ *             type: integer
+ *           required: true
+ *           description: ID del Recurso
+ *       responses:
+ *         200:
+ *           description: Lista de licencias obtenido exitosamente
+ *           content:
+ *             application/json:
+ *               schema:
+ *                 type: array
+ *                 items:
+ *                   $ref: '#/components/schemas/crearreserva'
+ *         400:
+ *           description: Error en la validación del ID.
+ *         500:
+ *           description: Error interno del servidor.
+ */
 router.get('/listardisponibilidadcalendar/:id_recurso',async (req, res, next) => {
   try {
     const {id_recurso} = req.params;
@@ -107,11 +327,64 @@ router.get('/listardisponibilidadcalendar/:id_recurso',async (req, res, next) =>
     next(error);
   }
 });
+
+/**
+ * @openapi
+ *   /api/v1/reserva/listardocente:
+ *     get:
+ *       summary: Listar los usuarios Docente
+ *       description: Listar todos los usuarios que tienen el rol de Docente
+ *       tags:
+ *         - Crear Reserva
+ *       responses:
+ *         200:
+ *           description: Lista de licencias obtenido exitosamente
+ *           content:
+ *             application/json:
+ *               schema:
+ *                 type: array
+ *                 items:
+ *                   $ref: '#/components/schemas/crearreserva'
+ *         400:
+ *           description: Error en la validación del ID.
+ *         500:
+ *           description: Error interno del servidor.
+ */
 router.get('/listardocente',async (req, res, next) => {
   const [result] = await service.listarDocente();
   res.json(result[0]);
 });
 
+//
+/**
+ * @openapi
+ *   /api/v1/reservageneral:
+ *     post:
+ *       summary: Realiza reservas para un recurso específico 
+ *       description: Reserva todos los bloques de tiempo disponibles para ese recurso en la fecha especificada.
+ *       tags:
+ *         - Crear Reserva
+ *       requestBody:
+ *         required: true
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               $ref: '#/components/schemas/crearreserva'
+ *       responses:
+ *         200:
+ *           description: Reserva de bloque exitoso.
+ *           content:
+ *             application/json:
+ *               schema:
+ *                 type: object
+ *                 items:
+ *                   $ref: '#/components/schemas/crearreserva'
+ *         400:
+ *           description: Error en la validación del ID.
+ *         500:
+ *           description: Error interno del servidor.
+ */
 router.post('/reservageneral',async(req,res,next) =>{
   try {
     const { error, value } = generarReservaGeneralShema.validate(req.body);

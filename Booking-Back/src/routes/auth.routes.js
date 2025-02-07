@@ -4,6 +4,7 @@ const AuthService = require('../services/auth.service');
 const router = express.Router();
 const authService = new AuthService();
 
+// Auth
 /**
  * @openapi
  * components:
@@ -63,9 +64,9 @@ const authService = new AuthService();
  *           content:
  *             application/json:
  *               schema:
- *                 type: object
+ *                 type: array
  *                 items:
- *                   $ref: '#/components/schemas/auth'
+ *                   $ref: '#/components/schemas/Auth'
  *         500:
  *           description: Error interno del servidor.
  */
@@ -127,6 +128,34 @@ router.post('/verifytok',
         }
     }
 )
+
+/**
+ * @openapi
+ *   /api/v1/auth/obtenerusuario/{correo}:
+ *     get:
+ *       summary: Obtener información de un usuario por correo
+ *       description: Permite obtener los datos de un usuario utilizando su correo electrónico.
+ *       tags:
+ *         - Auth
+ *       parameters:
+ *         - name: correo
+ *           in: path
+ *           required: true
+ *           description: Correo electrónico del usuario que se desea obtener.
+ *           schema:
+ *             type: string
+ *             format: email
+ *             example: "jarancibia@continental.edu.pe"
+ *       responses:
+ *         200:
+ *           description: Datos del usuario obtenidos con éxito.
+ *         400:
+ *           description: Petición incorrecta, el formato del correo no es válido.
+ *         404:
+ *           description: Usuario no encontrado.
+ *         500:
+ *           description: Error interno del servidor.
+ */
 router.get('/obtenerusuario/:correo',
     async(req,res,next) =>{
         try {
