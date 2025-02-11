@@ -16,22 +16,17 @@ const options ={
                     description:'Local server'
                 }
             ],
-            components:{
-                securitySchemes:{
-                    BearerAuth:{
-                        type: "http",
-                        scheme: "bearer",
-                        bearerFormat: "JWT",
-
-                    },
+        },  
+        components: {
+            securitySchemes: {
+                BearerAuth: {
+                    type: 'http',
+                    scheme: 'bearer',
+                    bearerFormat: 'JWT',
                 },
             },
-            security:[
-                {
-                    BearerAuth: [],
-                },
-            ],
-        },    
+        },
+        security: [{ BearerAuth: [] }], 
     },
     apis:['./src/routes/*.js'] // Ruta a los archivos de rutas con comentarios Swagger
     //apis:['./swagger/swagger.yaml'] // Ruta a los archivos de rutas con comentarios Swagger
