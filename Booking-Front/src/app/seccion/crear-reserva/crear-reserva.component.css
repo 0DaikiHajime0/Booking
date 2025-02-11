@@ -23,6 +23,7 @@ body{
   display: flex;
   justify-content: space-between;
   margin: 2rem;
+  margin-top: 5rem;
 }
 
 .Container-Reserva {

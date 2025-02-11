@@ -59,15 +59,13 @@ export class CrearReservaComponent implements OnInit {
       this.docente = this.usuarioservice.getUsuarioFromStorage()
       this.listarCurso(this.docente.usuario_id)
     }
-
-
   }
 
   listarCurso(id: number) {
     this.crearReservaService.listarCurso(id).subscribe(
       (cursos: Asignatura[]) => {
         this.cursos = cursos;
-        this.selectedAsignaturaId = cursos[0].curso_id;
+        this.selectedAsignaturaId = Number(cursos[0]?.curso_id);
         this.selectedNrc = cursos[0].nrc;
       }
     )
