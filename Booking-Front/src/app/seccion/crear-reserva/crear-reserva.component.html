@@ -3,7 +3,6 @@
     <app-home></app-home>
   </mat-drawer>
   <section>
-
     <div class="headernew">
       <div class="bontonheader">
         <button (click)="drawer.toggle()">
@@ -14,10 +13,9 @@
         </button>
       </div>
       <div class="tittle">
-        Crear Reserva
+        Crear
       </div>
     </div>
-
   </section>
 <section class="body">
   <div class="Container_Reserva">
@@ -65,7 +63,7 @@
         <ng-template #noErrorMessage></ng-template>
       </div>
       <div class="botones">
-        <button  mat-flat-button color="primary" type="button" (click)="reservar(); openSnackBar('Reserva Exitoso!','Aceptar');" [disabled]="showErrorMessage || !selectedRecursoId || !selectedBloqueId || !selectedFecha || cantidadLicenciasDisponibles <= 0">Reservar</button>
+        <button class="button"  mat-flat-button color="primary" type="button" (click)="reservar(); openSnackBar('Reserva Exitoso!','Aceptar');" [disabled]="showErrorMessage || !selectedRecursoId || !selectedBloqueId || !selectedFecha || cantidadLicenciasDisponibles <= 0">Reservar</button>
       </div>
     </div>
   </div>
@@ -78,3 +76,4 @@
       </full-calendar>
   </div>
 </section>
+</mat-drawer-container>
