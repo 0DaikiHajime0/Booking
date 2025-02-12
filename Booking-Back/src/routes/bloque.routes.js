@@ -26,10 +26,10 @@ const bloqueservice = new BloquesService();
  *       requires:
  *         - bloque_id
  *       example:
- *         bloque_id: 50
- *         bloque_nombre: "Bloque I"
- *         bloque_rango: "07:00:00 - 08:30:00"
- *         bloque_orden: 4
+ *         bloque_id: 17
+ *         bloque_nombre: "Bloque XIV"
+ *         bloque_rango: "00:00 - 01:00"
+ *         bloque_orden: 20
  * 
  */
 

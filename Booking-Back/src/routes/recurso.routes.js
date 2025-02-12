@@ -84,11 +84,11 @@ router.get('/mostrarrecursos',
  *         - Recurso
  *       parameters:
  *         - in: path
- *           name: id
+ *           name: recurso_id
  *           schema:
  *             type: integer
  *           required: true
- *           description: ID del recurso
+ *           description: recurso_id
  *       responses:
  *         200:
  *           description: OK
@@ -96,8 +96,6 @@ router.get('/mostrarrecursos',
  *             application/json:
  *               schema:
  *                 type: array
- *                 items:
- *                   $ref: '#/components/schemas/recurso'
  *         400:
  *           description: Error en la validación del ID.
  *         500:
@@ -201,7 +199,7 @@ router.post('/editarRecurso/',
  *         - Recurso
  *       parameters:
  *         - in: path
- *           name: id
+ *           name: recurso_id
  *           schema:
  *             type: integer
  *           required: true
@@ -351,7 +349,7 @@ router.post('/obtenerasignaturasbyasignatura',
  *         - Recurso
  *       parameters:
  *         - in: path
- *           name: id
+ *           name: recurso_id
  *           schema:
  *             type: integer
  *           required: true

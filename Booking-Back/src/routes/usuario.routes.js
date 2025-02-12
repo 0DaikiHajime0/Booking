@@ -164,7 +164,7 @@ router.put('/editarusuario/:usuario_id',
  *         - Usuario
  *       parameters:
  *         - in: path
- *           name: id
+ *           name: usuario_id
  *           schema:
  *             type: integer
  *           required: true
@@ -205,7 +205,7 @@ router.get('/deshabilitarusuario/:usuario_id',
  *         - Usuario
  *       parameters:
  *         - in: path
- *           name: id
+ *           name: usuario_id
  *           schema:
  *             type: integer
  *           required: true

@@ -144,8 +144,8 @@ router.post('/crear', async (req, res, next) => {
  * @openapi
  *   /api/v1/reserva/listarcurso/{id}:
  *     get:
- *       summary: Listar cursos por ID
- *       description: Listar cursos por ID
+ *       summary: Listar todos los cursos activos 
+ *       description: Listar todos los cursos activos asociados a un docente específico
  *       tags:
  *         - Crear Reserva
  *       parameters:
@@ -188,7 +188,7 @@ router.get('/listarcurso/:id', async (req, res, next) => {
  *   /api/v1/reserva/listarrecurso/{id}:
  *     get:
  *       summary: Listar Recursos por ID
- *       description: Listar Recursos por ID
+ *       description: Listar recursos asociados a un curso específico
  *       tags:
  *         - Crear Reserva
  *       parameters:
@@ -295,7 +295,7 @@ router.post('/descargarcredenciales', async (req, res, next) => {
  *         - Crear Reserva
  *       parameters:
  *         - in: path
- *           name: id
+ *           name: id_recurso
  *           schema:
  *             type: integer
  *           required: true
