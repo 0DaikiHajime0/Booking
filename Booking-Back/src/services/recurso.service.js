@@ -18,14 +18,23 @@ class RecursoService{
         }
         return asignaturas
     }
-    async guardarRecurso(recurso){
-        const result = await mysqlLib.execute('CALL sp_guardar_recurso(?,?,?,?)',[recurso.recurso_nombre,recurso.recurso_empresa,recurso.recurso_estado,recurso.recurso_cant_credenciales])
-        const res = result [0][0]
-        if(res == null){
-            return 'no hay respuesta'
+    async guardarRecurso(recurso) {
+        const result = await mysqlLib.execute('CALL sp_guardar_recurso(?,?,?,?)', [
+            recurso.recurso_nombre,
+            recurso.recurso_empresa,
+            recurso.recurso_cant_credenciales,
+            recurso.recurso_estado
+        ]);
+    
+        const res = result[0][0];
+        
+        if (!res) {
+            return 'No hay respuesta';
         }
-        return res
+    
+        return res;
     }
+    
     async editarRecurso(recurso){
         const result = await mysqlLib.execute('CALL sp_editar_recurso(?,?,?,?,?)',[recurso.recurso_id,recurso.recurso_nombre,recurso.recurso_empresa,recurso.recurso_estado,recurso.recurso_cant_credenciales])
         const res = result [0][0]
