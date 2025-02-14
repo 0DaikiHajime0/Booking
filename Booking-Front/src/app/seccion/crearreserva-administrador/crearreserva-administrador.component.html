@@ -45,9 +45,15 @@
         <label for="Fecha">Fecha: </label>
         <input class="fechita" type="date" id="Fecha" name="Fecha" (input)="obtenerFechaSeleccionada($event)">
       </div>
-      <div>
-        <p><mat-slide-toggle id="slideToggle" (change)="toggleChanged($event)" color="primary">Reservar Todo el Día</mat-slide-toggle></p>
+      <div *ngIf="selectedRecursoId && selectedFecha; else noErrorMessage">
+        <p>
+          <mat-slide-toggle id="slideToggle" (change)="toggleChanged($event)" color="primary">Reservar Todo el Día</mat-slide-toggle>
+        </p>
       </div>
+      <ng-template #noErrorMessage>
+        <p></p>
+      </ng-template>
+      
       <div claas="input_Bloque">
         <div>
           <label for="Bloque">Bloque: </label>

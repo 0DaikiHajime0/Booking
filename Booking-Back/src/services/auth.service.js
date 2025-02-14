@@ -18,7 +18,7 @@ class AuthService{
         try {
             const decodedToken = jwt.verify(token,'srav');
             const usuario_encontrado = decodedToken.usuario_encontrado
-            if(usuario_encontrado.usuario_rol=='Administrador' || usuario_encontrado.usuario_rol=='Docente'){
+            if(usuario_encontrado.usuario_rol=='Administrador'|| usuario_encontrado.usuario_rol=='Docente'){
                 return true
             }
             else{
