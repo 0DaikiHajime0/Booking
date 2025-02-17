@@ -70,13 +70,17 @@ const service = new CrearReservaService();
  *       description: Bloques de tiempo disponibles para ese recurso en la fecha especificada.
  *       tags:
  *         - Crear Reserva
- *       parameters:
- *         - in: path
- *           name: id 
- *           schema:
- *             type: integer
- *           required: true
- *           description: ID del recurso
+ *       requestBody:
+ *         required: true
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               $ref: '#/components/schemas/crearreserva'
+ *             example:
+ *               id_recurso: 1
+ *               id_bloque: 1
+ *               fecha: "2024-01-15"
  *       responses:
  *         200:
  *           description: Bloques de tiempo disponible
@@ -358,7 +362,7 @@ router.get('/listardocente',async (req, res, next) => {
 //
 /**
  * @openapi
- *   /api/v1/reservageneral:
+ *   /api/v1/reserva/reservageneral:
  *     post:
  *       summary: Realiza reservas para un recurso específico 
  *       description: Reserva todos los bloques de tiempo disponibles para ese recurso en la fecha especificada.
@@ -371,6 +375,10 @@ router.get('/listardocente',async (req, res, next) => {
  *             schema:
  *               type: object
  *               $ref: '#/components/schemas/crearreserva'
+ *             example:
+ *               id_usuario: 1
+ *               id_recurso: 9
+ *               fecha: "2025-02-18"
  *       responses:
  *         200:
  *           description: Reserva de bloque exitoso.

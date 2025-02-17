@@ -57,14 +57,15 @@ const service = new AsignarDocenteService();
  *         - id_curso
  *       example:
  *         cantidad_alumnos: 50
- *         id_curso: 101
- *         id_docente: 202
+ *         id_curso: 1
+ *         id_docente: 1
  *         nrc_anterior: "ABC123"
- *         nrc_curso: "DEF456"
- *         campus_curso: "Campus A"
- *         periodo_curso: "2024-01"
- *         horario_curso: ""
- *         tipo_curso: "Presencial"
+ *         nrc_curso: "NRC001"
+ *         modalida_curso: Presencial
+ *         campus_curso: "Main Campus"
+ *         periodo_curso: "2024-2025"
+ *         horario_curso: "Lunes 10:00-12:00"
+ *         tipo_curso: "Teoría"
  *         curso_inicio: "2024-01-10"
  *         curso_fin: "2024-05-20"
  */
@@ -197,6 +198,17 @@ router.get('/listarcursosnoasignados', async (req, res, next) => {
  *             schema:
  *               type: object
  *               $ref: '#/components/schemas/asignardocente'
+ *             example:
+ *               cantidad_alumnos: 50
+ *               id_curso: 1
+ *               id_docente: 1
+ *               nrc_anterior: "ABC123"
+ *               nrc_curso: "NRC003"
+ *               modalidad_curso: Presencial
+ *               campus_curso: "Main Campus"
+ *               periodo_curso: "2024-2025"
+ *               curso_inicio: "2024-01-10"
+ *               curso_fin: "2024-05-20"
  *       responses:
  *         200:
  *           description: Asignación editada exitosamente.

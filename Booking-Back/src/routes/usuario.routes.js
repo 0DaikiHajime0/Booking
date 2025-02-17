@@ -116,10 +116,17 @@ router.get('/mostrarusuarios',
  * @openapi
  *   /api/v1/usuario/editarusuario/{usuario_id}:
  *     put:
- *       summary: Editar usuario
- *       description: Editar la información de un usuario 
+ *       summary: Editar usuario por ID
+ *       description: Editar la información de un usuario por Id del Usuario
  *       tags:
  *         - Usuario
+ *       parameters:
+ *         - in: path
+ *           name: usuario_id
+ *           schema:
+ *             type: integer
+ *           required: true
+ *           description: ID del usuario
  *       requestBody:
  *         required: true
  *         content:

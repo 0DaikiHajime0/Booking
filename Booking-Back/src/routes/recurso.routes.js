@@ -128,15 +128,14 @@ router.get('/mostrarasignaturasbyrecurso/:recurso_id',
  *             schema:
  *               type: object
  *               $ref: '#/components/schemas/crearreserva'
+ *             example:
+ *               recurso_nombre: "Algetec"
+ *               recurso_empresa: "Empresa X"
+ *               recurso_cant_credenciales: 10
+ *               recurso_estado: "Activo"
  *       responses:
  *         200:
  *           description: OK
- *           content:
- *             application/json:
- *               schema:
- *                 type: object
- *                 items:
- *                   $ref: '#/components/schemas/crearreserva'
  *         400:
  *           description: Error en la validación del ID.
  *         500:
@@ -169,6 +168,12 @@ router.post('/guardarRecurso/',
  *             schema:
  *               type: object
  *               $ref: '#/components/schemas/crearreserva'
+ *             example:
+ *               recurso_id: 1
+ *               recurso_nombre: "Algetec"
+ *               recurso_empresa: "Empresa X"
+ *               recurso_cant_credenciales: 10
+ *               recurso_estado: "Activo"
  *       responses:
  *         200:
  *           description: OK
@@ -305,13 +310,15 @@ router.get('/obtenerasignaturas',
  *       description: Obtener los registros de la tabla docente_curso por ID curso
  *       tags:
  *         - Recurso
- *       parameters:
- *         - in: path
- *           name: id
- *           schema:
- *             type: integer
- *           required: true
- *           description: ID del curso
+ *       requestBody:
+ *         required: true
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               $ref: '#/components/schemas/Recurso'
+ *             example:
+ *               curso_id: 1
  *       responses:
  *         200:
  *           description: OK
@@ -424,6 +431,7 @@ router.post('/subircsvcredenciales/:recurso_id', upload.single('file'), (req, re
  *         500:
  *           description: Error interno del servidor.
  */
+// SP No encontrado
 router.post('/nuevocurso',
     async(req,res,next)=>{
         const objeto = req.body
@@ -471,6 +479,7 @@ router.post('/asignarlicencias',
  *         500:
  *           description: Error interno del servidor.
  */
+// SP no encontrado
 router.post('/editarLicencia', async (req, res, next) => {
     const licencia = req.body;
     try {
