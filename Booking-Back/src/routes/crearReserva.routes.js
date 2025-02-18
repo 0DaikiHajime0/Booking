@@ -157,6 +157,7 @@ router.post('/crear', async (req, res, next) => {
  *           name: id
  *           schema:
  *             type: integer
+ *             example: 24
  *           required: true
  *           description: ID del curso
  *       responses:
