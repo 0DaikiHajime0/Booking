@@ -262,7 +262,6 @@ export class AsignarCredencialDocente implements AfterViewInit {
     MatDialogTitle,
     MatDialogContent,
     MatDialogActions,
-    MatDialogClose,
     MatSelectModule,
     MatCheckboxModule,
     MatDividerModule
@@ -387,7 +386,6 @@ export class NuevoGrupoCredenciales{
     MatDialogClose,
     MatSelectModule,
     MatTableModule,
-    MatPaginator,
     MatPaginatorModule,
     MatCheckboxModule,
     MatIcon
