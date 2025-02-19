@@ -142,7 +142,7 @@ async asignarLicencias(asignaciones) {
                 asignaciones.docente[i].usuario_id
                 
             ]);
-            const res = result[0][0];
+            const res = result[0];
             if (!res) {
                 errors.push({
                     usuario_id: asignaciones.docente[i].usuario_id,
