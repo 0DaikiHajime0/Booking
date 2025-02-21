@@ -34,12 +34,12 @@ const service = new ListarReservaService();
  *       requires:
  *         - id_docente
  *       example:
- *         id_docente: 1
+ *         id_docente: 24
  *         id_bloques: null
- *         fechaReservaInicio: "2024-01-01"
- *         fechaReservaFin: "2024-12-31"
- *         fechaRegistroInicio: "2024-01-01"
- *         fechaRegistroFin: "2024-12-31"
+ *         fechaReservaInicio: null
+ *         fechaReservaFin: null
+ *         fechaRegistroInicio: null
+ *         fechaRegistroFin: null
  */
 
 /**
@@ -94,6 +94,15 @@ router.post('/reservadocente', async (req, res, next) => {
  *             schema:
  *               type: object
  *               $ref: '#/components/schemas/reserva'
+ *             example:
+ *               id_docente: 24
+ *               id_recurso: null
+ *               id_bloques: null
+ *               fechaReservaInicio: null
+ *               fechaReservaFin: null
+ *               fechaRegistroInicio: null
+ *               fechaRegistroFin: null
+ *               estado_reserva: null
  *       responses:
  *         200:
  *           description: OK
