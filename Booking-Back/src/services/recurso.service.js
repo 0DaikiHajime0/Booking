@@ -42,41 +42,45 @@ class RecursoService{
         }
         return licencias
     }
-    async nuevaLicencia(licencia){
-        const result = await mysqlLib.execute('CALL sp_nueva_licencia(?,?,?,?,?)',
-        [
-            licencia.recurso_id,
-            licencia.credencial_usuario,
-            licencia.credencial_contrasena,
-            licencia.credenciales_estado,
-            licencia.credencial_tipo
-        ])
-        const res = result[0][0]
-        if(res==null){
-            return 'no hay respuesta'
+    async nuevaLicencia(licencia) {
+        try {
+            const result = await mysqlLib.execute('CALL sp_nueva_licencia(?,?,?,?,?)', [
+                licencia.recurso_id,
+                licencia.credencial_usuario,
+                licencia.credencial_contrasena,
+                licencia.credenciales_estado,
+                licencia.credencial_tipo
+            ]);
+            const res = result[0][0];
+            if (res == null) {
+                return { success: false, message: 'No hay respuesta' };
+            }
+            return { success: true, data: res };
+        } catch (error) {
+            console.error('Error al ejecutar el procedimiento almacenado:', error);
+            return { success: false, message: error.message };
         }
-        return res
     }
     async editarLicencia(licencia) {
         try {
-          const result = await mysqlLib.execute('CALL sp_editar_licencia(?,?,?,?,?,?)', [
-            licencia.credenciales_id,
-            licencia.credencial_usuario,
-            licencia.credencial_contrasena,
-            licencia.credencial_tipo,
-            licencia.recurso_id,
-            licencia.credenciales_estado
-          ]);
-          if (result && result[0] && result[0][0]) {
-            return result[0][0];
-          } else {
-            return 'No se encontró la licencia actualizada.';
-          }
+            const result = await mysqlLib.execute('CALL sp_editar_licencia(?,?,?,?,?,?)', [
+                licencia.credenciales_id,
+                licencia.credencial_usuario,
+                licencia.credencial_contrasena,
+                licencia.credencial_tipo,
+                licencia.recurso_id,
+                licencia.credenciales_estado
+            ]);
+            if (result && result[0] && result[0][0]) {
+                return { success: true, data: result[0][0] };
+            } else {
+                return { success: false, message: 'No se encontró la licencia actualizada.' };
+            }
         } catch (error) {
-          console.error('Error al ejecutar el procedimiento almacenado:', error);
-          throw error;
+            console.error('Error al ejecutar el procedimiento almacenado:', error);
+            return { success: false, message: error.message };
         }
-      }
+    }
       
     async obtenerAsignaturas(){
         const result = await mysqlLib.execute('CALL sp_obtener_asignaturas()')
