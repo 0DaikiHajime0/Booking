@@ -1,0 +1,17 @@
+{
+  "routes": [
+    "/404",
+    "/asignar-docente",
+    "/asignaturas",
+    "/bloques",
+    "/crear",
+    "/crearreserva-administrador",
+    "/credenciales",
+    "/listar",
+    "/login",
+    "/mostrarreserva-administrador",
+    "/perfil",
+    "/recursos",
+    "/usuarios"
+  ]
+}

@@ -5,12 +5,13 @@ import { Usuario } from '../models/Usuario';
 import { Perfil } from '../models/Perfil';
 import { HttpErrorResponse } from '@angular/common/http';
 import { UsuarioGoogle } from '../models/UsuarioGoogle';
+import { API_BASE_URL } from './constants';
 @Injectable({
   providedIn: 'root'
 })
 export class UsuarioService {
-  url = 'http://localhost:3000/api/v1/usuario/';
-  url2 = 'http://localhost:3000/api/v1/auth/'
+  url = API_BASE_URL+'usuario/';
+  url2 = API_BASE_URL+'auth/'
   constructor(private http: HttpClient) {}
 
   private getHeaders(): HttpHeaders {
@@ -23,13 +24,18 @@ export class UsuarioService {
   verificarCorreo(correo: string): Observable<any> {
     return this.http.get<any>(`${this.url2}verificar/${correo}`);
   }
-  getUsuarioGoogle():UsuarioGoogle{
-    const usuarioGoogleString = localStorage.getItem('user')||sessionStorage.getItem('user');
-    return usuarioGoogleString ? JSON.parse(usuarioGoogleString) : null;
+  getUsuarioGoogle(): UsuarioGoogle {
+    const usuarioGoogleString = localStorage.getItem('user') || sessionStorage.getItem('user');
+    return usuarioGoogleString ? JSON.parse(usuarioGoogleString) as UsuarioGoogle : {} as UsuarioGoogle;
   }
   getUsuarioFromStorage(): Usuario {
-    const userString = localStorage.getItem('usuario') || sessionStorage.getItem('usuario');
-    return userString ? JSON.parse(userString) : null;
+    if (typeof localStorage !== 'undefined') {
+      const userString = localStorage.getItem('usuario') || sessionStorage.getItem('usuario');
+      return userString ? JSON.parse(userString) as Usuario : {} as Usuario;
+    } else {
+      console.error('El objeto localStorage no está disponible en este entorno.');
+      return {} as Usuario;
+    }
   }
 
   guardarInfoPerfil(perfil: Perfil): Observable<any> {
