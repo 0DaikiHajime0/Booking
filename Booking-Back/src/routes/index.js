@@ -14,6 +14,7 @@ const specs = require("../swagger/swagger.js") // swagger para documentación
 function routerApi(app){
   
   const route = express.Router();
+  
 
   app.use(express.json());
   app.use('/api/v1', route);
