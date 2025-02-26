@@ -382,8 +382,11 @@ router.post('/subircsvcredenciales/:recurso_id', upload.single('file'), (req, re
             }
         }
         res.status(200).json(results);
-    });
-});
+    } catch (error) {
+        res.status(500).json({ error: 'Error al leer el archivo' });
+    }
+}
+);
 
 /**
  * @openapi
