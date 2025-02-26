@@ -1,0 +1,108 @@
+<mat-drawer-container class="mat-drawer-container" class="menmudes">
+  <mat-drawer #drawer class="sidenav" [opened]="false">
+    <app-home></app-home>
+  </mat-drawer>
+  <section>
+
+    <div class="headernew">
+      <div class="bontonheader">
+        <button (click)="drawer.toggle()">
+          <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+            width="24" height="24" fill="none" viewBox="0 0 24 24">
+            <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M5 7h14M5 12h14M5 17h14" />
+          </svg>
+        </button>
+      </div>
+      <div class="tittle">
+        Crear Reserva - Administrador
+      </div>
+    </div>
+
+  </section>
+
+  <section class="body">
+    <div class="Container_Reserva">
+      <div class="Container">
+        <div class="input_curso">
+          <label for="Docente">Docente: </label>
+          <select id="Docente" name="Docente" (change)="listarCurso($event);">
+            <option value="" disabled selected>Seleccione un Docente</option>
+            <option value=0>-- -- -- -- -- --</option>
+            <option *ngFor="let docente of docentes" [value]="docente.usuario_id">{{ docente.usuario_nombres}} {{
+              docente.usuario_apellidos}}</option>
+          </select>
+        </div>
+
+        <div class="input_curso">
+          <label for="Asignatura">Asignatura: </label>
+          <select id="Asignatura" name="Asignatura" (change)="listarRecurso($event)">
+            <option value="" disabled selected>Seleccione un curso</option>
+            <option value=0>-- -- -- -- -- --</option>
+            <option *ngFor="let curso of cursos" [value]="curso.curso_id">{{ curso.nrc }} - {{ curso.curso_nombre }}
+            </option>
+          </select>
+        </div>
+        <div class="input_cantidad">
+          <label>Cantidad de Matriculados: {{ cantidadAlumnos }}</label>
+        </div>
+        <div class="input_reserva">
+          <label for="Recurso">Recurso: </label>
+          <select id="Recurso" name="Recurso" (change)="obtenerRecurso($event);">
+            <option value="" disabled selected>Seleccione un recurso</option>
+            <option *ngFor="let recurso of recursos" [value]="recurso.recurso_id">{{ recurso.recurso_nombre }}</option>
+          </select>
+        </div>
+        <div class="input_fecha">
+          <label for="Fecha">Fecha: </label>
+          <input class="fechita" type="date" id="Fecha" name="Fecha" (input)="obtenerFechaSeleccionada($event)">
+        </div>
+        <div *ngIf="selectedRecursoId && selectedFecha; else noErrorMessage">
+          <p>
+            <mat-slide-toggle id="slideToggle" (change)="toggleChanged($event)" color="primary">Reservar Todo el
+              Día</mat-slide-toggle>
+          </p>
+        </div>
+        <ng-template #noErrorMessage>
+          <p></p>
+        </ng-template>
+
+        <div claas="input_Bloque">
+          <div>
+            <label for="Bloque">Bloque: </label>
+            <select id="Bloque" name="Bloque" (change)="horarioBloques($event)">
+              <option value="" disabled selected>Seleccione un bloque</option>
+              <option *ngFor="let bloque of bloques" [value]="bloque.bloque_id">{{bloque.bloque_rango}}
+                {{bloque.bloque_nombre}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="cantidad_licencias">
+          <label id="cantidad_licencia">Cantidad de licencias disponibles: {{ cantidadLicenciasDisponibles }}</label>
+        </div>
+        <div class="Input_licencias">
+          <label for="Licencias">Cantidad de Licencias:</label>
+          <input class="input_number" type="number" id="Licencias" name="Licencias" min="1" max="20"
+            placeholder="Cantidad de Licencias" (change)="validarcantidad()">
+          <ng-container *ngIf="showErrorMessage; else noErrorMessage">
+            <label for="Input_licencias" class="Messaje_negative">Ingrese solo la cantidad de Recursos
+              Disponibles</label>
+          </ng-container>
+          <ng-template #noErrorMessage></ng-template>
+        </div>
+        <div class="botones">
+          <button class="boton" mat-flat-button color="primary"
+            (click)="reservar(); openSnackBar('Reserva Exitoso!,', 'Aceptar')"
+            [disabled]="showErrorMessage || !selectedRecursoId || !selectedBloqueId || !selectedFecha || cantidadLicenciasDisponibles <= 0">Reservar</button>
+        </div>
+      </div>
+    </div>
+    <div class="Container_full_Calendar">
+      <full-calendar [options]="calendarOptions" class="calendar">
+        <ng-template #eventContent let-arg>
+          <b class="events-calendar">{{arg.timeText}}</b>
+          <i class="events-calendar">{{arg.event.title}}</i>
+        </ng-template>
+      </full-calendar>
+    </div>
+  </section>
+</mat-drawer-container> 

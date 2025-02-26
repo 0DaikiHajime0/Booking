@@ -1,0 +1,24 @@
+<div class="cuadro-dialog">
+    <h1 mat-dialog-title>Nuevas Credenciales</h1>
+    <div mat-dialog-content>
+        <mat-label>Recurso: {{ recurso.recurso_nombre }}</mat-label>
+        <h4>Selecciona los tipos de licencias a subir</h4>
+        <mat-divider></mat-divider>
+        <mat-divider inset vertical></mat-divider>
+        <h3>El formato del csv debe ser el siguiente</h3>
+        <button class="textarea" mat-button color="primary" (click)="descargar_ejemplo()">Descargar Ejemplo</button>
+        <input type="file" mat-button class="custom-file-upload" (change)="subircsv($event)" accept=".csv">
+        <br>
+        <mat-form-field class="textarea">
+            <mat-label>Contenido</mat-label>
+            <textarea matInput [(ngModel)]="csvContent" (ngModelChange)="analizarCsv(csvContent)" rows="10" cols="200"></textarea>
+        </mat-form-field>
+        <p>{{advertenciaComas}}</p>
+        <p>Si dejas el espacio vacio entre comas lo tomará como tal</p>
+    </div>
+    
+    <div mat-dialog-actions>
+        <button mat-button (click)="guardar()">Guardar</button>
+        <button mat-button (click)="cerrar()">Cancelar</button>
+    </div>
+</div>

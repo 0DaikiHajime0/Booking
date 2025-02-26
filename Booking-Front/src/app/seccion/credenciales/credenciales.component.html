@@ -1,0 +1,104 @@
+<mat-drawer-container class="mat-drawer-container" class="menmudes">
+  <mat-drawer #drawer class="sidenav" [opened]="false">
+    <app-home></app-home>
+  </mat-drawer>
+  <section>
+    <div class="headernew">
+      <div class="bontonheader">
+        <button (click)="drawer.toggle()">
+          <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+            width="24" height="24" fill="none" viewBox="0 0 24 24">
+            <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M5 7h14M5 12h14M5 17h14" />
+          </svg>
+        </button>
+      </div>
+      <div class="tittle">
+        Credenciales
+      </div>
+    </div>
+  </section>
+    <div class="busqueda">
+        <mat-form-field appearance="fill">
+            <input
+            matInput
+            placeholder="Buscar Credenciales"
+            (keyup)="CredencialFilter($event)"
+            #input
+          />
+        </mat-form-field>
+    </div>
+    <div class="contenido">
+        <div class="contenido-tabla">
+            <mat-form-field>
+              <mat-label>Seleccionar Recurso</mat-label>
+              <mat-select [(ngModel)]="recursoSeleccionado" (selectionChange)="onChange($event)">
+                @for (recurso of recursos; track recurso) {
+                  <mat-option [value]="recurso">{{recurso.recurso_nombre}}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+          <div class="container-table">
+            
+            @if(recursoSeleccionado){
+                <button mat-raised-button color="primary" class="boton-agregar" (click)="agregarCredencial()">
+                    Agregar Credencial
+                </button>
+                <p></p>
+                <button mat-raised-button color="primary" class="boton-agregar" (click)="agregarCredenciales()">
+                  Agregar Varias Credenciales
+                </button>
+                
+              <table mat-table [dataSource]="dataSourceCredenciales">
+                <ng-container matColumnDef="credencial_id">
+                  <th mat-header-cell *matHeaderCellDef>ID</th>
+                  <td mat-cell *matCellDef="let credencial">{{ credencial.credenciales_id }}</td>
+                </ng-container>
+                <ng-container matColumnDef="credencial_usuario">
+                  <th mat-header-cell *matHeaderCellDef>Usuario</th>
+                  <td mat-cell *matCellDef="let credencial">{{ credencial.credencial_usuario }}</td>
+                </ng-container>
+                <ng-container matColumnDef="credencial_tipo">
+                  <th mat-header-cell *matHeaderCellDef>Tipo</th>
+                  <td mat-cell *matCellDef="let credencial">{{ credencial.credencial_tipo }}</td>
+                </ng-container>
+                <ng-container matColumnDef="credencial_contrasena">
+                  <th mat-header-cell *matHeaderCellDef>Contraseña</th>
+                  <td mat-cell *matCellDef="let credencial">{{ credencial.credencial_contrasena }}</td>
+                </ng-container>
+                <ng-container matColumnDef="credenciales_estado">
+                  <th mat-header-cell *matHeaderCellDef>Estado</th>
+                  <td mat-cell *matCellDef="let credencial">{{ credencial.credenciales_estado }}</td>
+                </ng-container>
+                <ng-container matColumnDef="editar">
+                  <th mat-header-cell *matHeaderCellDef>Editar</th>
+                  <td mat-cell *matCellDef="let credencial"><button mat-icon-button color="primary"  matTooltip="Editar" (click)="editarCredencial(credencial)">
+                    <mat-icon>edit</mat-icon>
+                  </button></td>
+                </ng-container>
+                <ng-container matColumnDef="asignar">
+                  <th mat-header-cell *matHeaderCellDef>Asignar</th>
+                  <td mat-cell *matCellDef="let credencial">
+                    @if(credencial.credencial_tipo=="Docente"){
+                      <button mat-icon-button color="primary"  matTooltip="Editar" (click)="asignarCredencialDocente(credencial)">
+                        <mat-icon>book</mat-icon>
+                      </button>
+                    }
+                    
+                  </td>
+                </ng-container>
+                
+                <tr mat-header-row *matHeaderRowDef="columnasCredenciales"></tr>
+                <tr mat-row *matRowDef="let row; columns: columnasCredenciales;"></tr>
+              </table>
+              <mat-paginator [length]="credenciales.length"
+              [pageSize]="10"
+              [pageSizeOptions]="[5, 10, 25, 100]"
+              aria-label="Select page">
+              </mat-paginator>
+            }
+          </div>
+    </div>
+    
+    </div>
+  </mat-drawer-container>
+    

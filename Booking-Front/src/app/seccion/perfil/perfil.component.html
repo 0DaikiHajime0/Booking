@@ -1,0 +1,53 @@
+<mat-drawer-container class="mat-drawer-container" class="menmudes">
+    <mat-drawer #drawer class="sidenav" [opened]="false">
+      <app-home></app-home>
+    </mat-drawer>
+    <section>
+      <div class="headernew">
+        <div class="bontonheader">
+          <button (click)="drawer.toggle()">
+            <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+              width="24" height="24" fill="none" viewBox="0 0 24 24">
+              <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M5 7h14M5 12h14M5 17h14" />
+            </svg>
+          </button>
+        </div>
+        <div class="tittle">
+          Perfil
+        </div>
+      </div>
+    </section>
+
+        <form class="formulario">
+            <mat-form-field class="formulario-input">
+                <mat-label>Nombres:</mat-label>
+                <input matInput [formControl]="nombresFormControl">
+                <mat-error *ngIf="nombresFormControl.hasError('required')">
+                    Por favor, ingrese sus nombres completos
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field class="formulario-input">
+                <mat-label>Apellidos: </mat-label>
+                <input matInput [formControl]="apellidosFormControl">
+                <mat-error *ngIf="apellidosFormControl.hasError('required')">
+                    Por favor, ingrese sus apellidos completos
+                </mat-error>
+            </mat-form-field>
+            @if(this.usuario.usuario_correo){
+                <mat-form-field class="formulario-input">
+                    <mat-label>Correo: </mat-label>
+                    <input matInput disabled [value]="usuario.usuario_correo">
+                </mat-form-field>
+            }
+           
+            <mat-form-field class="formulario-input">
+                <mat-label>Rol: </mat-label>
+                <input matInput disabled [value]="usuario.usuario_rol || ''">
+            </mat-form-field>
+            <div class="formulario-botones">
+                <button mat-raised-button class="formulario-botones-boton" (click)="openDialog()" color="accent">Guardar</button> 
+                <!--
+                <button mat-raised-button>Cancelar</button>-->
+            </div>
+        </form>
+</mat-drawer-container>

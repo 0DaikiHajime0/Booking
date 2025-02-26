@@ -1,0 +1,56 @@
+@import "../node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css";
+
+html, body { height: 100%; overflow: hidden; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif;}
+.header, .Header {
+    background-color:  #8e6dcf;
+    color:white;
+    border-radius: 5px;
+}
+
+.headernew {
+  position: fixed; /* ✅ Se mantiene fijo en la parte superior */
+  width: 100%; /* ✅ Ocupa todo el ancho */
+  z-index: 1000; /* ✅ Se asegura de que esté sobre todo el contenido */
+  background-color: #8e6dcf;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+
+.headernew .bontonheader button {
+  height: 3rem;
+  font-size: 1.3rem;
+  border: none;
+  background-color: #8e6dcf;
+  margin-left: 2rem;
+}
+
+.headernew .bontonheader button:hover {
+  background-color: #b28ff8;
+  cursor: pointer; 
+}
+
+.headernew .tittle {
+  margin: 1.5rem;
+  font-size: 2rem;
+  text-align: center;
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.mat-drawer-container {
+    height: 100%;
+}
+.side-nav {
+  width: 300px;
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+}
