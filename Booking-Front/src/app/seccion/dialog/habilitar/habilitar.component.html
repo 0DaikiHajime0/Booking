@@ -1,8 +1,0 @@
-<h2 mat-dialog-title>¿Desea {{estado}} {{tipo}}?</h2>
-<mat-dialog-actions>
-  @if(this.info.tipo=='Usuario'){
-    <button mat-button cdkFocusInitial [mat-dialog-close]="usuarioDeshabilitarHabilitar()" >Si</button>
-  }
-
-  <button mat-button (click)="cerrar()">Cancelar</button>
-</mat-dialog-actions>
