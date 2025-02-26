@@ -30,7 +30,7 @@ class RecursoService{
         const result = await mysqlLib.execute('CALL sp_editar_recurso(?,?,?,?,?)',[recurso.recurso_id,recurso.recurso_nombre,recurso.recurso_empresa,recurso.recurso_estado,recurso.recurso_cant_credenciales])
         const res = result [0][0]
         if(res == null){
-            return 'no hay respuesta'
+            return 'saved'
         }
         return res
     }
@@ -99,19 +99,25 @@ class RecursoService{
         return res
     }
     async nuevasLicencias(recurso_id, usuario, clave, estado, tipo) {
-        return mysqlLib.execute('CALL sp_nueva_licencia(?,?,?,?,?)', [recurso_id, usuario, clave, estado, tipo])
-            .then(result => {
-                if (result && result[0] && result[0][0]) {
-                    return result[0][0];
-                } else {
-                    return null;
-                }
-            })
-            .catch(error => {
-                console.error('Error al ejecutar la consulta:', error);
-                throw error; 
-            });
+        try {
+            const result = await mysqlLib.execute('CALL sp_nueva_licencia(?,?,?,?,?)', [
+                recurso_id,
+                usuario,
+                clave,
+                estado,
+                tipo
+            ]);
+            if (result && result[0] && result[0][0]) {
+                return result[0][0];
+            } else {
+                return null;
+            }
+        } catch (error) {
+            console.error('Error al ejecutar la consulta:', error);
+            throw error;
+        }
     }
+
     async nuevoCurso(objeto) {
         try {
             const result = await mysqlLib.execute('CALL sp_nuevo_curso(?, ?, ?, ?, ?, ?)', [
