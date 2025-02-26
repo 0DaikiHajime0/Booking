@@ -1,15 +1,23 @@
-<mat-drawer-container class="mat-drawer-container" >
+<mat-drawer-container class="mat-drawer-container" class="menmudes">
     <mat-drawer #drawer class="sidenav" [opened]="false">
-        <app-home></app-home>
+      <app-home></app-home>
     </mat-drawer>
-    <div class="sidenav-content">
-        <button type="button" mat-button (click)="drawer.toggle()">
-            <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="menu">
-            </mat-icon>
-        </button>
-        <section>
-            <p class="header">Perfil</p>
-        </section>
+    <section>
+      <div class="headernew">
+        <div class="bontonheader">
+          <button (click)="drawer.toggle()">
+            <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+              width="24" height="24" fill="none" viewBox="0 0 24 24">
+              <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M5 7h14M5 12h14M5 17h14" />
+            </svg>
+          </button>
+        </div>
+        <div class="tittle">
+          Perfil
+        </div>
+      </div>
+    </section>
+
         <form class="formulario">
             <mat-form-field class="formulario-input">
                 <mat-label>Nombres:</mat-label>
@@ -37,9 +45,9 @@
                 <input matInput disabled [value]="usuario.usuario_rol || ''">
             </mat-form-field>
             <div class="formulario-botones">
-                <button mat-raised-button class="formulario-botones-boton" (click)="openDialog()" color="accent">Guardar</button>
-                <button mat-raised-button>Cancelar</button>
+                <button mat-raised-button class="formulario-botones-boton" (click)="openDialog()" color="accent">Guardar</button> 
+                <!--
+                <button mat-raised-button>Cancelar</button>-->
             </div>
         </form>
-    </div>
 </mat-drawer-container>

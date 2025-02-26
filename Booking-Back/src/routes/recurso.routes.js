@@ -7,6 +7,61 @@ const fs = require('fs');
 const recursoservice = new RecursoService();
 const upload = multer({ dest: 'uploads/' });
 
+// Recurso
+/**
+ * @openapi
+ * components:
+ *   schemas:
+ *     recurso:
+ *       type: object
+ *       properties:
+ *         recurso_id:
+ *           type: integer
+ *           description: ID del recurso
+ *         credencial_usuario:
+ *           type: string
+ *           description: Credencial de usuario
+ *         credencial_contrasena:
+ *           type: string
+ *           description: Contraseña 
+ *         credenciales_estado:
+ *           type: string
+ *           description: Estado de Credencial 
+ *         credencial_tipo:
+ *           type: string
+ *           description: Tipo de Credencial
+ *       requires:
+ *         - id_docente
+ *       example:
+ *         recurso_id: 1
+ *         credencial_usuario: "usuario123"
+ *         credencial_contrasena: "contrasena123"
+ *         credenciales_estado: "key123"
+ *         credencial_tipo: "activo"
+ */
+
+/**
+ * @openapi
+ *   /api/v1/recurso/mostrarrecursos:
+ *     get:
+ *       summary: Mostrar los recursos
+ *       description: Mostrar todos los recursos registrados 
+ *       tags:
+ *         - Recurso
+ *       responses:
+ *         200:
+ *           description: OK
+ *           content:
+ *             application/json:
+ *               schema:
+ *                 type: array
+ *                 items:
+ *                   $ref: '#/components/schemas/recurso'
+ *         400:
+ *           description: Error en la validación del ID.
+ *         500:
+ *           description: Error interno del servidor.
+ */
 router.get('/mostrarrecursos',
     async (req, res, next) => {
         try {
@@ -16,8 +71,35 @@ router.get('/mostrarrecursos',
             next(error);
         }
     }
-);
+)
 
+/**
+ * @openapi
+ *   /api/v1/recurso/mostrarasignaturasbyrecurso/{recurso_id}:
+ *     get:
+ *       summary: Mostrar los recursos por ID
+ *       description: Mostrar todos los recursos registrados por ID
+ *       tags:
+ *         - Recurso
+ *       parameters:
+ *         - in: path
+ *           name: recurso_id
+ *           schema:
+ *             type: integer
+ *           required: true
+ *           description: recurso_id
+ *       responses:
+ *         200:
+ *           description: OK
+ *           content:
+ *             application/json:
+ *               schema:
+ *                 type: array
+ *         400:
+ *           description: Error en la validación del ID.
+ *         500:
+ *           description: Error interno del servidor.
+ */
 router.get('/mostrarasignaturasbyrecurso/:recurso_id',
     async (req, res, next) => {
         const { recurso_id } = req.params;
@@ -28,8 +110,36 @@ router.get('/mostrarasignaturasbyrecurso/:recurso_id',
             next(error);
         }
     }
-);
+)
 
+/**
+ * @openapi
+ *   /api/v1/recurso/guardarRecurso:
+ *     post:
+ *       summary: Guardar Recurso 
+ *       description: Guardar un nuevo recurso.
+ *       tags:
+ *         - Recurso
+ *       requestBody:
+ *         required: true
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               $ref: '#/components/schemas/crearreserva'
+ *             example:
+ *               recurso_nombre: "Algetec"
+ *               recurso_empresa: "Empresa X"
+ *               recurso_cant_credenciales: 10
+ *               recurso_estado: "Activo"
+ *       responses:
+ *         200:
+ *           description: OK
+ *         400:
+ *           description: Error en la validación del ID.
+ *         500:
+ *           description: Error interno del servidor.
+ */
 router.post('/guardarRecurso/',
     async (req, res, next) => {
         const recurso = req.body;
@@ -40,8 +150,37 @@ router.post('/guardarRecurso/',
             next(error);
         }
     }
-);
+)
 
+/**
+ * @openapi
+ *   /api/v1/recurso/editarRecurso:
+ *     post:
+ *       summary: Editar recurso
+ *       description: Permite editar el recurso
+ *       tags:
+ *         - Recurso
+ *       requestBody:
+ *         required: true
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               $ref: '#/components/schemas/crearreserva'
+ *             example:
+ *               recurso_id: 1
+ *               recurso_nombre: "Algetec"
+ *               recurso_empresa: "Empresa X"
+ *               recurso_cant_credenciales: 10
+ *               recurso_estado: "Activo"
+ *       responses:
+ *         200:
+ *           description: OK
+ *         400:
+ *           description: Error en la validación del ID.
+ *         500:
+ *           description: Error interno del servidor.
+ */
 router.post('/editarRecurso/',
     async (req, res, next) => {
         const recurso = req.body;
@@ -52,8 +191,37 @@ router.post('/editarRecurso/',
             next(error);
         }
     }
-);
+)
 
+/**
+ * @openapi
+ *   /api/v1/recurso/obtenerLicencias/{recurso_id}:
+ *     get:
+ *       summary: Mostrar las Licencias
+ *       description: Mostrar las Licencias por ID
+ *       tags:
+ *         - Recurso
+ *       parameters:
+ *         - in: path
+ *           name: recurso_id
+ *           schema:
+ *             type: integer
+ *           required: true
+ *           description: ID del recurso
+ *       responses:
+ *         200:
+ *           description: OK
+ *           content:
+ *             application/json:
+ *               schema:
+ *                 type: array
+ *                 items:
+ *                   $ref: '#/components/schemas/recurso'
+ *         400:
+ *           description: Error en la validación del ID.
+ *         500:
+ *           description: Error interno del servidor.
+ */
 router.get('/obtenerLicencias/:recurso_id',
     async (req, res, next) => {
         const recurso_id = req.params.recurso_id;
@@ -64,8 +232,31 @@ router.get('/obtenerLicencias/:recurso_id',
             next(error);
         }
     }
-);
+)
 
+/**
+ * @openapi
+ *   /api/v1/recurso/nuevaLicencia:
+ *     post:
+ *       summary: Crear Licencia
+ *       description: Crear una nueva licencia
+ *       tags:
+ *         - Recurso
+ *       requestBody:
+ *         required: true
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               $ref: '#/components/schemas/Recurso'
+ *       responses:
+ *         200:
+ *           description: OK
+ *         400:
+ *           description: Error en la validación del ID.
+ *         500:
+ *           description: Error interno del servidor.
+ */
 router.post('/nuevaLicencia',
     async (req, res, next) => {
         const licencia = req.body;
@@ -76,8 +267,30 @@ router.post('/nuevaLicencia',
             next(error);
         }
     }
-);
+)
 
+/**
+ * @openapi
+ *   /api/v1/recurso/obtenerasignaturas:
+ *     get:
+ *       summary: Obtener todas las asignaturas
+ *       description: obtener todas las asignaturas almacenadas en la tabla curso
+ *       tags:
+ *         - Recurso
+ *       responses:
+ *         200:
+ *           description: OK
+ *           content:
+ *             application/json:
+ *               schema:
+ *                 type: array
+ *                 items:
+ *                   $ref: '#/components/schemas/recurso'
+ *         400:
+ *           description: Error en la validación del ID.
+ *         500:
+ *           description: Error interno del servidor.
+ */
 router.get('/obtenerasignaturas',
     async (req, res, next) => {
         try {
@@ -87,8 +300,38 @@ router.get('/obtenerasignaturas',
             next(error);
         }
     }
-);
-
+)
+/**
+ * @openapi
+ *   /api/v1/recurso/obtenerasignaturasbyasignatura:
+ *     post:
+ *       summary: Obtener todas las asignaturas
+ *       description: Obtener los registros de la tabla docente_curso por ID curso
+ *       tags:
+ *         - Recurso
+ *       requestBody:
+ *         required: true
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               $ref: '#/components/schemas/Recurso'
+ *             example:
+ *               curso_id: 1
+ *       responses:
+ *         200:
+ *           description: OK
+ *           content:
+ *             application/json:
+ *               schema:
+ *                 type: array
+ *                 items:
+ *                   $ref: '#/components/schemas/recurso'
+ *         400:
+ *           description: Error en la validación del ID.
+ *         500:
+ *           description: Error interno del servidor.
+ */
 router.post('/obtenerasignaturasbyasignatura',
     async (req, res, next) => {
         const asignatura = req.body;
@@ -99,10 +342,9 @@ router.post('/obtenerasignaturasbyasignatura',
             next(error);
         }
     }
-);
-
-router.post('/subircsvcredenciales/:recurso_id', upload.single('file'), async (req, res, next) => {
-    const recurso_id = req.params.recurso_id;
+)
+router.post('/subircsvcredenciales/:recurso_id', upload.single('file'), (req, res) => {
+    const recurso_id = req.params.recurso_id
     const file = req.file;
 
     if (!file) {
@@ -127,35 +369,46 @@ router.post('/subircsvcredenciales/:recurso_id', upload.single('file'), async (r
             const [usuario, clave, estado, tipo] = line.split(/\s*[;,]\s*/);
 
             if (usuario !== undefined && clave !== undefined) {
-                try {
-                    const result = await recursoservice.nuevaLicencia({ recurso_id, credencial_usuario: usuario, credencial_contrasena: clave, credenciales_estado: estado, credencial_tipo: tipo });
-
-                    if (result.success) {
-                        results.push({ Usuario: usuario, Contrasena: clave, Estado: estado, Tipo: tipo });
-                    } else {
-                        errors.push({ Usuario: usuario, error: result.message });
-                    }
-                } catch (error) {
-                    console.error('Error en la solicitud:', error);
-                    errors.push({ Usuario: usuario, error: error.message });
-                }
+                recursoservice.nuevasLicencias(recurso_id, usuario, clave, estado, tipo)
+                    .then((result) => {
+                        if (result == null) {
+                            return 'no hay respuesta';
+                        }
+                        results.push({ Usuario: usuario, Contraseña: clave, Estado: estado, Tipo: tipo });
+                    })
+                    .catch((error) => {
+                        console.error('Error en la solicitud:', error);
+                    });
             }
         }
-
-        res.status(200).json({ results, errors });
-    } catch (err) {
-        console.error('Error al leer el archivo CSV:', err);
-        res.status(500).json({ error: 'Error al leer el archivo CSV' });
-    } finally {
-        // Eliminar el archivo temporal después de procesarlo
-        fs.unlink(file.path, (err) => {
-            if (err) {
-                console.error('Error al eliminar el archivo temporal:', err);
-            }
-        });
-    }
+        res.status(200).json(results);
+    });
 });
 
+/**
+ * @openapi
+ *   /api/v1/recurso/nuevocurso:
+ *     post:
+ *       summary: Crear Curso
+ *       description: Crear una nuevo curso
+ *       tags:
+ *         - Recurso
+ *       requestBody:
+ *         required: true
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               $ref: '#/components/schemas/Recurso'
+ *       responses:
+ *         200:
+ *           description: OK
+ *         400:
+ *           description: Error en la validación del ID.
+ *         500:
+ *           description: Error interno del servidor.
+ */
+// SP No encontrado
 router.post('/nuevocurso',
     async (req, res, next) => {
         const objeto = req.body;
@@ -166,8 +419,8 @@ router.post('/nuevocurso',
             next(error);
         }
     }
-);
-
+)
+// SP no encontrado
 router.post('/asignarlicencias',
     async (req, res, next) => {
         const asignaciones = req.body;
@@ -178,8 +431,32 @@ router.post('/asignarlicencias',
             next(error);
         }
     }
-);
+)
 
+/**
+ * @openapi
+ *   /api/v1/recurso/editarLicencia:
+ *     post:
+ *       summary: Editar Licencia
+ *       description: Permite editar la licencia
+ *       tags:
+ *         - Recurso
+ *       requestBody:
+ *         required: true
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               $ref: '#/components/schemas/Recurso'
+ *       responses:
+ *         200:
+ *           description: OK
+ *         400:
+ *           description: Error en la validación del ID.
+ *         500:
+ *           description: Error interno del servidor.
+ */
+// SP no encontrado
 router.post('/editarLicencia', async (req, res, next) => {
     const licencia = req.body;
     try {

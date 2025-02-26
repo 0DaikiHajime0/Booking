@@ -297,7 +297,6 @@ export class DialogAnimationsExampleDialog {
       id_recurso: Number(this.id_recurso),
       fecha: this.fecha,
     };
-    console.log(data)
     this.crearReservaService.reservageneral(data).subscribe(
       response => {
       },

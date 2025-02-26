@@ -128,7 +128,7 @@ import { parse } from 'csv-parse';
           {
             id: GoogleLoginProvider.PROVIDER_ID,
             provider: new GoogleLoginProvider(
-              '876981543045-0ae1l8skl0nfd5mraj40haqhackbgng3.apps.googleusercontent.com'
+              '876981543045-0ae1l8skl0nfd5mraj40haqhackbgng3.apps.googleusercontent.com',
             )
           },
         ],
@@ -139,5 +139,6 @@ import { parse } from 'csv-parse';
     }
   ],
   bootstrap: [AppComponent]
+  
 })
 export class AppModule {}

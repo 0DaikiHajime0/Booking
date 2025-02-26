@@ -14,7 +14,8 @@
  }
  .busqueda{
    width: 90%;
-   margin: 0 auto
+   margin: 0 auto;
+   margin-top :5rem;
  }
  .busqueda-botones{
    margin-bottom:10px

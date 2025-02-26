@@ -81,7 +81,7 @@ const footer = `
         <p>Gracias por utilizar nuestros servicios.</p>
     </div>
 <div class="Firma">
-    <img src="https://conecta.continental.edu.pe/wp-content/uploads/2024/crea-tu-propia-historia.gif" alt="Gif">
+    <img src="https://ci3.googleusercontent.com/meips/ADKq_NbjbRQSL5VD_9BCxv4gejiY4mjNzWpTTanDNVEED2F6bp9Tts5wN3CJwWwdhWKtv0z-vTSecME8rIAJ8vMOMUWcPAK7TYdx88z8ekQ4NLBxMZPoSnMlG3HWEwDFfw=s0-d-e1-ft#https://ucontinental.edu.pe/documentos/logo/crea-tu-propia-historia.gif" alt="Gif">
     <p style="font-weight: bold; font-size: 18px;">Recursos Académicos Virtuales</p>
     <p>Laboratorios y Talleres <br> +51 945 605752</p>
 </div>
