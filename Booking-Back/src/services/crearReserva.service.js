@@ -43,7 +43,7 @@ class CrearReservaService {
   }
   async findBloque() {
     try {
-      const [bloques] = await mysqlLib.execute('call booking.sp_listar_bloques();');
+      const [bloques] = await mysqlLib.execute('call sp_listar_bloques();');
       return bloques
     } catch (error) {
       throw new Error('Error (findBloque) al ejecutar la consulta a la base de datos: ' + error.message);
@@ -56,7 +56,7 @@ class CrearReservaService {
       data.id_bloque,
       fechaFormateada];
     try {
-      const [result] = await mysqlLib.execute('select booking.ft_devolver_cantidad_credenciales_disponible(?,?,?) as cantidad_disponible;', params);
+      const [result] = await mysqlLib.execute('select ft_devolver_cantidad_credenciales_disponible(?,?,?) as cantidad_disponible;', params);
       return result[0];
     } catch (error) {
       throw new Error('Error (findDisplonibilidad) al ejecutar la consulta a la base de datos: ' + error.message);
