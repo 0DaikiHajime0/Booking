@@ -6,7 +6,7 @@ const options ={
         info:{
             title:'Booking API',
             version:'1.0.0',
-            description: 'API para la administracion de Booking',
+            description: 'API para la administracion de Booking hecha por Alejandro Ramos',
             contact:{
                 name:'Nombre Desarrollador'
             },
